@@ -40,7 +40,7 @@ public class UserController {
     // 닉네임 수정
     @PatchMapping("/update-nickname/{userId}")
     public ResponseEntity<UpdateNicknameResponseDTO> updateNickname(@PathVariable("userId") Long userId,
-            @Validated @RequestBody UpdateNicknameRequestDTO updateNicknameRequestDTO) {
+                                                                    @Validated @RequestBody UpdateNicknameRequestDTO updateNicknameRequestDTO) {
         log.info("updateNickname : {}", userId);
 
         UpdateNicknameResponseDTO updateNickname = userService.updateNickname(userId, updateNicknameRequestDTO);
@@ -76,14 +76,12 @@ public class UserController {
         UpdateRoleResponseDTO updateRole = userService.updateRole(userId, updateRoleRequestDTO);
 
         return ResponseEntity.ok().body(updateRole);
-
-
     }
 
     // 비밀번호 수정
     @PatchMapping("/update-password/{userId}")
-    public ResponseEntity<UpdatePasswordResponseDTO> updateRole(@PathVariable("userId") Long userId,
-                                                                @Validated @RequestBody UpdatePasswordRequestDTO updatePasswordRequestDTO) {
+    public ResponseEntity<UpdatePasswordResponseDTO> updatePassword(@PathVariable("userId") Long userId,
+                                                                    @Validated @RequestBody UpdatePasswordRequestDTO updatePasswordRequestDTO) {
         log.info("updatePassword : {}", userId);
 
         UpdatePasswordResponseDTO updatePassword = userService.updatePassword(userId, updatePasswordRequestDTO);
@@ -96,6 +94,13 @@ public class UserController {
     }
 
     // 회원 탈퇴 (Status를 ACTIVE에서 DELETED로 변경)
+    @PatchMapping("/delete/{userId}")
+    public ResponseEntity<DeleteUserResponseDTO> deleteUser(@PathVariable("userId") Long userId,
+                                                            @Validated @RequestBody DeleteUserRequestDTO deleteUserRequestDTO) {
+        log.info("deleteUser : {}", userId);
 
+        DeleteUserResponseDTO deleteUser = userService.deleteUser(userId, deleteUserRequestDTO);
 
+        return ResponseEntity.ok().body(deleteUser);
+    }
 }
