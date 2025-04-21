@@ -1,0 +1,10 @@
+POST http://localhost:8080/user/sign-up
+Content-Type: application/json
+
+{
+  "nickname": "김가은",
+  "email": "1234@gmail.com",
+  "password": "a123456789",
+  "passwordCheck": "a123456789",
+  "role": "STUDENT"
+}
