@@ -176,4 +176,28 @@ public class UserService {
 
         return new UpdatePasswordResponseDTO(savedUser.getPassword(), savedUser.getUpdatedAt());
     }
+
+    // 회원 탈퇴
+    @Transactional
+    public DeleteUserResponseDTO deleteUser(Long userId, DeleteUserRequestDTO deleteUserRequestDTO) {
+        log.info("deleteUser: {}", deleteUserRequestDTO.getStatus());
+
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("사용자가 존재하지 않습니다."));
+
+        // 사용자 상태 확인
+        Optional<User> findUserStatus = userRepository.findById(userId);
+        if (findUserStatus.get().getStatus() != Status.ACTIVE) {
+            throw new IllegalArgumentException("이미 탈퇴된 회원입니다.");
+        }
+
+        User deletedUser = user.toBuilder()
+                .status(Status.DELETED)
+                .deletedAt(LocalDate.now())
+                .build();
+
+        User savedUser = userRepository.save(deletedUser);
+        log.info("saved user: {}", savedUser);
+
+        return new DeleteUserResponseDTO(savedUser.getStatus(), savedUser.getDeletedAt());
+    }
 }
