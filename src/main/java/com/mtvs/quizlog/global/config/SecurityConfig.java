@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -22,7 +21,7 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())  // CSRF 보호 비활성화 (테스트 용도)
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/user/sign-up").permitAll()  // 회원가입 경로는 인증 없이 접근 가능
+                .requestMatchers("/user/sign-up", "/user/update-nickname/**").permitAll()  // 회원가입 경로는 인증 없이 접근 가능
                 .anyRequest().authenticated()  // 다른 모든 요청은 인증 필요
             );
 
