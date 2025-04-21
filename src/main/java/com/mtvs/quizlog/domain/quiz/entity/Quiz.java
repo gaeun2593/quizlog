@@ -9,6 +9,11 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name="quizzes")
 public class Quiz {
+    public Quiz(String title, String answer) {
+        this.title = title;
+        this.answer = answer;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "quiz_id",nullable = false,columnDefinition = "bigInt")
@@ -29,17 +34,28 @@ public class Quiz {
     @Column(name = "updated_at", columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime updatedAt;
 
-    @Column(name = "deleted_at", columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
+    @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "bookmark_id")
-    private Bookmark bookmark;
+   // @ManyToOne(fetch = FetchType.LAZY)
+  //  @JoinColumn(name = "bookmark_id")
+   // private Bookmark bookmark;
 
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="chapter_id", referencedColumnName = "chapter_id")
     Chapter chapter;
 
+    protected Quiz() {
+
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public String getTitle() {
+        return title;
+    }
 }

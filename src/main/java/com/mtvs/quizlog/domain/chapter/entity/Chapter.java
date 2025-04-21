@@ -40,19 +40,21 @@ public class Chapter {
     private List<Quiz> quizzes = new ArrayList<>();
 
 //    User
-    @ManyToOne()
+/*    @ManyToOne()
     @JoinColumn(name="user_id", referencedColumnName = "user_id")
     private User user;
 
 
     @ManyToOne()
     @JoinColumn(name="lesson_id", referencedColumnName = "user_id")
-    private Lesson lesson;
+    private Lesson lesson;*/
 
+/*
 
     @ManyToOne()
     @JoinColumn(name="folder_quizset_id",referencedColumnName = "folder_quizset_id")
     private FolderChapter folderChapter;
 
+*/
 
 }
