@@ -5,12 +5,10 @@ import com.mtvs.quizlog.domain.user.entity.Role;
 import com.mtvs.quizlog.domain.user.entity.Status;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import lombok.Data;
 import lombok.NonNull;
 
 import java.time.LocalDate;
 
-@Data
 public class SignUpResponseDTO {
 
     @NonNull
