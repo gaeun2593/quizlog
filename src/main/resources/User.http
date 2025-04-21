@@ -9,9 +9,17 @@
 #  "role": "STUDENT"
 #}
 
-PATCH http://localhost:8080/user/update-nickname/1
-Content-Type: application/json
+#PATCH http://localhost:8080/user/update-nickname/1
+#Content-Type: application/json
+#
+#{
+#"nickname": "김가은"
+#}
 
-{
-"nickname": "김가은"
-}
+#PATCH http://localhost:8080/user/update-email/1
+#Content-Type: application/json
+#
+#{
+#"email": "gaeun@gmail.com"
+#}
+
