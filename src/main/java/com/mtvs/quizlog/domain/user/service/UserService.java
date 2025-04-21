@@ -1,8 +1,10 @@
 package com.mtvs.quizlog.domain.user.service;
 
 import com.mtvs.quizlog.domain.user.dto.request.SignUpRequestDTO;
+import com.mtvs.quizlog.domain.user.dto.request.UpdateEmailRequestDTO;
 import com.mtvs.quizlog.domain.user.dto.request.UpdateNicknameRequestDTO;
 import com.mtvs.quizlog.domain.user.dto.response.SignUpResponseDTO;
+import com.mtvs.quizlog.domain.user.dto.response.UpdateEmailResponseDTO;
 import com.mtvs.quizlog.domain.user.dto.response.UpdateNicknameResponseDTO;
 import com.mtvs.quizlog.domain.user.entity.Status;
 import com.mtvs.quizlog.domain.user.entity.User;
@@ -92,5 +94,32 @@ public class UserService {
         log.info("saved user: {}", savedUser);
 
         return new UpdateNicknameResponseDTO(savedUser.getNickname(), savedUser.getUpdatedAt());
+    }
+
+    public UpdateEmailResponseDTO updateEmail(Long userId, UpdateEmailRequestDTO updateEmailRequestDTO) {
+        log.info("updateEmail: {}", updateEmailRequestDTO.getEmail());
+
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("사용자가 존재하지 않습니다."));
+
+        // 현재 사용 중인 이메일인지 검사
+        if (user.getEmail().equals(updateEmailRequestDTO.getEmail())) {
+            throw new IllegalArgumentException("현재 사용 중인 이메일입니다.");
+        }
+
+        // 사용자 상태 확인
+        Optional<User> findUserStatus = userRepository.findById(userId);
+        if (findUserStatus.get().getStatus() != Status.ACTIVE) {
+            throw new IllegalArgumentException("탈퇴된 회원입니다.");
+        }
+
+        User updatedUser = user.toBuilder()
+                .email(updateEmailRequestDTO.getEmail())
+                .updatedAt(LocalDate.now())
+                .build();
+
+        User savedUser = userRepository.save(updatedUser);
+        log.info("saved user: {}", savedUser);
+
+        return new UpdateEmailResponseDTO(savedUser.getEmail(), savedUser.getUpdatedAt());
     }
 }

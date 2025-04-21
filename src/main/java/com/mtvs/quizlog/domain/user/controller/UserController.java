@@ -1,8 +1,10 @@
 package com.mtvs.quizlog.domain.user.controller;
 
 import com.mtvs.quizlog.domain.user.dto.request.SignUpRequestDTO;
+import com.mtvs.quizlog.domain.user.dto.request.UpdateEmailRequestDTO;
 import com.mtvs.quizlog.domain.user.dto.request.UpdateNicknameRequestDTO;
 import com.mtvs.quizlog.domain.user.dto.response.SignUpResponseDTO;
+import com.mtvs.quizlog.domain.user.dto.response.UpdateEmailResponseDTO;
 import com.mtvs.quizlog.domain.user.dto.response.UpdateNicknameResponseDTO;
 import com.mtvs.quizlog.domain.user.service.UserService;
 import org.slf4j.Logger;
@@ -56,20 +58,22 @@ public class UserController {
 
     // 이메일 수정
     @PatchMapping("/update-email/{userId}")
-    public ResponseEntity<UpdateNicknameResponseDTO> updateNickname(@PathVariable("userId") Long userId,
-                                                                    @Validated @RequestBody UpdateNicknameRequestDTO updateNicknameRequestDTO) {
+    public ResponseEntity<UpdateEmailResponseDTO> updateEmail(@PathVariable("userId") Long userId,
+                                                              @Validated @RequestBody UpdateEmailRequestDTO updateEmailRequestDTO) {
         log.info("petch : {}", userId);
 
-        UpdateNicknameResponseDTO updateNickname = userService.updateNickname(userId, updateNicknameRequestDTO);
+        UpdateEmailResponseDTO updateEmail = userService.updateEmail(userId, updateEmailRequestDTO);
 
-        if (updateNickname == null) {
+        if (updateEmail == null) {
             return ResponseEntity.status(500).body(null);
         } else {
-            return ResponseEntity.ok().body(updateNickname);
+            return ResponseEntity.ok().body(updateEmail);
         }
     }
 
     // 역할 수정
+    @PatchMapping("/update-role/{userId}")
+
     // 비밀번호 수정
     // 회원 탈퇴
 
