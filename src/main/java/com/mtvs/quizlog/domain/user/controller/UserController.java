@@ -1,11 +1,7 @@
 package com.mtvs.quizlog.domain.user.controller;
 
-import com.mtvs.quizlog.domain.user.dto.request.SignUpRequestDTO;
-import com.mtvs.quizlog.domain.user.dto.request.UpdateEmailRequestDTO;
-import com.mtvs.quizlog.domain.user.dto.request.UpdateNicknameRequestDTO;
-import com.mtvs.quizlog.domain.user.dto.response.SignUpResponseDTO;
-import com.mtvs.quizlog.domain.user.dto.response.UpdateEmailResponseDTO;
-import com.mtvs.quizlog.domain.user.dto.response.UpdateNicknameResponseDTO;
+import com.mtvs.quizlog.domain.user.dto.request.*;
+import com.mtvs.quizlog.domain.user.dto.response.*;
 import com.mtvs.quizlog.domain.user.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,7 +41,7 @@ public class UserController {
     @PatchMapping("/update-nickname/{userId}")
     public ResponseEntity<UpdateNicknameResponseDTO> updateNickname(@PathVariable("userId") Long userId,
             @Validated @RequestBody UpdateNicknameRequestDTO updateNicknameRequestDTO) {
-        log.info("petch : {}", userId);
+        log.info("updateNickname : {}", userId);
 
         UpdateNicknameResponseDTO updateNickname = userService.updateNickname(userId, updateNicknameRequestDTO);
 
@@ -60,7 +56,7 @@ public class UserController {
     @PatchMapping("/update-email/{userId}")
     public ResponseEntity<UpdateEmailResponseDTO> updateEmail(@PathVariable("userId") Long userId,
                                                               @Validated @RequestBody UpdateEmailRequestDTO updateEmailRequestDTO) {
-        log.info("petch : {}", userId);
+        log.info("updateEmail : {}", userId);
 
         UpdateEmailResponseDTO updateEmail = userService.updateEmail(userId, updateEmailRequestDTO);
 
@@ -73,8 +69,33 @@ public class UserController {
 
     // 역할 수정
     @PatchMapping("/update-role/{userId}")
+    public ResponseEntity<UpdateRoleResponseDTO> updateRole(@PathVariable("userId") Long userId,
+                                                            @Validated @RequestBody UpdateRoleRequestDTO updateRoleRequestDTO) {
+        log.info("updateRole : {}", userId);
+
+        UpdateRoleResponseDTO updateRole = userService.updateRole(userId, updateRoleRequestDTO);
+
+        return ResponseEntity.ok().body(updateRole);
+
+
+    }
 
     // 비밀번호 수정
-    // 회원 탈퇴
+    @PatchMapping("/update-password/{userId}")
+    public ResponseEntity<UpdatePasswordResponseDTO> updateRole(@PathVariable("userId") Long userId,
+                                                                @Validated @RequestBody UpdatePasswordRequestDTO updatePasswordRequestDTO) {
+        log.info("updatePassword : {}", userId);
+
+        UpdatePasswordResponseDTO updatePassword = userService.updatePassword(userId, updatePasswordRequestDTO);
+
+        if (updatePassword == null) {
+            return ResponseEntity.status(500).body(null);
+        } else {
+            return ResponseEntity.ok().body(updatePassword);
+        }
+    }
+
+    // 회원 탈퇴 (Status를 ACTIVE에서 DELETED로 변경)
+
 
 }
