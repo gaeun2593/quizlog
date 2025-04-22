@@ -49,20 +49,25 @@ public class UserService {
             throw new IllegalArgumentException("password does not match");
         }
 
-        User user = User.builder()
-                .nickname(signUpRequestDTO.getNickname())
-                .email(signUpRequestDTO.getEmail())
-                .password(bCryptPasswordEncoder.encode(signUpRequestDTO.getPassword()))
-                .role(signUpRequestDTO.getRole())
-                .status(Status.ACTIVE)
-                .createdAt(LocalDate.now())
-                .build();
+        try {
+            User user = User.builder()
+                    .nickname(signUpRequestDTO.getNickname())
+                    .email(signUpRequestDTO.getEmail())
+                    .password(bCryptPasswordEncoder.encode(signUpRequestDTO.getPassword()))
+                    .role(signUpRequestDTO.getRole())
+                    .status(Status.ACTIVE)
+                    .createdAt(LocalDate.now())
+                    .build();
 
-        User savedUser = userRepository.save(user);
-        log.info("saved user: {}", savedUser);
+            User savedUser = userRepository.save(user);
+            log.info("saved user: {}", savedUser);
 
-        return new SignUpResponseDTO(savedUser.getNickname(), savedUser.getEmail(), savedUser.getPassword(),
-                savedUser.getRole(), savedUser.getStatus(), savedUser.getCreatedAt());
+            return new SignUpResponseDTO(savedUser.getNickname(), savedUser.getEmail(), savedUser.getPassword(),
+                    savedUser.getRole(), savedUser.getStatus(), savedUser.getCreatedAt());
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return null;
+        }
     }
 
     // 닉네임 수정
@@ -84,15 +89,20 @@ public class UserService {
             throw new IllegalArgumentException("이미 사용 중인 닉네임입니다.");
         }
 
-        User updatedUser = user.toBuilder()
-                .nickname(updateNicknameRequestDTO.getNickname())
-                .updatedAt(LocalDate.now())
-                .build();
+        try {
+            User updatedUser = user.toBuilder()
+                    .nickname(updateNicknameRequestDTO.getNickname())
+                    .updatedAt(LocalDate.now())
+                    .build();
 
-        User savedUser = userRepository.save(updatedUser);
-        log.info("saved user: {}", savedUser);
+            User savedUser = userRepository.save(updatedUser);
+            log.info("saved user: {}", savedUser);
 
-        return new UpdateNicknameResponseDTO(savedUser.getNickname(), savedUser.getUpdatedAt());
+            return new UpdateNicknameResponseDTO(savedUser.getNickname(), savedUser.getUpdatedAt());
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return null;
+        }
     }
 
     // 이메일 수정
@@ -113,15 +123,20 @@ public class UserService {
             throw new IllegalArgumentException("현재 사용 중인 이메일입니다.");
         }
 
-        User updatedUser = user.toBuilder()
-                .email(updateEmailRequestDTO.getEmail())
-                .updatedAt(LocalDate.now())
-                .build();
+        try {
+            User updatedUser = user.toBuilder()
+                    .email(updateEmailRequestDTO.getEmail())
+                    .updatedAt(LocalDate.now())
+                    .build();
 
-        User savedUser = userRepository.save(updatedUser);
-        log.info("saved user: {}", savedUser);
+            User savedUser = userRepository.save(updatedUser);
+            log.info("saved user: {}", savedUser);
 
-        return new UpdateEmailResponseDTO(savedUser.getEmail(), savedUser.getUpdatedAt());
+            return new UpdateEmailResponseDTO(savedUser.getEmail(), savedUser.getUpdatedAt());
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return null;
+        }
     }
 
     // 역할 수정
@@ -137,15 +152,20 @@ public class UserService {
             throw new IllegalArgumentException("탈퇴된 회원입니다.");
         }
 
-        User updatedUser = user.toBuilder()
-                .role(updateRoleRequestDTO.getRole())
-                .updatedAt(LocalDate.now())
-                .build();
+        try {
+            User updatedUser = user.toBuilder()
+                    .role(updateRoleRequestDTO.getRole())
+                    .updatedAt(LocalDate.now())
+                    .build();
 
-        User savedUser = userRepository.save(updatedUser);
-        log.info("saved user: {}", savedUser);
+            User savedUser = userRepository.save(updatedUser);
+            log.info("saved user: {}", savedUser);
 
-        return new UpdateRoleResponseDTO(savedUser.getRole(), savedUser.getUpdatedAt());
+            return new UpdateRoleResponseDTO(savedUser.getRole(), savedUser.getUpdatedAt());
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return null;
+        }
     }
 
     // 비밀번호 수정
@@ -166,15 +186,20 @@ public class UserService {
             throw new IllegalArgumentException("password does not match");
         }
 
-        User updatedUser = user.toBuilder()
-                .password(bCryptPasswordEncoder.encode(updatePasswordRequestDTO.getNewPassword()))
-                .updatedAt(LocalDate.now())
-                .build();
+        try {
+            User updatedUser = user.toBuilder()
+                    .password(bCryptPasswordEncoder.encode(updatePasswordRequestDTO.getNewPassword()))
+                    .updatedAt(LocalDate.now())
+                    .build();
 
-        User savedUser = userRepository.save(updatedUser);
-        log.info("saved user: {}", savedUser);
+            User savedUser = userRepository.save(updatedUser);
+            log.info("saved user: {}", savedUser);
 
-        return new UpdatePasswordResponseDTO(savedUser.getPassword(), savedUser.getUpdatedAt());
+            return new UpdatePasswordResponseDTO(savedUser.getPassword(), savedUser.getUpdatedAt());
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return null;
+        }
     }
 
     // 회원 탈퇴
@@ -190,14 +215,22 @@ public class UserService {
             throw new IllegalArgumentException("이미 탈퇴된 회원입니다.");
         }
 
-        User deletedUser = user.toBuilder()
-                .status(Status.DELETED)
-                .deletedAt(LocalDate.now())
-                .build();
+        try {
+            User deletedUser = user.toBuilder()
+                    .status(Status.DELETED)
+                    .deletedAt(LocalDate.now())
+                    .build();
 
-        User savedUser = userRepository.save(deletedUser);
-        log.info("saved user: {}", savedUser);
+            User savedUser = userRepository.save(deletedUser);
+            log.info("saved user: {}", savedUser);
 
-        return new DeleteUserResponseDTO(savedUser.getStatus(), savedUser.getDeletedAt());
+            return new DeleteUserResponseDTO(savedUser.getStatus(), savedUser.getDeletedAt());
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return null;
+        }
     }
+
+    // 로그인
+
 }
