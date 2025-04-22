@@ -18,7 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -54,7 +54,7 @@ public class UserUpdateService {
         try {
             User updatedUser = user.toBuilder()
                     .nickname(updateNicknameRequestDTO.getNickname())
-                    .updatedAt(LocalDate.now())
+                    .updatedAt(LocalDateTime.now())
                     .build();
 
             User savedUser = userRepository.save(updatedUser);
@@ -88,7 +88,7 @@ public class UserUpdateService {
         try {
             User updatedUser = user.toBuilder()
                     .email(updateEmailRequestDTO.getEmail())
-                    .updatedAt(LocalDate.now())
+                    .updatedAt(LocalDateTime.now())
                     .build();
 
             User savedUser = userRepository.save(updatedUser);
@@ -117,7 +117,7 @@ public class UserUpdateService {
         try {
             User updatedUser = user.toBuilder()
                     .role(updateRoleRequestDTO.getRole())
-                    .updatedAt(LocalDate.now())
+                    .updatedAt(LocalDateTime.now())
                     .build();
 
             User savedUser = userRepository.save(updatedUser);
@@ -151,7 +151,7 @@ public class UserUpdateService {
         try {
             User updatedUser = user.toBuilder()
                     .password(bCryptPasswordEncoder.encode(updatePasswordRequestDTO.getNewPassword()))
-                    .updatedAt(LocalDate.now())
+                    .updatedAt(LocalDateTime.now())
                     .build();
 
             User savedUser = userRepository.save(updatedUser);
