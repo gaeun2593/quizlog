@@ -1,7 +1,13 @@
 package com.mtvs.quizlog.domain.user.service;
 
-import com.mtvs.quizlog.domain.user.dto.request.*;
-import com.mtvs.quizlog.domain.user.dto.response.*;
+import com.mtvs.quizlog.domain.user.dto.request.UpdateEmailRequestDTO;
+import com.mtvs.quizlog.domain.user.dto.request.UpdateNicknameRequestDTO;
+import com.mtvs.quizlog.domain.user.dto.request.UpdatePasswordRequestDTO;
+import com.mtvs.quizlog.domain.user.dto.request.UpdateRoleRequestDTO;
+import com.mtvs.quizlog.domain.user.dto.response.UpdateEmailResponseDTO;
+import com.mtvs.quizlog.domain.user.dto.response.UpdateNicknameResponseDTO;
+import com.mtvs.quizlog.domain.user.dto.response.UpdatePasswordResponseDTO;
+import com.mtvs.quizlog.domain.user.dto.response.UpdateRoleResponseDTO;
 import com.mtvs.quizlog.domain.user.entity.Status;
 import com.mtvs.quizlog.domain.user.entity.User;
 import com.mtvs.quizlog.domain.user.repository.UserRepository;
@@ -16,60 +22,16 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 @Service
-public class UserService {
-    private static final Logger log = LoggerFactory.getLogger(UserService.class);
+public class UserUpdateService {
+    private static final Logger log = LoggerFactory.getLogger(UserCreateService.class);
     private UserRepository userRepository;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserUpdateService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
-
-    // 회원가입
-    @Transactional
-    public SignUpResponseDTO createUser(SignUpRequestDTO signUpRequestDTO) {
-        log.info("createUser: {}", signUpRequestDTO.getNickname());
-
-        // 닉네임 중복 검사
-        Optional<User> findUserNickname = userRepository.findByNickname(signUpRequestDTO.getNickname());
-        if (findUserNickname.isPresent()) {
-            throw new IllegalArgumentException("nickname already exists");
-        }
-
-        // 이메일 중복 검사
-        Optional<User> findUserEmail = userRepository.findByEmail(signUpRequestDTO.getEmail());
-        if (findUserEmail.isPresent()) {
-            throw new IllegalArgumentException("email already exists");
-        }
-
-        // 비밀번호 확인 일치 여부 검사
-        if (!signUpRequestDTO.getPassword().equals(signUpRequestDTO.getPasswordCheck())) {
-            throw new IllegalArgumentException("password does not match");
-        }
-
-        try {
-            User user = User.builder()
-                    .nickname(signUpRequestDTO.getNickname())
-                    .email(signUpRequestDTO.getEmail())
-                    .password(bCryptPasswordEncoder.encode(signUpRequestDTO.getPassword()))
-                    .role(signUpRequestDTO.getRole())
-                    .status(Status.ACTIVE)
-                    .createdAt(LocalDate.now())
-                    .build();
-
-            User savedUser = userRepository.save(user);
-            log.info("saved user: {}", savedUser);
-
-            return new SignUpResponseDTO(savedUser.getNickname(), savedUser.getEmail(), savedUser.getPassword(),
-                    savedUser.getRole(), savedUser.getStatus(), savedUser.getCreatedAt());
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return null;
-        }
-    }
-
     // 닉네임 수정
     @Transactional
     public UpdateNicknameResponseDTO updateNickname(Long userId, UpdateNicknameRequestDTO updateNicknameRequestDTO) {
@@ -201,36 +163,5 @@ public class UserService {
             return null;
         }
     }
-
-    // 회원 탈퇴
-    @Transactional
-    public DeleteUserResponseDTO deleteUser(Long userId, DeleteUserRequestDTO deleteUserRequestDTO) {
-        log.info("deleteUser: {}", deleteUserRequestDTO.getStatus());
-
-        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("사용자가 존재하지 않습니다."));
-
-        // 사용자 상태 확인
-        Optional<User> findUserStatus = userRepository.findById(userId);
-        if (findUserStatus.get().getStatus() != Status.ACTIVE) {
-            throw new IllegalArgumentException("이미 탈퇴된 회원입니다.");
-        }
-
-        try {
-            User deletedUser = user.toBuilder()
-                    .status(Status.DELETED)
-                    .deletedAt(LocalDate.now())
-                    .build();
-
-            User savedUser = userRepository.save(deletedUser);
-            log.info("saved user: {}", savedUser);
-
-            return new DeleteUserResponseDTO(savedUser.getStatus(), savedUser.getDeletedAt());
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return null;
-        }
-    }
-
-    // 로그인
 
 }
