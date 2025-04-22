@@ -29,7 +29,7 @@ public class Quiz {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "quiz_id",nullable = false,columnDefinition = "bigInt")
-    private Long quizId;
+    private Long id;
 
     @Column(name = "title",nullable = false,columnDefinition = "VARCHAR(255)")
     private String title;

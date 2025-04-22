@@ -23,7 +23,7 @@ public class QuizService {
 
     @Transactional
     public CreateQuizDTO createQuiz(CreateQuizDTO createQuizDTO) {
-        Optional<Quiz> findQuiz = quizRepository.findByQuizTitle((createQuizDTO.getTitle()));
+        Optional<Quiz> findQuiz = quizRepository.findByTitle((createQuizDTO.getTitle()));
 
         if(findQuiz.isPresent()) {
             throw new IllegalArgumentException("이미 존재하는 퀴즈 제목입니다. : " + createQuizDTO.getTitle());
@@ -40,7 +40,7 @@ public class QuizService {
 
         Quiz quiz = quizRepository.findById(quizId).orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다."));
 
-        Optional<Quiz> findQuiz = quizRepository.findByQuizTitleAndQuizIdNot(createQuizDTO.getTitle(), quizId);
+        Optional<Quiz> findQuiz = quizRepository.findByTitleAndIdNot(createQuizDTO.getTitle(), quizId);
         if(findQuiz.isPresent()) {
             throw new IllegalArgumentException("중복되는 제목이 존재 합니다.");
         }
@@ -51,7 +51,7 @@ public class QuizService {
                     .build();
         Quiz savedQuiz = quizRepository.save(quiz);
 
-        return new UpdateQuizDTO(savedQuiz.getQuizId(), savedQuiz.getTitle(), savedQuiz.getAnswer());
+        return new UpdateQuizDTO(savedQuiz.getId(), savedQuiz.getTitle(), savedQuiz.getAnswer());
     }
 
     @Transactional

@@ -29,7 +29,7 @@ public class ChapterService{
 
     @Transactional
     public CreateChapterDTO createChapter(CreateChapterDTO createChapterDTO) {
-        Optional<Chapter> findChapter = chapterRepository.findByChapterTitle((createChapterDTO.getTitle()));
+        Optional<Chapter> findChapter = chapterRepository.findByTitle((createChapterDTO.getTitle()));
 
         if(findChapter.isPresent()) {
             throw new IllegalArgumentException("이미 존재하는 챕터 제목입니다. : " + createChapterDTO.getTitle());
@@ -47,7 +47,7 @@ public class ChapterService{
 
         Chapter chapter = chapterRepository.findById(ChapterId).orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다."));
 
-        Optional<Chapter> findChapter = chapterRepository.findByChapterTitleAndChapterIdNot(createChapterDTO.getTitle(), ChapterId);
+        Optional<Chapter> findChapter = chapterRepository.findByTitleAndIdNot(createChapterDTO.getTitle(), ChapterId);
         if(findChapter.isPresent()) {
             throw new IllegalArgumentException("중복되는 제목이 존재 합니다.");
         }
@@ -58,7 +58,7 @@ public class ChapterService{
                 .build();
         Chapter savedChapter = chapterRepository.save(chapter);
 
-        return new UpdateChapterDTO(savedChapter.getChapterId(), savedChapter.getTitle(), savedChapter.getDescription());
+        return new UpdateChapterDTO(savedChapter.getId(), savedChapter.getTitle(), savedChapter.getDescription());
     }
 
     @Transactional

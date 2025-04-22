@@ -33,7 +33,7 @@ public class Chapter {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "chapter_id",nullable = false,columnDefinition = "BIGINT")
-    private Long chapterId;
+    private Long id;
 
     @NotNull
     @Column(name ="title" ,columnDefinition = "VARCHAR(255)")
@@ -59,7 +59,7 @@ public class Chapter {
     private LocalDateTime deletedAt ;
 
 // quiz 외래키 매핑.
-    @OneToMany(mappedBy = "chapter_id",orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "chapter",orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Quiz> quizzes = new ArrayList<>();
 
     public Chapter(String title) {

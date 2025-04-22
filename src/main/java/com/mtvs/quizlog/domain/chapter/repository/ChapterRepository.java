@@ -13,8 +13,8 @@ import java.util.Optional;
 
 @Repository
 public interface ChapterRepository extends JpaRepository<Chapter, Long> {
-    Optional<Chapter> findByChapterTitle (String Title);
+    Optional<Chapter> findByTitle (String Title);
     Optional<Chapter> findById(Long id);
     List<Chapter> findAll();
-    Optional<Chapter> findByChapterTitleAndChapterIdNot(String title, Long chapterId);
+    Optional<Chapter> findByTitleAndIdNot(String title, Long chapterId);
 }
