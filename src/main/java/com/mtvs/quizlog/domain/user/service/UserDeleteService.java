@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -38,7 +38,7 @@ public class UserDeleteService {
         try {
             User deletedUser = user.toBuilder()
                     .status(Status.DELETED)
-                    .deletedAt(LocalDate.now())
+                    .deletedAt(LocalDateTime.now())
                     .build();
 
             User savedUser = userRepository.save(deletedUser);

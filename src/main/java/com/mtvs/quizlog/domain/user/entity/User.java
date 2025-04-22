@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "users")
@@ -38,11 +39,11 @@ public class User {
     private Status status;
 
     @NotNull
-    private LocalDate createdAt;
-    private LocalDate updatedAt;
-    private LocalDate deletedAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+    private LocalDateTime deletedAt;
 
-    public User(Long userId, String nickname, String email, String password, Role role, Status status, LocalDate createdAt, LocalDate updatedAt, LocalDate deletedAt) {
+    public User(Long userId, String nickname, String email, String password, Role role, Status status, LocalDateTime createdAt, LocalDateTime updatedAt, LocalDateTime deletedAt) {
         this.userId = userId;
         this.nickname = nickname;
         this.email = email;

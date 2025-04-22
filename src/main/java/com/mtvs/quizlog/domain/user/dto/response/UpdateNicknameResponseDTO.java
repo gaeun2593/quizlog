@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 public class UpdateNicknameResponseDTO {
@@ -12,5 +13,5 @@ public class UpdateNicknameResponseDTO {
     private String nickname;
 
     @NotNull
-    private LocalDate updatedDate;
+    private LocalDateTime updatedDate;
 }

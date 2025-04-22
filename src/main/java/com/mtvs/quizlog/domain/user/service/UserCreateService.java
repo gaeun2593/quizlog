@@ -13,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -56,7 +57,7 @@ public class UserCreateService {
                     .password(bCryptPasswordEncoder.encode(signUpRequestDTO.getPassword()))
                     .role(signUpRequestDTO.getRole())
                     .status(Status.ACTIVE)
-                    .createdAt(LocalDate.now())
+                    .createdAt(LocalDateTime.now())
                     .build();
 
             User savedUser = userRepository.save(user);
@@ -69,7 +70,4 @@ public class UserCreateService {
             return null;
         }
     }
-
-    // 로그인
-
 }

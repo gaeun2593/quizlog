@@ -8,6 +8,7 @@ import jakarta.persistence.Enumerated;
 import lombok.NonNull;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class SignUpResponseDTO {
 
@@ -32,11 +33,9 @@ public class SignUpResponseDTO {
     private Status status;
 
     @NonNull
-    private LocalDate createdAt;
-    private LocalDate updatedAt;
-    private LocalDate deletedAt;
+    private LocalDateTime createdAt;
 
-    public SignUpResponseDTO(@NonNull String nickname, @NonNull String email, @NonNull String password, @NonNull Role role, @NonNull Status status, @NonNull LocalDate createdAt) {
+    public SignUpResponseDTO(@NonNull String nickname, @NonNull String email, @NonNull String password, @NonNull Role role, @NonNull Status status, @NonNull LocalDateTime createdAt) {
         this.nickname = nickname;
         this.email = email;
         this.password = password;
