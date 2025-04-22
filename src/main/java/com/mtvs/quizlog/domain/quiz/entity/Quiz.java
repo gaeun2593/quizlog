@@ -3,11 +3,23 @@ package com.mtvs.quizlog.domain.quiz.entity;
 
 import com.mtvs.quizlog.domain.chapter.entity.Chapter;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name="quizzes")
+@Getter
+@Builder(toBuilder = true)
+@NoArgsConstructor
+@AllArgsConstructor
+@SQLDelete(sql = "UPDATE lessons SET status = DELETED WHERE id = ?")
+@SQLRestriction("status <> 'DELETED'")
 public class Quiz {
     public Quiz(String title, String answer) {
         this.title = title;
@@ -47,15 +59,4 @@ public class Quiz {
     @JoinColumn(name="chapter_id", referencedColumnName = "chapter_id")
     Chapter chapter;
 
-    protected Quiz() {
-
-    }
-
-    public String getAnswer() {
-        return answer;
-    }
-
-    public String getTitle() {
-        return title;
-    }
 }

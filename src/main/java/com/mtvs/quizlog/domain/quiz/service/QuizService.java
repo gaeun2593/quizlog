@@ -1,6 +1,7 @@
 package com.mtvs.quizlog.domain.quiz.service;
 
-import com.mtvs.quizlog.domain.quiz.dto.QuizDTO;
+import com.mtvs.quizlog.domain.quiz.dto.CreateQuizDTO;
+import com.mtvs.quizlog.domain.quiz.dto.UpdateQuizDTO;
 import com.mtvs.quizlog.domain.quiz.entity.Quiz;
 import com.mtvs.quizlog.domain.quiz.repository.QuizRepository;
 import jakarta.transaction.Transactional;
@@ -21,17 +22,36 @@ public class QuizService {
     }
 
     @Transactional
-    public QuizDTO createQuiz(QuizDTO quizDTO) {
-        Optional<Quiz> findQuiz = quizRepository.findByQuizTitle((quizDTO.getTitle());
+    public CreateQuizDTO createQuiz(CreateQuizDTO createQuizDTO) {
+        Optional<Quiz> findQuiz = quizRepository.findByQuizTitle((createQuizDTO.getTitle()));
 
         if(findQuiz.isPresent()) {
-            throw new IllegalArgumentException("이미 존재하는 퀴즈 제목입니다. : " + quizDTO.getTitle());
+            throw new IllegalArgumentException("이미 존재하는 퀴즈 제목입니다. : " + createQuizDTO.getTitle());
         }
 
-        Quiz quiz = new Quiz(quizDTO.getTitle(),quizDTO.getAnswer());
+        Quiz quiz = new Quiz(createQuizDTO.getTitle(), createQuizDTO.getAnswer());
         Quiz saveQuiz =quizRepository.save(quiz);
-        return new QuizDTO(saveQuiz.getTitle(),saveQuiz.getAnswer());
+        return new CreateQuizDTO(saveQuiz.getTitle(),saveQuiz.getAnswer());
 
+    }
+
+    @Transactional
+    public UpdateQuizDTO updateQuiz(Long quizId, CreateQuizDTO createQuizDTO) {
+
+        Quiz quiz = quizRepository.findById(quizId).orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다."));
+
+        Optional<Quiz> findQuiz = quizRepository.findByQuizTitleAndQuizIdNot(createQuizDTO.getTitle(), quizId);
+        if(findQuiz.isPresent()) {
+            throw new IllegalArgumentException("중복되는 제목이 존재 합니다.");
+        }
+
+         quiz = Quiz.builder()
+                    .title(createQuizDTO.getTitle())
+                    .answer(createQuizDTO.getAnswer())
+                    .build();
+        Quiz savedQuiz = quizRepository.save(quiz);
+
+        return new UpdateQuizDTO(savedQuiz.getQuizId(), savedQuiz.getTitle(), savedQuiz.getAnswer());
     }
 
     @Transactional
@@ -43,6 +63,8 @@ public class QuizService {
         }
         quizRepository.deleteById(quizId);
     }
+
+
 
 
 }
