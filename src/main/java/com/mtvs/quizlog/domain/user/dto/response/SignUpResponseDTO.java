@@ -5,37 +5,36 @@ import com.mtvs.quizlog.domain.user.entity.Role;
 import com.mtvs.quizlog.domain.user.entity.Status;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import lombok.NonNull;
+import jakarta.validation.constraints.NotNull;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class SignUpResponseDTO {
 
-    @NonNull
+    @NotNull
     private Long id;
 
-    @NonNull
+    @NotNull
     private String nickname;
 
-    @NonNull
+    @NotNull
     private String email;
 
-    @NonNull
+    @NotNull
     private String password;
 
     @Enumerated(EnumType.STRING)
-    @NonNull
+    @NotNull
     private Role role;
 
     @Enumerated(EnumType.STRING)
-    @NonNull
+    @NotNull
     private Status status;
 
-    @NonNull
+    @NotNull
     private LocalDateTime createdAt;
 
-    public SignUpResponseDTO(@NonNull String nickname, @NonNull String email, @NonNull String password, @NonNull Role role, @NonNull Status status, @NonNull LocalDateTime createdAt) {
+    public SignUpResponseDTO(String nickname, String email, String password, Role role, Status status, LocalDateTime createdAt) {
         this.nickname = nickname;
         this.email = email;
         this.password = password;

@@ -2,9 +2,7 @@ package com.mtvs.quizlog.domain.user.controller;
 
 import com.mtvs.quizlog.domain.user.dto.request.*;
 import com.mtvs.quizlog.domain.user.dto.response.*;
-import com.mtvs.quizlog.domain.user.service.UserCreateService;
-import com.mtvs.quizlog.domain.user.service.UserDeleteService;
-import com.mtvs.quizlog.domain.user.service.UserUpdateService;
+import com.mtvs.quizlog.domain.user.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,15 +16,11 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
-    private final UserCreateService userCreateServiceService;
-    private final UserUpdateService userUpdateService;
-    private final UserDeleteService userDeleteService;
+    private final UserService userService;
 
     @Autowired
-    public UserController(UserCreateService userService, UserUpdateService userUpdateService, UserDeleteService userDeleteService) {
-        this.userCreateServiceService = userService;
-        this.userUpdateService = userUpdateService;
-        this.userDeleteService = userDeleteService;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     // 회원가입
@@ -34,7 +28,7 @@ public class UserController {
     public ResponseEntity<SignUpResponseDTO> createUser(@Validated @RequestBody SignUpRequestDTO signUpRequestDTO) {
         log.info("createUser: {}", signUpRequestDTO.getNickname());
 
-        SignUpResponseDTO savedUser = userCreateServiceService.createUser(signUpRequestDTO);
+        SignUpResponseDTO savedUser = userService.createUser(signUpRequestDTO);
 
         return ResponseEntity.ok().body(savedUser);
     }
@@ -49,7 +43,7 @@ public class UserController {
                                                                     @Validated @RequestBody UpdateNicknameRequestDTO updateNicknameRequestDTO) {
         log.info("updateNickname : {}", userId);
 
-        UpdateNicknameResponseDTO updateNickname = userUpdateService.updateNickname(userId, updateNicknameRequestDTO);
+        UpdateNicknameResponseDTO updateNickname = userService.updateNickname(userId, updateNicknameRequestDTO);
 
         if (updateNickname == null) {
             return ResponseEntity.status(500).body(null);
@@ -64,7 +58,7 @@ public class UserController {
                                                               @Validated @RequestBody UpdateEmailRequestDTO updateEmailRequestDTO) {
         log.info("updateEmail : {}", userId);
 
-        UpdateEmailResponseDTO updateEmail = userUpdateService.updateEmail(userId, updateEmailRequestDTO);
+        UpdateEmailResponseDTO updateEmail = userService.updateEmail(userId, updateEmailRequestDTO);
 
         if (updateEmail == null) {
             return ResponseEntity.status(500).body(null);
@@ -79,7 +73,7 @@ public class UserController {
                                                             @Validated @RequestBody UpdateRoleRequestDTO updateRoleRequestDTO) {
         log.info("updateRole : {}", userId);
 
-        UpdateRoleResponseDTO updateRole = userUpdateService.updateRole(userId, updateRoleRequestDTO);
+        UpdateRoleResponseDTO updateRole = userService.updateRole(userId, updateRoleRequestDTO);
 
         return ResponseEntity.ok().body(updateRole);
     }
@@ -90,7 +84,7 @@ public class UserController {
                                                                     @Validated @RequestBody UpdatePasswordRequestDTO updatePasswordRequestDTO) {
         log.info("updatePassword : {}", userId);
 
-        UpdatePasswordResponseDTO updatePassword = userUpdateService.updatePassword(userId, updatePasswordRequestDTO);
+        UpdatePasswordResponseDTO updatePassword = userService.updatePassword(userId, updatePasswordRequestDTO);
 
         if (updatePassword == null) {
             return ResponseEntity.status(500).body(null);
@@ -105,7 +99,7 @@ public class UserController {
                                                             @Validated @RequestBody DeleteUserRequestDTO deleteUserRequestDTO) {
         log.info("deleteUser : {}", userId);
 
-        DeleteUserResponseDTO deleteUser = userDeleteService.deleteUser(userId, deleteUserRequestDTO);
+        DeleteUserResponseDTO deleteUser = userService.deleteUser(userId, deleteUserRequestDTO);
 
         return ResponseEntity.ok().body(deleteUser);
     }
