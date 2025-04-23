@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.logging.Logger;
 
 @RestController
-@RequestMapping("/chapter")
+@RequestMapping("/chapter/")
 @Validated
 public class ChapterController {
     private final ChapterService chapterService;
@@ -22,10 +22,9 @@ public class ChapterController {
         this.chapterService = chapterService;
     }
 
-    @PostMapping
+    @PostMapping("createChapter")
     public ResponseEntity<CreateChapterDTO> createChapter(@Validated @RequestBody CreateChapterDTO createChapterDTO) {
         logger.info("post : /chapter " + createChapterDTO.getTitle());
-
         CreateChapterDTO savedChapter = chapterService.createChapter(createChapterDTO);
 
         if (savedChapter == null) {
@@ -35,10 +34,6 @@ public class ChapterController {
         }
     }
 
-    @GetMapping("/login")
-    public void login(){
-
-    }
 /*
     @PatchMapping("/{chapterId}")
     public ResponseEntity<CDTO> updateChapter(@PathVariable("chapterId") int chapterId, @Validated @RequestBody ChapterDTO chapterDTO) {

@@ -52,11 +52,14 @@ public class Chapter {
     @NotNull
     private Status status;
 
-    private LocalDateTime createdAt ;
+    @Column(name = "created_at", columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
+    private LocalDateTime createdAt;
 
-    private LocalDateTime updatedAt ;
+    @Column(name = "updated_at", columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
+    private LocalDateTime updatedAt;
 
-    private LocalDateTime deletedAt ;
+    @Column(name = "deleted_at", columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
+    private LocalDateTime deletedAt;
 
 // quiz 외래키 매핑.
     @OneToMany(mappedBy = "chapter",orphanRemoval = true, cascade = CascadeType.ALL)
