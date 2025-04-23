@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -29,4 +30,25 @@ public class SignUpRequestDTO {
     private String passwordCheck;
 
     private Role role;
+
+    protected SignUpRequestDTO() { }
+
+    public SignUpRequestDTO(String nickname, String email, String password, String passwordCheck, Role role) {
+        this.nickname = nickname;
+        this.email = email;
+        this.password = password;
+        this.passwordCheck = passwordCheck;
+        this.role = role;
+    }
+
+    @Override
+    public String toString() {
+        return "SignUpRequestDTO{" +
+                "nickname='" + nickname + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", passwordCheck='" + passwordCheck + '\'' +
+                ", role=" + role +
+                '}';
+    }
 }

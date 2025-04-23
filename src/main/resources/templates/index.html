@@ -2,27 +2,18 @@
 <html lang="ko">
 <head th:replace="fragments/head :: commonHead"></head>
 <body>
-<div th:replace="fragments/header :: header"></div>
-<div class="main-page-container">
-    <div th:replace="fragments/aside :: asideFragment" ></div>
-    <div class="main-layout">
-        <div class="main-content">
-            <h3>최신퀴즈</h3>
-            <div></div>
-        </div>
-        <div class="main-content">
-            <h3>인기 낱말 카드세트</h3>
-            <div></div>
-        </div>
-        <div class="main-content">
-            <h3>~~님의 챕터목록</h3>
-            <div></div>
-        </div>
-        <div class="main-content">
-            <h3>기타어쩌구</h3>
-            <div></div>
+    <div style="text-align: center; margin-top: 100px;">
+        <h1>QuizLog에 오신 것을 환영합니다! ✨</h1>
+        <p>지금 바로 퀴즈로 학습을 시작해보세요.</p>
+
+        <div style="margin-top: 30px;">
+            <a href="/auth/login">
+                <button style="padding: 10px 20px; font-size: 16px;">로그인</button>
+            </a>
+            <a href="/user/sign-up">
+                <button style="padding: 10px 20px; font-size: 16px;">회원가입</button>
+            </a>
         </div>
     </div>
-</div>
 </body>
 </html>
