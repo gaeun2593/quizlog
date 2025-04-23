@@ -71,6 +71,23 @@ public class UserService {
         }
     }
 
+    // 로그인
+    public LogInDTO findByEmail(String email) {
+        Optional<User> user = userRepository.findByEmail(email);
+
+        return user.map(u -> new LogInDTO(
+                u.getUserId(),
+                u.getNickname(),
+                u.getEmail(),
+                u.getPassword(),
+                u.getRole(),
+                u.getStatus(),
+                u.getCreatedAt(),
+                u.getUpdatedAt(),
+                u.getDeletedAt()
+        )).orElse(null);
+    }
+
     // 닉네임 수정
     @Transactional
     public UpdateNicknameResponseDTO updateNickname(Long userId, UpdateNicknameRequestDTO updateNicknameRequestDTO) {
