@@ -40,7 +40,7 @@ public class SecurityConfig {
                     login.usernameParameter("email");
                     login.passwordParameter("password");
                     login.defaultSuccessUrl("/main", true);
-                    login.failureUrl("/");
+                    login.failureUrl("/auth/login");
                     login.failureHandler(authFailHandler);
                 }).logout(logout -> {
                     logout.logoutRequestMatcher(new AntPathRequestMatcher("/auth/logout"));
