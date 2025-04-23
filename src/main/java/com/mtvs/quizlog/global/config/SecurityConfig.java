@@ -1,5 +1,6 @@
 package com.mtvs.quizlog.global.config;
 
+import com.mtvs.quizlog.global.config.handler.AuthFailHandler;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,17 +9,19 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+    private AuthFailHandler authFailHandler;
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // Spring Boot에서 제공하는 일반적인 정적 리소스(css, js, img 등)에 대해 Spring Security 필터를 거치지 않고 바로 응답하도록 설정
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return web -> web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
@@ -29,9 +32,24 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())  // CSRF 보호 비활성화 (테스트 용도)
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/user/**").permitAll()  // 회원가입 경로는 인증 없이 접근 가능
-                .anyRequest().authenticated()  // 다른 모든 요청은 인증 필요
-            );
+                .requestMatchers("/user/**", "/auth/login", "/").permitAll()
+                .anyRequest().authenticated())
+                .formLogin(login -> {
+                    login.loginPage("/login");
+                    login.usernameParameter("email");
+                    login.passwordParameter("password");
+                    login.defaultSuccessUrl("/", true);
+                    login.failureUrl("/");
+                    login.failureHandler(authFailHandler);
+                }).logout(logout -> {
+                    logout.logoutRequestMatcher(new AntPathRequestMatcher("/auth/logout"));
+                    logout.deleteCookies("JSESSIONID");
+                    logout.invalidateHttpSession(true);
+                    logout.logoutSuccessUrl("/");
+                }).sessionManagement(session -> {
+                    session.maximumSessions(1);
+                    session.invalidSessionUrl("/");
+                });
 
         return http.build();
     }
