@@ -14,7 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.logging.Logger;
 
 @Controller
-@RequestMapping("chapter")
+@RequestMapping
 public class ChapterController {
     private final ChapterService chapterService;
     Logger logger = Logger.getLogger(ChapterController.class.getName());
@@ -23,17 +23,17 @@ public class ChapterController {
     public ChapterController(ChapterService chapterService) {
         this.chapterService = chapterService;
     }
-    @GetMapping()
+    @GetMapping("chapter")
     public String chapterView(Model model) {
         /* view 이름부터 설정 */
         model.addAttribute(new CreateChapterDTO());
 
         return "chapter";
     }
-    @PostMapping("createChapter")
+    @PostMapping("chapter/createChapter")
     public String processingPost(CreateChapterDTO createChapterDTO, Model model) {
         chapterService.createChapter(createChapterDTO);
-        return "redirect:chapter";
+        return "redirect:/chapter";
     }
 
 
