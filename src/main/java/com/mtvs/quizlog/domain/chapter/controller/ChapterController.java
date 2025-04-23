@@ -33,8 +33,9 @@ public class ChapterController {
     @PostMapping("createChapter")
     public String processingPost(CreateChapterDTO createChapterDTO, Model model) {
         chapterService.createChapter(createChapterDTO);
-        return "chapter";
+        return "redirect:chapter";
     }
+
 
     /*
 
