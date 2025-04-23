@@ -8,8 +8,10 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+@Setter
 public class SignUpRequestDTO {
 
     @NotBlank(message = "닉네임은 필수 입력값입니다.")
@@ -31,7 +33,7 @@ public class SignUpRequestDTO {
 
     private Role role;
 
-    protected SignUpRequestDTO() { }
+    public SignUpRequestDTO() { }
 
     public SignUpRequestDTO(String nickname, String email, String password, String passwordCheck, Role role) {
         this.nickname = nickname;

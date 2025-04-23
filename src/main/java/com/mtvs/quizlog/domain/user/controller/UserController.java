@@ -25,14 +25,12 @@ public class UserController {
         this.userService = userService;
     }
 
+    // 회원가입
     @GetMapping("/sign-up")
     public void signUp() { }
 
-    // 회원가입
     @PostMapping("/sign-up")
-    public String createUser(@ModelAttribute SignUpRequestDTO signUpRequestDTO, Model model) {
-
-        System.out.println(signUpRequestDTO);
+    public String createUser(SignUpRequestDTO signUpRequestDTO, Model model) {
         log.info("createUser: {}", signUpRequestDTO.getNickname());
 
         SignUpResponseDTO savedUser = userService.createUser(signUpRequestDTO);
