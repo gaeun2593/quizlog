@@ -17,4 +17,5 @@ public interface ChapterRepository extends JpaRepository<Chapter, Long> {
     Optional<Chapter> findById(Long id);
     List<Chapter> findAll();
     Optional<Chapter> findByTitleAndIdNot(String title, Long chapterId);
+
 }

@@ -30,14 +30,13 @@ public class ChapterService{
     @Transactional
     public CreateChapterDTO createChapter(CreateChapterDTO createChapterDTO) {
         Optional<Chapter> findChapter = chapterRepository.findByTitle((createChapterDTO.getTitle()));
-
+        System.out.println(createChapterDTO.getDescription()+ createChapterDTO.getTitle());
         if(findChapter.isPresent()) {
             throw new IllegalArgumentException("이미 존재하는 챕터 제목입니다. : " + createChapterDTO.getTitle());
         }
 
         Chapter chapter = new Chapter(createChapterDTO.getTitle(),createChapterDTO.getDescription());
         Chapter saveChapter =chapterRepository.save(chapter);
-
 
         return new CreateChapterDTO(saveChapter.getTitle(),saveChapter.getDescription());
     }

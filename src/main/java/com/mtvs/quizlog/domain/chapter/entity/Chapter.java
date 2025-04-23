@@ -23,33 +23,39 @@ import java.util.List;
 @Table(name ="chapters")
 @Getter
 @Builder(toBuilder = true)
-@NoArgsConstructor
-@AllArgsConstructor
-@SQLDelete(sql = "UPDATE lessons SET status = DELETED WHERE id = ?")
 @SQLRestriction("status <> 'DELETED'")
 public class Chapter {
+    public Chapter(Long id, String title, String description, int criteria, Status status, LocalDateTime createdAt, LocalDateTime updatedAt, LocalDateTime deletedAt, List<Quiz> quizzes) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.criteria = criteria;
+        this.status = status;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.deletedAt = deletedAt;
+        this.quizzes = quizzes;
+    }
 
-//    PK
+    //    PK
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "chapter_id",nullable = false,columnDefinition = "BIGINT")
     private Long id;
 
-    @NotNull
+
     @Column(name ="title" ,columnDefinition = "VARCHAR(255)")
     private String title;
 
-    @NotNull
+
     @Column(name ="description" ,columnDefinition = "TEXT")
     private String description;
 
-    @NotNull
     @Column(name ="criteria" ,columnDefinition = "INT")
     private int criteria;
 
 
     @Enumerated(EnumType.STRING)
-    @NotNull
     private Status status;
 
     @Column(name = "created_at", columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
@@ -70,7 +76,14 @@ public class Chapter {
     }
 
     public Chapter(String title, String description) {
+        this.title = title;
+        this.description = description;
     }
+
+    public Chapter() {
+
+    }
+
 
 //    User
 /*    @ManyToOne()

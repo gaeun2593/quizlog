@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 
 
 @Getter
-@Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateChapterDTO {
@@ -22,4 +21,12 @@ public class CreateChapterDTO {
     @Size(min =1 , max = 255, message = "설명은 1글자 이상 또는 255글자 미만입니다.")
     private String description;
 
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
 }

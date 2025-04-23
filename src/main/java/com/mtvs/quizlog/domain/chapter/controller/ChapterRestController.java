@@ -6,18 +6,17 @@ import com.mtvs.quizlog.domain.chapter.dto.CreateChapterDTO;
 import com.mtvs.quizlog.domain.chapter.service.ChapterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/chapter/")
-public class ChapterController {
+public class ChapterRestController {
     private final ChapterService chapterService;
-    Logger logger = Logger.getLogger(ChapterController.class.getName());
+    Logger logger = Logger.getLogger(ChapterRestController.class.getName());
     @Autowired
-    public ChapterController(ChapterService chapterService) {
+    public ChapterRestController(ChapterService chapterService) {
         this.chapterService = chapterService;
     }
 

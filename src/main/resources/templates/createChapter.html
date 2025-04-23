@@ -1,7 +1,9 @@
 <!doctype html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>챕터! 쇼!</title>
+    <meta charset="UTF-8">
+    <title>블루 아카이브</title>
+    <link rel="stylesheet" type="text/css" th:href="@{ /css/common.css }" />
 </head>
 <body>
 <h1>챕터쇼!!!!!!!!</h1>
@@ -16,12 +18,13 @@
     다만 prefix가 "resources/templates/" 이고 suffix가 ".html" 이다.
  -->
 
-<h3>퀴즈</h3>
+<h2>퀴즈</h2>
 <form>
-   <input type="text" id="title" name="chapter_title">
+    <input type="text" id="title" name="chapter_title">
+    <h2>답변</h2>
     <input type="text" id="description" name="chapter_description">
+    <input type="submit" value="Submit">
 </form>
-<button onclick="location.href='createChapter'">퀴즈 생 성</button>
 
 </body>
 </html>
