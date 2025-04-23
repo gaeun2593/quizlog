@@ -19,10 +19,10 @@
  -->
 
 <h2>퀴즈</h2>
-<form>
-    <input type="text" id="title" name="chapter_title">
+<form th:action="@{chapter/createChapter}" th:object="${createChapterDTO}" method="post">
+    <input type="text" th:field="*{title}"/>
     <h2>답변</h2>
-    <input type="text" id="description" name="chapter_description">
+    <input type="text" th:field="*{description}" />
     <input type="submit" value="Submit">
 </form>
 

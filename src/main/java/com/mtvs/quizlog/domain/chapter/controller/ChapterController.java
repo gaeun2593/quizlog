@@ -2,10 +2,12 @@ package com.mtvs.quizlog.domain.chapter.controller;
 
 
 
+import com.mtvs.quizlog.domain.chapter.dto.CreateChapterDTO;
 import com.mtvs.quizlog.domain.chapter.service.ChapterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -15,22 +17,35 @@ import java.util.logging.Logger;
 @RequestMapping("chapter")
 public class ChapterController {
     private final ChapterService chapterService;
-    Logger logger = Logger.getLogger(ChapterRestController.class.getName());
+    Logger logger = Logger.getLogger(ChapterController.class.getName());
 
     @Autowired
     public ChapterController(ChapterService chapterService) {
         this.chapterService = chapterService;
     }
+    @GetMapping()
+    public String chapterView(Model model) {
+        /* view 이름부터 설정 */
+        model.addAttribute(new CreateChapterDTO());
 
+        return "chapter";
+    }
+    @PostMapping("createChapter")
+    public String processingPost(CreateChapterDTO createChapterDTO, Model model) {
+        chapterService.createChapter(createChapterDTO);
+        return "chapter";
+    }
+
+    /*
 
      @GetMapping("createChapter")
      public ModelAndView expression(ModelAndView mv) {
-
-        /* view 이름부터 설정 */
-        mv.setViewName("createChapter");
-
+        *//* view 이름부터 설정 *//*
+        mv.setViewName("Chapter");
+        mv.addObject("createChapterDTO", new CreateChapterDTO());
         return mv;
     }
+*/
 
     /*
         @PatchMapping("/{chapterId}")

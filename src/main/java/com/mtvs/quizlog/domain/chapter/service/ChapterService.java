@@ -1,7 +1,9 @@
 package com.mtvs.quizlog.domain.chapter.service;
 
 
+import com.mtvs.quizlog.domain.chapter.dto.ConvertEntityToDTO;
 import com.mtvs.quizlog.domain.chapter.dto.CreateChapterDTO;
+import com.mtvs.quizlog.domain.chapter.dto.GetChapterDTO;
 import com.mtvs.quizlog.domain.chapter.dto.UpdateChapterDTO;
 import com.mtvs.quizlog.domain.chapter.repository.ChapterRepository;
 import com.mtvs.quizlog.domain.chapter.entity.Chapter;
@@ -9,6 +11,8 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 /*
@@ -69,6 +73,21 @@ public class ChapterService{
         }
         chapterRepository.deleteById(chapterId);
     }
+
+    public List<GetChapterDTO> getChapterDTOList(){
+        List<Chapter> getChapterList = chapterRepository.findAll();
+        List<GetChapterDTO> getChapterDTOList = new ArrayList<>();
+
+        //        Chapter->GetChapterDTO 변환
+        //        GetChapterDTO :id,title,description
+        //        Chapter: id,title,description,creation date
+        ConvertEntityToDTO convertEntityToDTO = new ConvertEntityToDTO();
+        convertEntityToDTO.GetChapterDTOToChapter(getChapterList,getChapterDTOList);
+        return getChapterDTOList;
+
+    }
+
+
 /*
 *
 * 테스트주석입니다.

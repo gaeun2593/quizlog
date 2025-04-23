@@ -2,15 +2,14 @@ package com.mtvs.quizlog.domain.chapter.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
+@Setter
 public class CreateChapterDTO {
 
     @NotBlank(message = "챕터 제목은 필수 입력 값입니다.")
