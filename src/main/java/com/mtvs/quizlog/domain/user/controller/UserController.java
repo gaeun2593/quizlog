@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,14 +25,21 @@ public class UserController {
         this.userService = userService;
     }
 
+    @GetMapping("/sign-up")
+    public void signUp() { }
+
     // 회원가입
     @PostMapping("/sign-up")
-    public ResponseEntity<SignUpResponseDTO> createUser(@Validated @RequestBody SignUpRequestDTO signUpRequestDTO) {
+    public String createUser(@ModelAttribute SignUpRequestDTO signUpRequestDTO, Model model) {
+
+        System.out.println(signUpRequestDTO);
         log.info("createUser: {}", signUpRequestDTO.getNickname());
 
         SignUpResponseDTO savedUser = userService.createUser(signUpRequestDTO);
 
-        return ResponseEntity.ok().body(savedUser);
+        model.addAttribute("savedUser", savedUser);
+
+        return "redirect:/auth/login";
     }
 
     // 닉네임 수정

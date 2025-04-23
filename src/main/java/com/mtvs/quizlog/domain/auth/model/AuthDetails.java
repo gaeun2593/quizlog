@@ -4,8 +4,8 @@ import com.mtvs.quizlog.domain.user.dto.request.LogInDTO;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 public class AuthDetails implements UserDetails {
 
@@ -39,7 +39,10 @@ public class AuthDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        Collection<GrantedAuthority> authorities = new ArrayList<>();
+        logInDTO.getRole().forEach(role -> authorities.add(()-> role));
+
+        return authorities;
     }
 
     @Override

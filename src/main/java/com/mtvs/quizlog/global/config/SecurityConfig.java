@@ -4,6 +4,7 @@ import com.mtvs.quizlog.global.config.handler.AuthFailHandler;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Role;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -31,14 +32,14 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .csrf(csrf -> csrf.disable())  // CSRF 보호 비활성화 (테스트 용도)
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/user/**", "/auth/login", "/").permitAll()
-                .anyRequest().authenticated())
-                .formLogin(login -> {
-                    login.loginPage("/login");
+            .authorizeHttpRequests(auth -> {
+                auth.requestMatchers("/user/sign-up", "/auth/login", "/","/*").permitAll();
+                auth.anyRequest().authenticated();
+                }).formLogin(login -> {
+                    login.loginPage("/auth/login");
                     login.usernameParameter("email");
                     login.passwordParameter("password");
-                    login.defaultSuccessUrl("/", true);
+                    login.defaultSuccessUrl("/main", true);
                     login.failureUrl("/");
                     login.failureHandler(authFailHandler);
                 }).logout(logout -> {
