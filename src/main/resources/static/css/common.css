@@ -1,0 +1,54 @@
+*{
+    box-sizing: border-box;
+  }
+  body{
+    margin: 0; 
+    color: #333;
+    font-family: 'Noto Sans KR' , sans-serif;
+    line-height: 1.5em;
+    font-weight: 300;
+    font-size: 15px;
+    height: 100vh;
+  }
+  /* reset css */
+  a {
+    text-decoration: none;
+    color: #333;
+  }
+  li{
+  list-style: none; 
+  }
+  
+  h1,h2,h3,h4,h5,h6{ 
+    font-weight: 500;
+    margin: 0;
+  }
+  button{
+    border: none;
+    background:none;
+  }
+
+/* 메인페이지 */
+.main-page-container{
+  display: flex;
+}
+.main-layout{
+  flex: 5;
+  padding: 30px 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: 100%;
+}
+
+.main-layout .main-content{
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+}
+.main-layout .main-content div{
+  height: 180px;
+  background-color: #efeeee;
+  border-radius: 10px;
+}
