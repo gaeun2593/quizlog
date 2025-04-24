@@ -1,13 +1,17 @@
 package com.mtvs.quizlog.domain.user.controller;
 
+import com.mtvs.quizlog.domain.auth.model.AuthDetails;
 import com.mtvs.quizlog.domain.user.dto.UserListDTO;
 import com.mtvs.quizlog.domain.user.service.AdminService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -46,6 +50,16 @@ public class AdminController {
         model.setViewName("/admin/deleted");
 
         return model;
+    }
+
+    // 회원 계정 복구
+    @PatchMapping("/restore-user")
+    public String restoreUserStatus(@RequestParam Long userId) {
+        log.info("Restore user");
+
+        adminService.restoreUserStatus(userId);
+
+        return "/admin/deleted";
     }
 
     // 문의사항 조회 - 채팅으로
