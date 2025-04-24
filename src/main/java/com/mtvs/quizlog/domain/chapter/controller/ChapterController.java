@@ -26,7 +26,7 @@ public class ChapterController {
     @GetMapping("chapter")
     public String chapterView(Model model) {
         /* view 이름부터 설정 */
-        model.addAttribute(new CreateChapterDTO());
+        model.addAttribute(new GetChapterDTO());
 
         return "chapter";
     }
