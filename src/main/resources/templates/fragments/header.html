@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<header th:fragment="headerFragment" class="header">
+  <div class="logo-menu">
+    <div class="menu-icon">
+      <img th:src="@{/images/menu-icon.svg}" alt="menu-icon">
+    </div>
+    <div class="logo"><img th:src="@{/images/logo.png}" alt=""></div>
+  </div>
+  <div class="search">
+    <span class="search-icon"><img th:src="@{/images/search.svg}" alt="search-icon"></span>
+    <input type="text" placeholder="문제검색">
+  </div>
+  <div class="contentright">
+    <a href="#"><img th:src="@{/images/plus-circle.png}" alt="plus-circle" class="plus-circle"></a>
+    <div class="user-profile"><a href="#"><img src="" alt=""></a></div>
+  </div>
+</header>
+</body>
+</html>
