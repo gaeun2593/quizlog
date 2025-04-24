@@ -24,9 +24,8 @@ import java.util.List;
 @Table(name ="chapters")
 @Getter
 @Builder(toBuilder = true)
-@SQLRestriction("status <> 'DELETED'")
 public class Chapter {
-    public Chapter(Long id, String title, String description, int criteria, Status status, LocalDateTime createdAt, LocalDateTime updatedAt, LocalDateTime deletedAt, List<Quiz> quizzes) {
+    public Chapter(Long id, String title, String description, int criteria, Status status, LocalDateTime createdAt, LocalDateTime updatedAt, LocalDateTime deletedAt, List<Quiz> quizzes ,User user) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -36,6 +35,7 @@ public class Chapter {
         this.updatedAt = updatedAt;
         this.deletedAt = deletedAt;
         this.quizzes = quizzes;
+        this.user = user;
     }
 
     //    PK
@@ -60,13 +60,13 @@ public class Chapter {
     private Status status;
 
     @CreationTimestamp
-    @Column(name = "created_at", columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
+    @Column(name = "created_at", columnDefinition = "DATETIME DEFAULT 'CURRENT_TIMESTAMP'")
     private LocalDateTime createdAt;
 
-    @Column(name = "updated_at", columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
+    @Column(name = "updated_at", columnDefinition = "DATETIME")
     private LocalDateTime updatedAt;
 
-    @Column(name = "deleted_at", columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
+    @Column(name = "deleted_at", columnDefinition = "DATETIME")
     private LocalDateTime deletedAt;
 
 // quiz 외래키 매핑.
@@ -83,26 +83,33 @@ public class Chapter {
     }
 
     public Chapter() {
-
     }
 
-
 //    User
-/*    @ManyToOne()
+    @ManyToOne()
     @JoinColumn(name="user_id", referencedColumnName = "user_id")
     private User user;
 
+    public Chapter(Long id, String title, String description) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+    }
 
-    @ManyToOne()
-    @JoinColumn(name="lesson_id", referencedColumnName = "user_id")
-    private Lesson lesson;*/
-
-/*
-
+    /*
     @ManyToOne()
     @JoinColumn(name="folder_quizset_id",referencedColumnName = "folder_quizset_id")
     private FolderChapter folderChapter;
 
 */
+
+/*
+    @ManyToOne()
+    @JoinColumn(name="lesson_id", referencedColumnName = "user_id")
+    private Lesson lesson;
+
+*/
+
+
 
 }

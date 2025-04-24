@@ -1,5 +1,6 @@
 package com.mtvs.quizlog.domain.chapter.dto;
 
+import com.mtvs.quizlog.domain.chapter.dto.request.GetChapterDTO;
 import com.mtvs.quizlog.domain.chapter.entity.Chapter;
 
 import java.util.List;

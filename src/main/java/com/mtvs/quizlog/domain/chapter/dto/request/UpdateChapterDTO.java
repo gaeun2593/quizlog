@@ -1,4 +1,4 @@
-package com.mtvs.quizlog.domain.chapter.dto;
+package com.mtvs.quizlog.domain.chapter.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

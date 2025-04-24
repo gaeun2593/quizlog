@@ -2,19 +2,24 @@ package com.mtvs.quizlog.domain.chapter.controller;
 
 
 
-import com.mtvs.quizlog.domain.chapter.dto.CreateChapterDTO;
+import com.mtvs.quizlog.domain.auth.model.AuthDetails;
+import com.mtvs.quizlog.domain.chapter.dto.request.CreateChapterDTO;
 import com.mtvs.quizlog.domain.chapter.service.ChapterService;
+import com.mtvs.quizlog.domain.user.dto.request.UpdateRoleRequestDTO;
+import com.mtvs.quizlog.domain.user.dto.response.UpdateRoleResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.logging.Logger;
 
 @Controller
-@RequestMapping
+@RequestMapping("main")
 public class ChapterController {
     private final ChapterService chapterService;
     Logger logger = Logger.getLogger(ChapterController.class.getName());
@@ -23,20 +28,40 @@ public class ChapterController {
     public ChapterController(ChapterService chapterService) {
         this.chapterService = chapterService;
     }
-    @GetMapping("chapter")
+
+    @GetMapping("create-chap")
     public String chapterView(Model model) {
         /* view 이름부터 설정 */
-//        model.addAttribute(new GetChapterDTO());
-
-        return "chapter";
-    }
-    @PostMapping("chapter/createChapter")
-    public String processingPost(CreateChapterDTO createChapterDTO, Model model) {
-        chapterService.createChapter(createChapterDTO);
-        return "redirect:/chapter";
+        model.addAttribute(new CreateChapterDTO());
+        return "create-chap";
     }
 
+    @PostMapping("create-chap/createChapter")
+    public String createPost(@AuthenticationPrincipal AuthDetails userDetails, @Validated CreateChapterDTO createChapterDTO , BindingResult bindingResult , Model model) {
+        Long userId = userDetails.getLogInDTO().getUserId();
+        model.addAttribute(new CreateChapterDTO());
+        if (bindingResult.hasErrors()) {
+            return "main/create-chap"; // 다시 폼으로 돌려보냄
+        }
+        chapterService.createChapter(userId,createChapterDTO);
+        return "redirect:main/create-chap";
+    }
 
+/*
+
+    public String updateRole(@AuthenticationPrincipal AuthDetails userDetails,
+                             @Validated UpdateRoleRequestDTO updateRoleRequestDTO,
+                             Model model) {
+        Long userId = userDetails.getLogInDTO().getUserId();
+        log.info("updateRole : {}", userId);
+
+        UpdateRoleResponseDTO updateRole = userService.updateRole(userId, updateRoleRequestDTO);
+        model.addAttribute("updatedRole", updateRole);
+
+        return "/user/my-page";
+    }
+
+*/
     /*
 
      @GetMapping("createChapter")

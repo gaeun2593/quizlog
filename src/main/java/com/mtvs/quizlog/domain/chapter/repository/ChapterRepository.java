@@ -13,6 +13,7 @@ import java.util.Optional;
 
 @Repository
 public interface ChapterRepository extends JpaRepository<Chapter, Long> {
+
     Optional<Chapter> findByTitle (String Title);
     Optional<Chapter> findById(Long id);
     List<Chapter> findAll();

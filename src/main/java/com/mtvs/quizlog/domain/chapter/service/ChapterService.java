@@ -2,11 +2,15 @@ package com.mtvs.quizlog.domain.chapter.service;
 
 
 import com.mtvs.quizlog.domain.chapter.dto.ConvertEntityToDTO;
-import com.mtvs.quizlog.domain.chapter.dto.CreateChapterDTO;
-import com.mtvs.quizlog.domain.chapter.dto.GetChapterDTO;
-import com.mtvs.quizlog.domain.chapter.dto.UpdateChapterDTO;
+import com.mtvs.quizlog.domain.chapter.dto.request.CreateChapterDTO;
+import com.mtvs.quizlog.domain.chapter.dto.request.GetChapterDTO;
+import com.mtvs.quizlog.domain.chapter.dto.request.UpdateChapterDTO;
+import com.mtvs.quizlog.domain.chapter.entity.Status;
 import com.mtvs.quizlog.domain.chapter.repository.ChapterRepository;
 import com.mtvs.quizlog.domain.chapter.entity.Chapter;
+import com.mtvs.quizlog.domain.user.entity.User;
+import com.mtvs.quizlog.domain.user.repository.UserRepository;
+import com.mtvs.quizlog.domain.user.service.UserService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,24 +29,50 @@ import java.util.Optional;
 public class ChapterService{
 
     private final ChapterRepository chapterRepository;
-
+    private final UserRepository userRepository;
     @Autowired
-    public ChapterService(ChapterRepository chapterRepository) {
+    public ChapterService(ChapterRepository chapterRepository, UserRepository userRepository) {
         this.chapterRepository = chapterRepository;
+        this.userRepository = userRepository;
     }
 
+
+    //챕터 생성
     @Transactional
-    public CreateChapterDTO createChapter(CreateChapterDTO createChapterDTO) {
+    public CreateChapterDTO createChapter(Long userId,CreateChapterDTO createChapterDTO) {
+
         Optional<Chapter> findChapter = chapterRepository.findByTitle((createChapterDTO.getTitle()));
-        System.out.println(createChapterDTO.getDescription()+ createChapterDTO.getTitle());
+
+        User user=  userRepository.findById(userId).orElseThrow(()->new IllegalArgumentException("해당 사용자가 존재하지 않습니다: "+userId));
+
         if(findChapter.isPresent()) {
             throw new IllegalArgumentException("이미 존재하는 챕터 제목입니다. : " + createChapterDTO.getTitle());
         }
+/*
+    Auth-> userId
+    userId-> 를 왜?
+    chapter의 user를 받고싶기때문이다. 왜?
+    user를 findId로 받고!  user객체를 받아서 전달!! 초기화.
+   findbyId -> user
+*
+*
+*
+*
+* */
 
-        Chapter chapter = new Chapter(createChapterDTO.getTitle(),createChapterDTO.getDescription());
-        Chapter saveChapter =chapterRepository.save(chapter);
+        Chapter chapter = Chapter.builder()
+                        .title(createChapterDTO.getTitle())
+                        .description(createChapterDTO.getDescription())
+                        .status(Status.ACTIVE)
+                        .user(user)
+                        .build();
 
-        return new CreateChapterDTO(saveChapter.getTitle(),saveChapter.getDescription());
+                Chapter saveChapter = chapterRepository.save(chapter);
+        String savedTitle = saveChapter.getTitle();
+        String savedDescription = saveChapter.getDescription();
+
+        return new CreateChapterDTO(userId,savedTitle,savedDescription);
+
     }
 
     @Transactional

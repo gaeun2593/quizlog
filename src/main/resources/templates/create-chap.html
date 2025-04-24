@@ -19,7 +19,7 @@
  -->
 
 <h2>퀴즈</h2>
-<form th:action="@{chapter/createChapter}" th:object="${createChapterDTO}" method="post">
+<form th:action="@{create-chap/createChapter}" th:object="${createChapterDTO}" method="post">
     <input type="text" th:field="*{title}"/>
     <h2>답변</h2>
     <input type="text" th:field="*{description}" />

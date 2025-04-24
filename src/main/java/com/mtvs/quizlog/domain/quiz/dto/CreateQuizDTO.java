@@ -14,6 +14,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CreateQuizDTO {
 
+
+
     @NotBlank(message = "문제는 필수 입력 값입니다.")
     @Size(min = 2, max = 100, message = "문제은 2글자 이상 또는 100글자 미만입니다.")
     private String title;
