@@ -1,28 +1,47 @@
 <!DOCTYPE html>
+<html lang="ko">
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<head th:replace="fragments/head :: commonHead"></head>
 <body>
-<form action="/folder-chapters/create-folder-chapter" method="POST" >
-   폴더명 : <input type="text" name="title" pattern=".*\S.*" required>
-    <input type="submit" value="폴더생성">
-</form>
-<h3>폴더조회</h3>
-<ul>
-    <li th:each="name : ${folderChapters}" >
-        <span th:text="${name}"></span>
-        <form action="/folder-chapters/delete-folder-chapter" method="POST" style="display:inline;">
-            <input type="hidden" name="folderTitle" th:value="${name}" />
-            <button type="submit">폴더삭제</button>
-        </form>
-        <form action="/folder-chapters/update-folder-chapter" method="POST" style="display:inline;">
-            <input type="hidden" name="folderTitle" th:value="${name}" />
-            <input type="text" name="folderUpdateTitle" pattern=".*\S.*" required>
-            <button type="submit">폴더수정</button>
-        </form>
-    </li>
-</ul>
+<div th:replace="fragments/header :: header"></div>
+<div class="main-page-container">
+    <div th:replace="fragments/aside :: asideFragment" ></div>
+    <div class="folder-layout">
+        <div class="folder-layout-container">
+            <h1>라이브러리</h1>
+            <div class="library-menu">
+                <ul>
+                    <li>챕터 폴더</li>
+                    <li>즐겨찾기 폴더</li>
+                </ul>
+            </div>
+            <div class="folder-content">
+                <div class="create-folder">
+                    <div class="create-folder">
+                        <form action="/folder-chapters/create-folder-chapter" method="POST" >
+                            <input type="text" name="title" pattern=".*\S.*" required>
+                            <input type="submit" value="폴더생성">
+                        </form>
+                    </div>
+                </div>
+                <ul>
+                    <li th:each="name : ${folderChapters}">
+                        <div><img th:src="@{/images/folder-icon-2.svg}" alt="folder-icon"><span th:text="${name}"></span></div>
+                        <div><form action="/folder-chapters/update-folder-chapter" method="POST" style="display:inline;">
+                            <input type="hidden" name="folderTitle" th:value="${name}" />
+                            <input type="text" name="folderUpdateTitle" pattern=".*\S.*" required>
+                            <button type="submit">폴더수정</button>
+                        </form>
+                            <form action="/folder-chapters/delete-folder-chapter" method="POST" style="display:inline;">
+                                <input type="hidden" name="folderTitle" th:value="${name}" />
+                                <button type="submit">폴더삭제</button>
+                            </form></div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</div>
 </body>
 </html>

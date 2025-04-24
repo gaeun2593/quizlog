@@ -1,0 +1,121 @@
+
+
+
+.main-page-container{
+  display: flex;
+
+  height: 100%;
+}
+/* 사이드바 */
+.main-page-container .side-nav{
+  flex: 1;
+  padding: 20px 10px;
+
+}
+.main-page-container .side-nav>div{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+}
+.main-page-container .side-nav>div a{
+  padding: 10px 10px;
+  display: flex;
+  gap: 15px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: 0.3s;
+}
+.main-page-container .side-nav>div a:hover{
+  background-color: rgb(238, 249, 249);
+  transition: 0.3s;
+}
+
+/* 메인페이지 */
+.folder-layout{
+  flex: 5;
+  padding: 40px;
+  height: 100%;
+}
+.folder-layout-container{
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+
+}
+
+.library-menu ul{
+  display: flex;
+  gap: 30px;
+  border-bottom: 2px solid #ececec ;
+}
+.library-menu ul li{
+  font-size: 14px;
+  font-weight: bold;
+  color: #848484;
+  padding-bottom: 10px;
+  border-bottom: 2px solid transparent;
+}
+.library-menu ul li:hover{
+  color: #17CFAA;
+  box-shadow: 0 2px 0 #17CFAA;
+  transition: .2s;
+}
+.folder-content .create-folder input[type="submit"] {
+  margin-bottom: 20px;
+  padding: 10px;
+  width: 100px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #848484;
+  border: 2px solid #ececec;
+  text-align: center;
+}
+.folder-content .create-folder input[type="submit"]:hover{
+  color: #fff;
+  background-color: #17CFAA;
+  transition: .2s;
+  border: 2px solid transparent;
+}
+
+.folder-content .create-folder input[type="text"]{
+  border-radius: 10px;
+  font-size: 14px;
+  border: 2px solid #ececec;
+  padding: 12px;
+}
+.folder-content ul{
+  display: flex;
+  gap: 15px;
+  flex-direction: column;
+}
+.folder-content ul li{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px;
+  border-radius: 10px;
+  border: 2px solid #ececec;
+
+}
+.folder-content ul li:hover{
+  box-shadow: 0 3px 0 #15c7a369;
+}
+
+.folder-content ul li div{
+  display: flex;
+  gap: 15px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #848484;
+}
+
+.folder-content ul li button:hover{
+  color: #17CFAA;
+  transition: .3s;
+
+}
+
+
+
