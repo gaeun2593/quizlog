@@ -2,12 +2,12 @@
 <html lang="en">
 <head th:replace="fragments/head :: commonHead"></head>
 <body>
-    <h1>회원가입</h1>
+<h1>회원가입</h1>
 <form th:action="@{/user/sign-up}" method="post">
     닉네임 : <input type="text" name="nickname"/> <br>
     이메일 : <input type="email" name="email"/> <br>
     비밀번호 : <input type="password" name="password"/> <br>
-    비밀번호 확인 : <input type="password" name="passwordCheck"   /> <br>
+    비밀번호 확인 : <input type="password" name="passwordCheck"/> <br>
     권한 :
     <select name="role">
         <option value="STUDENT">학생</option>

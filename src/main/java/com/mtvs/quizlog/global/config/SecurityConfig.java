@@ -1,10 +1,10 @@
 package com.mtvs.quizlog.global.config;
 
+import com.mtvs.quizlog.domain.user.entity.Role;
 import com.mtvs.quizlog.global.config.handler.AuthFailHandler;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Role;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -34,6 +34,7 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())  // CSRF 보호 비활성화 (테스트 용도)
             .authorizeHttpRequests(auth -> {
                 auth.requestMatchers("/user/sign-up", "/auth/login", "/","/*").permitAll();
+                auth.requestMatchers("/user/my-page").hasAnyAuthority(Role.STUDENT.getRole(), Role.TEACHER.getRole(), Role.ADMIN.getRole());
                 auth.anyRequest().authenticated();
                 }).formLogin(login -> {
                     login.loginPage("/auth/login");
