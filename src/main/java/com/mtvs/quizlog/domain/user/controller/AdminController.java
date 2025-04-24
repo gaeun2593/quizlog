@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -24,28 +25,29 @@ public class AdminController {
         this.adminService = adminService;
     }
 
-    @GetMapping("/manage")
-    public void manage() { }
-
     // 회원 목록 조회
     @GetMapping("/list-users")
-    public String listUsers(Model model) {
+    public ModelAndView listUsers(ModelAndView model) {
         log.info("List users");
-        List<UserListDTO> users = adminService.getUsers();
-        model.addAttribute("users", users);
 
-        return "/admin/manage";
+        List<UserListDTO> users = adminService.getUsers();
+        model.addObject("users", users);
+        model.setViewName("/admin/manage");
+
+        return model;
     }
 
     // 회원 탈퇴 조회
     @GetMapping("/list-deleted-users")
-    public String listDeletedUsers(Model model) {
+    public ModelAndView listDeletedUsers(ModelAndView model) {
         log.info("List deleted users");
-        List<UserListDTO> deletedUsers = adminService.getDeletedUsers();
-        model.addAttribute("deletedUsers", deletedUsers);
 
-        return "/admin/deleted";
+        List<UserListDTO> deletedUsers = adminService.getDeletedUsers();
+        model.addObject("deletedUsers", deletedUsers);
+        model.setViewName("/admin/deleted");
+
+        return model;
     }
 
-    // 문의사항 조회 -
+    // 문의사항 조회 - 채팅으로
 }
