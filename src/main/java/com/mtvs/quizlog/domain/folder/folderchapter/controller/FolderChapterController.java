@@ -41,10 +41,20 @@ public class FolderChapterController {
         logger.info("post : /folderChapter " + folderChapterDTO.getTitle());
 
         // FolderChapterService에 게시판을 생성하는 메서드에 DTO를 전달한뒤 saveFolderChapter로 받음
-        FolderChapterDTO savedFolderChapter = folderChapterService.createFolderChapter(folderChapterDTO);
+       folderChapterService.createFolderChapter(folderChapterDTO);
 
         return "redirect:/folder-chapters/folder";
 
+    }
+
+    // 폴더명 수정
+    @PostMapping("/update-folder-chapter")
+    public String updateFolderChapter(@RequestParam("folderUpdateTitle") String folderUpdateTitle, @RequestParam("folderTitle") String folderTitle) {
+        logger.info("patch : /folderUpdateTitle " +folderUpdateTitle);
+
+       folderChapterService.updateFolderChapter(folderUpdateTitle, folderTitle);
+
+        return "redirect:/folder-chapters/folder";
     }
 
     // 전체 조회

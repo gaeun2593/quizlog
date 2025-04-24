@@ -17,6 +17,11 @@
             <input type="hidden" name="folderTitle" th:value="${name}" />
             <button type="submit">폴더삭제</button>
         </form>
+        <form action="/folder-chapters/update-folder-chapter" method="POST" style="display:inline;">
+            <input type="hidden" name="folderTitle" th:value="${name}" />
+            <input type="text" name="folderUpdateTitle" pattern=".*\S.*" required>
+            <button type="submit">폴더수정</button>
+        </form>
     </li>
 </ul>
 </body>

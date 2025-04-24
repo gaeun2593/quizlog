@@ -53,6 +53,31 @@ public class FolderChapterService {
         return new FolderChapterDTO(savedFolderChapter.getFolderChapterId(), savedFolderChapter.getFolderChapterTitle());
     }
 
+    
+    // 폴더명 수정
+    @Transactional
+    public FolderChapterDTO updateFolderChapter(String folderUpdateTitle,String folderTitle) {
+        logger.info("update folder title: " + folderTitle);
+
+        // 1. 기존 객체 가져오기 (기존 제목으로 조회)
+        FolderChapter folderChapter = folderChapterRepository.findByFolderChapterTitle(folderTitle)
+                .orElseThrow(() -> new RuntimeException("해당 폴더 챕터가 없습니다."));
+
+        // 새 제목으로 중복 검사 (자기 자신 제외)
+        Optional<FolderChapter> duplicate = folderChapterRepository
+                .findByFolderChapterTitleAndFolderChapterIdNot(folderUpdateTitle, folderChapter.getFolderChapterId());
+        if(duplicate.isPresent()) {
+            throw new IllegalArgumentException("중복되는 제목이 존재 합니다.");
+        }
+
+        //제목 업데이트
+        folderChapter.setFolderChapterTitle(folderUpdateTitle);
+        FolderChapter savedFolderChapter = folderChapterRepository.save(folderChapter);
+        logger.info("folder updated : " +folderChapter.getFolderChapterId());
+
+        return new FolderChapterDTO(savedFolderChapter.getFolderChapterId(), savedFolderChapter.getFolderChapterTitle());
+    }
+
     //전체 조회
     public List<FolderChapterDTO> getAllFolderChapters() {
         //findAll()은 Repository에 디폴트로 생성되어 있음
