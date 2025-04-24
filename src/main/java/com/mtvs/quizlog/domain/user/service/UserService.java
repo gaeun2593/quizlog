@@ -75,6 +75,10 @@ public class UserService {
     public LogInDTO findByEmail(String email) {
         Optional<User> user = userRepository.findByEmail(email);
 
+        if (user.get().getStatus() != Status.ACTIVE) {
+            throw new IllegalArgumentException("user does not exist");
+        }
+
         return user.map(u -> new LogInDTO(
                 u.getUserId(),
                 u.getNickname(),
