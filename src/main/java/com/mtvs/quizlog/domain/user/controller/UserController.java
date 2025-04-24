@@ -1,5 +1,6 @@
 package com.mtvs.quizlog.domain.user.controller;
 
+import com.mtvs.quizlog.domain.auth.model.AuthDetails;
 import com.mtvs.quizlog.domain.user.dto.request.*;
 import com.mtvs.quizlog.domain.user.dto.response.*;
 import com.mtvs.quizlog.domain.user.service.UserService;
@@ -7,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -44,67 +46,72 @@ public class UserController {
     public void myPage() { }
 
     // 닉네임 수정
-    @PatchMapping("/update-nickname/{userId}")
-    public String updateNickname(@PathVariable("userId") Long userId,
+    @PatchMapping("/update-nickname")
+    public String updateNickname(@AuthenticationPrincipal AuthDetails userDetails,
                                  @Validated UpdateNicknameRequestDTO updateNicknameRequestDTO,
                                  Model model) {
+        Long userId = userDetails.getLogInDTO().getUserId();
         log.info("updateNickname : {}", userId);
 
         UpdateNicknameResponseDTO updateNickname = userService.updateNickname(userId, updateNicknameRequestDTO);
         model.addAttribute("updatedNickname", updateNickname);
 
-        return "redirect:/user/my-page";
+        return "/user/my-page";
     }
 
     // 이메일 수정
-    @PatchMapping("/update-email/{userId}")
-    public ResponseEntity<UpdateEmailResponseDTO> updateEmail(@PathVariable("userId") Long userId,
-                                                              @Validated @RequestBody UpdateEmailRequestDTO updateEmailRequestDTO) {
+    @PatchMapping("/update-email")
+    public String updateEmail(@AuthenticationPrincipal AuthDetails userDetails,
+                              @Validated UpdateEmailRequestDTO updateEmailRequestDTO,
+                              Model model) {
+        Long userId = userDetails.getLogInDTO().getUserId();
         log.info("updateEmail : {}", userId);
 
         UpdateEmailResponseDTO updateEmail = userService.updateEmail(userId, updateEmailRequestDTO);
+        model.addAttribute("updatedEmail", updateEmail);
 
-        if (updateEmail == null) {
-            return ResponseEntity.status(500).body(null);
-        } else {
-            return ResponseEntity.ok().body(updateEmail);
-        }
+        return "/user/my-page";
     }
 
     // 역할 수정
-    @PatchMapping("/update-role/{userId}")
-    public ResponseEntity<UpdateRoleResponseDTO> updateRole(@PathVariable("userId") Long userId,
-                                                            @Validated @RequestBody UpdateRoleRequestDTO updateRoleRequestDTO) {
+    @PatchMapping("/update-role")
+    public String updateRole(@AuthenticationPrincipal AuthDetails userDetails,
+                             @Validated UpdateRoleRequestDTO updateRoleRequestDTO,
+                             Model model) {
+        Long userId = userDetails.getLogInDTO().getUserId();
         log.info("updateRole : {}", userId);
 
         UpdateRoleResponseDTO updateRole = userService.updateRole(userId, updateRoleRequestDTO);
+        model.addAttribute("updatedRole", updateRole);
 
-        return ResponseEntity.ok().body(updateRole);
+        return "/user/my-page";
     }
 
     // 비밀번호 수정
-    @PatchMapping("/update-password/{userId}")
-    public ResponseEntity<UpdatePasswordResponseDTO> updatePassword(@PathVariable("userId") Long userId,
-                                                                    @Validated @RequestBody UpdatePasswordRequestDTO updatePasswordRequestDTO) {
+    @PatchMapping("/update-password")
+    public String updatePassword(@AuthenticationPrincipal AuthDetails userDetails,
+                                 @Validated UpdatePasswordRequestDTO updatePasswordRequestDTO,
+                                 Model model) {
+        Long userId = userDetails.getLogInDTO().getUserId();
         log.info("updatePassword : {}", userId);
 
         UpdatePasswordResponseDTO updatePassword = userService.updatePassword(userId, updatePasswordRequestDTO);
+        model.addAttribute("updatedPassword", updatePassword);
 
-        if (updatePassword == null) {
-            return ResponseEntity.status(500).body(null);
-        } else {
-            return ResponseEntity.ok().body(updatePassword);
-        }
+        return "/user/my-page";
     }
 
     // 회원 탈퇴 (Status를 ACTIVE에서 DELETED로 변경)
-    @PatchMapping("/delete/{userId}")
-    public ResponseEntity<DeleteUserResponseDTO> deleteUser(@PathVariable("userId") Long userId,
-                                                            @Validated @RequestBody DeleteUserRequestDTO deleteUserRequestDTO) {
+    @PatchMapping("/delete")
+    public String deleteUser(@AuthenticationPrincipal AuthDetails userDetails,
+                             @Validated DeleteUserRequestDTO deleteUserRequestDTO,
+                             Model model) {
+        Long userId = userDetails.getLogInDTO().getUserId();
         log.info("deleteUser : {}", userId);
 
         DeleteUserResponseDTO deleteUser = userService.deleteUser(userId, deleteUserRequestDTO);
+        model.addAttribute("deletedUser", deleteUser);
 
-        return ResponseEntity.ok().body(deleteUser);
+        return "redirect:/";
     }
 }
