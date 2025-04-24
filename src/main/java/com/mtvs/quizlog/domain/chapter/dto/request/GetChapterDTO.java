@@ -12,6 +12,7 @@ import lombok.*;
 public class GetChapterDTO {
 
     private Long id;
+
     private String title;
     private String description;
 
