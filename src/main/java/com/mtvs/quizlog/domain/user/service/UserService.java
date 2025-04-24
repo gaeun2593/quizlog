@@ -1,5 +1,6 @@
 package com.mtvs.quizlog.domain.user.service;
 
+import com.mtvs.quizlog.domain.user.dto.LogInDTO;
 import com.mtvs.quizlog.domain.user.dto.request.*;
 import com.mtvs.quizlog.domain.user.dto.response.*;
 import com.mtvs.quizlog.domain.user.entity.Status;
