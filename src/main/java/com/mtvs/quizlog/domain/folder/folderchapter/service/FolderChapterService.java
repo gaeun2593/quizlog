@@ -67,4 +67,18 @@ public class FolderChapterService {
         return folderChapterDTOList;
     }
 
+
+    @Transactional
+    public void deleteFolderChapter(String folderTitle) {
+        logger.info("delete folder title : " + folderTitle);
+        // JPA에서 FolderTitle이 존재하는지 확인하는 메서드
+        boolean result = folderChapterRepository.existsByfolderChapterTitle(folderTitle);
+
+        if(!result) {
+            throw new IllegalArgumentException("게시글이 존재하지 않습니다. " + folderTitle);
+        }
+
+        folderChapterRepository.deleteByfolderChapterTitle(folderTitle);
+        logger.info("folder deleted : " + folderTitle);
+    }
 }

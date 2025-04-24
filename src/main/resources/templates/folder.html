@@ -6,15 +6,18 @@
 </head>
 <body>
 <form action="/folder-chapters/create-folder-chapter" method="POST" >
-   폴더명 : <input type="text" name="title" pattern=".*\\S.*" required>
+   폴더명 : <input type="text" name="title" pattern=".*\S.*" required>
     <input type="submit" value="폴더생성">
 </form>
 <h3>폴더조회</h3>
 <ul>
     <li th:each="name : ${folderChapters}" >
         <span th:text="${name}"></span>
-        <button>폴더삭제</button></li>
+        <form action="/folder-chapters/delete-folder-chapter" method="POST" style="display:inline;">
+            <input type="hidden" name="folderTitle" th:value="${name}" />
+            <button type="submit">폴더삭제</button>
+        </form>
+    </li>
 </ul>
-
 </body>
 </html>

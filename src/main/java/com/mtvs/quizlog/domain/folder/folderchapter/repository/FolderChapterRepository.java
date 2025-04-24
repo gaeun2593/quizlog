@@ -7,4 +7,6 @@ import java.util.Optional;
 public interface FolderChapterRepository extends JpaRepository<FolderChapter, Integer> {
     Optional<FolderChapter> findByFolderChapterTitle(String folderChapterTitle);
     Optional<FolderChapter> findByFolderChapterTitleAndFolderChapterIdNot(String folderChapterTitle, int folderChapterId);
+    boolean  existsByfolderChapterTitle(String folderTitle);
+    void deleteByfolderChapterTitle(String folderTitle);
 }

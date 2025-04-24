@@ -43,14 +43,8 @@ public class FolderChapterController {
         // FolderChapterService에 게시판을 생성하는 메서드에 DTO를 전달한뒤 saveFolderChapter로 받음
         FolderChapterDTO savedFolderChapter = folderChapterService.createFolderChapter(folderChapterDTO);
 
+        return "redirect:/folder-chapters/folder";
 
-        // 나중에 exaption이나 alret창으로 처리
-        if (savedFolderChapter == null) {
-            return "folder-create-failed";
-        }else{
-            return "redirect:/folder-chapters/folder";
-            // 생성한 뒤 folder 페이지 다시 로드 (나중에 다른페이지로 넘어가거나 alert창 띄우기)
-        }
     }
 
     // 전체 조회
@@ -60,6 +54,15 @@ public class FolderChapterController {
         List<FolderChapterDTO> folderChapters = folderChapterService.getAllFolderChapters();
         model.addAttribute("folderChapters", folderChapters);
         return "folder";
+    }
+
+
+    // 삭제
+    @PostMapping("/delete-folder-chapter")
+    public String deleteFolderChapter(@RequestParam("folderTitle") String folderTitle) {
+        logger.info("DELETE /api/folderChapter/{}"+ folderTitle);
+        folderChapterService.deleteFolderChapter(folderTitle);
+        return "redirect:/folder-chapters/folder";
     }
 
 
