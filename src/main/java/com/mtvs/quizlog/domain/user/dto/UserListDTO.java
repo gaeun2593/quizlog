@@ -3,9 +3,11 @@ package com.mtvs.quizlog.domain.user.dto;
 import com.mtvs.quizlog.domain.user.entity.Role;
 import com.mtvs.quizlog.domain.user.entity.Status;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+@Setter
 @NoArgsConstructor
 public class UserListDTO {
 
