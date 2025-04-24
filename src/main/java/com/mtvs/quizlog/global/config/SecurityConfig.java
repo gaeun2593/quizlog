@@ -43,6 +43,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> {
                 auth.requestMatchers("/user/sign-up", "/auth/login", "/","/*").permitAll();
                 auth.requestMatchers("/user/my-page").hasAnyAuthority(Role.STUDENT.getRole(), Role.TEACHER.getRole(), Role.ADMIN.getRole());
+                auth.requestMatchers("/admin/manage").hasAnyAuthority(Role.ADMIN.getRole());
                 auth.anyRequest().authenticated();
                 }).formLogin(login -> {
                     login.loginPage("/auth/login");
