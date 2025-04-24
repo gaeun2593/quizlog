@@ -48,6 +48,13 @@
         <td th:text="${deletedUser.getRole()}"></td>
         <td th:text="${deletedUser.getStatus()}"></td>
         <td th:text="${#temporals.format(deletedUser.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
+        <td>
+            <form th:action="@{/admin/restore-user}" method="post">
+                <input type="hidden" name="_method" value="patch"/>
+                <input type="hidden" name="userId" th:value="${deletedUser.userId}"/>
+                <button type="submit">복구</button>
+            </form>
+        </td>
     </tr>
     </tbody>
 </table>

@@ -54,4 +54,8 @@ public class User {
         this.updatedAt = updatedAt;
         this.deletedAt = deletedAt;
     }
+
+    public void updateStatus(Status status) {
+        this.status = Status.ACTIVE;
+    }
 }
