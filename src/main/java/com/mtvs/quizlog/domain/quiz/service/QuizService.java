@@ -10,6 +10,8 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -41,9 +43,17 @@ public class QuizService {
             throw new IllegalArgumentException("이미 존재하는 문제 입니다. : " + createQuizDTO.getTitle());
         }
         Chapter chapter =chapterRepository.findById(chapterId).orElseThrow(()->new IllegalArgumentException("해당 사용자가 존재하지 않습니다: "+chapterId));
-        Quiz quiz = new Quiz(createQuizDTO.getTitle(), createQuizDTO.getAnswer(),chapterId);
-        Quiz saveQuiz =quizRepository.save(quiz);
-        return new CreateQuizDTO(saveQuiz.getTitle(),saveQuiz.getAnswer(),saveQuiz.getChapter());
+        List<Quiz> saveQuizList = new ArrayList<>();
+       createQuizDTO.getQuizList().forEach(quiz -> {
+           quiz =  Quiz.builder()
+                   .title()
+                   .answer()
+                   .chapter(chapter)
+            saveQuizList.add(quiz);
+       });
+
+
+        return new CreateQuizResponseDTO(sa);
 
     }
 
