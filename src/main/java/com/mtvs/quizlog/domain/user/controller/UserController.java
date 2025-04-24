@@ -4,6 +4,7 @@ import com.mtvs.quizlog.domain.auth.model.AuthDetails;
 import com.mtvs.quizlog.domain.user.dto.request.*;
 import com.mtvs.quizlog.domain.user.dto.response.*;
 import com.mtvs.quizlog.domain.user.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -108,13 +109,18 @@ public class UserController {
     // 회원 탈퇴 (Status를 ACTIVE에서 DELETED로 변경)
     @PatchMapping("/delete")
     public ModelAndView deleteUser(@AuthenticationPrincipal AuthDetails userDetails,
-                             @Validated DeleteUserRequestDTO deleteUserRequestDTO,
-                                   ModelAndView model) {
+                                   @Validated DeleteUserRequestDTO deleteUserRequestDTO,
+                                   ModelAndView model,
+                                   HttpSession session) {
         Long userId = userDetails.getLogInDTO().getUserId();
         log.info("deleteUser : {}", userId);
 
         DeleteUserResponseDTO deleteUser = userService.deleteUser(userId, deleteUserRequestDTO);
         model.addObject("deletedUser", deleteUser);
+
+        // 세션 삭제
+        session.invalidate();
+
         model.setViewName("redirect:/");
 
         return model;
