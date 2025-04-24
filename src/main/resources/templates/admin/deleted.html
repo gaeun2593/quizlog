@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: commonHead">
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 30px;
+        }
+        table {
+            width: 90%;
+            margin: 30px auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div th:replace="fragments/aside :: asideFragment" ></div>
+<h1>탈퇴된 회원 목록</h1>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>닉네임</th>
+        <th>이메일</th>
+        <th>권한</th>
+        <th>상태</th>
+        <th>가입일</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="deletedUser : ${deletedUsers}">
+        <td th:text="${deletedUser.userId}"></td>
+        <td th:text="${deletedUser.nickname}"></td>
+        <td th:text="${deletedUser.email}"></td>
+        <td th:text="${deletedUser.getRole()}"></td>
+        <td th:text="${deletedUser.getStatus()}"></td>
+        <td th:text="${#temporals.format(deletedUser.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
