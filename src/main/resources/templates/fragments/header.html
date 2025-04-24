@@ -14,7 +14,9 @@
   </div>
   <div class="contentright">
     <a href="#"><img th:src="@{/images/plus-circle.png}" alt="plus-circle" class="plus-circle"></a>
-    <div class="user-profile"><a href="#"><img src="" alt=""></a></div>
+    <form th:action="@{/auth/logout}" method="post">
+      <button type="submit">로그아웃</button>
+    </form>
   </div>
 </header>
 </body>

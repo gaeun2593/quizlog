@@ -1,4 +1,4 @@
-package com.mtvs.quizlog.domain.user.dto.request;
+package com.mtvs.quizlog.domain.user.dto;
 
 import com.mtvs.quizlog.domain.user.entity.Role;
 import com.mtvs.quizlog.domain.user.entity.Status;
