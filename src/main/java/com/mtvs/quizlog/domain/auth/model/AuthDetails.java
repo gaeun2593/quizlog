@@ -1,6 +1,6 @@
 package com.mtvs.quizlog.domain.auth.model;
 
-import com.mtvs.quizlog.domain.user.dto.request.LogInDTO;
+import com.mtvs.quizlog.domain.user.dto.LogInDTO;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
