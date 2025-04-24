@@ -1,5 +1,7 @@
 package com.mtvs.quizlog.domain.quiz.service;
 
+import com.mtvs.quizlog.domain.chapter.entity.Chapter;
+import com.mtvs.quizlog.domain.chapter.repository.ChapterRepository;
 import com.mtvs.quizlog.domain.quiz.dto.CreateQuizDTO;
 import com.mtvs.quizlog.domain.quiz.dto.UpdateQuizDTO;
 import com.mtvs.quizlog.domain.quiz.entity.Quiz;
@@ -13,25 +15,35 @@ import java.util.Optional;
 
 @Service
 public class QuizService {
-
+/*
+* 만들기 누른다
+* 챕터 생성!
+* 퀴즈생성!!
+* 퀴즈생성!!
+* -> 이때 챕터부터 생성되게한다
+* 챕터가 생성되며 자신의 ID를 남긴다
+* 퀴즈생성이 그ID를 받아 생성된다.
+*
+* */
     private final QuizRepository quizRepository;
+    private final ChapterRepository chapterRepository;
 
     @Autowired
-    public QuizService(QuizRepository quizRepository) {
+    public QuizService(QuizRepository quizRepository, ChapterRepository chapterRepository) {
         this.quizRepository = quizRepository;
+        this.chapterRepository = chapterRepository;
     }
 
     @Transactional
-    public CreateQuizDTO createQuiz(CreateQuizDTO createQuizDTO) {
+    public CreateQuizDTO createQuiz(CreateQuizDTO createQuizDTO, Long chapterId) {
         Optional<Quiz> findQuiz = quizRepository.findByTitle((createQuizDTO.getTitle()));
-
         if(findQuiz.isPresent()) {
-            throw new IllegalArgumentException("이미 존재하는 퀴즈 제목입니다. : " + createQuizDTO.getTitle());
+            throw new IllegalArgumentException("이미 존재하는 문제 입니다. : " + createQuizDTO.getTitle());
         }
-
-        Quiz quiz = new Quiz(createQuizDTO.getTitle(), createQuizDTO.getAnswer());
+        Chapter chapter =chapterRepository.findById(chapterId).orElseThrow(()->new IllegalArgumentException("해당 사용자가 존재하지 않습니다: "+chapterId));
+        Quiz quiz = new Quiz(createQuizDTO.getTitle(), createQuizDTO.getAnswer(),chapterId);
         Quiz saveQuiz =quizRepository.save(quiz);
-        return new CreateQuizDTO(saveQuiz.getTitle(),saveQuiz.getAnswer());
+        return new CreateQuizDTO(saveQuiz.getTitle(),saveQuiz.getAnswer(),saveQuiz.getChapter());
 
     }
 
@@ -42,7 +54,7 @@ public class QuizService {
 
         Optional<Quiz> findQuiz = quizRepository.findByTitleAndIdNot(createQuizDTO.getTitle(), quizId);
         if(findQuiz.isPresent()) {
-            throw new IllegalArgumentException("중복되는 제목이 존재 합니다.");
+            throw new IllegalArgumentException("중복되는 문제가 존재 합니다.");
         }
 
          quiz = Quiz.builder()

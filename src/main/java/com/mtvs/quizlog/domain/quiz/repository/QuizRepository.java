@@ -13,13 +13,5 @@ import java.util.Optional;
 public interface QuizRepository extends JpaRepository<Quiz, Long> {
 
     Optional<Quiz> findByTitleAndIdNot(String title, long quizId) ;
-
-
-    // 퀴즈 제목으로 검색
-    List<Quiz> findByTitleContaining(String keyword);
-
-    // 정렬: 최신 순으로 가져오기
-    List<Quiz> findAllByOrderByCreatedAtDesc();
-
     Optional<Quiz> findByTitle(String title);
 }
