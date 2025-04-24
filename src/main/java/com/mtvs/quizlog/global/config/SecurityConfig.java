@@ -43,7 +43,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> {
                 auth.requestMatchers("/user/sign-up", "/auth/login", "/","/*").permitAll();
                 auth.requestMatchers("/user/my-page", "/like/*").hasAnyAuthority(Role.STUDENT.getRole(), Role.TEACHER.getRole(), Role.ADMIN.getRole());
-                auth.requestMatchers("/admin/list-users", "/admin/list-deleted-users", "/admin/restore-user").hasAnyAuthority(Role.ADMIN.getRole());
+                auth.requestMatchers("/admin/*").hasAnyAuthority(Role.ADMIN.getRole());
                 auth.anyRequest().authenticated();
                 }).formLogin(login -> {
                     login.loginPage("/auth/login");
