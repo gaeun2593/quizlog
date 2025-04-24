@@ -1,12 +1,18 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Document</title>
-</head>
+<!DOCTYPE html>
+<html lang="ko">
+<head th:replace="fragments/head :: commonHead"></head>
 <body>
-<h2>메인페이지</h2>
+<div th:replace="fragments/header :: header"></div>
+<div class="main-menu">
+    <h1>QuizLog에 오신 것을 환영합니다!</h1>
+    <h3>지금 바로 퀴즈로 학습을 시작해보세요.</h3>
 
+    <div style="margin-top: 30px;">
+        <p>계정이 없으신가요?</p>
+        <a href="/user/sign-up">
+            <button style="padding: 10px 20px; font-size: 16px;">회원가입</button>
+        </a>
+    </div>
+</div>
 </body>
 </html>
