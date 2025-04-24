@@ -25,36 +25,35 @@ public class UserController {
         this.userService = userService;
     }
 
+    // 회원가입
     @GetMapping("/sign-up")
     public void signUp() { }
 
-    // 회원가입
     @PostMapping("/sign-up")
-    public String createUser(@ModelAttribute SignUpRequestDTO signUpRequestDTO, Model model) {
-
-        System.out.println(signUpRequestDTO);
+    public String createUser(SignUpRequestDTO signUpRequestDTO, Model model) {
         log.info("createUser: {}", signUpRequestDTO.getNickname());
 
         SignUpResponseDTO savedUser = userService.createUser(signUpRequestDTO);
-
         model.addAttribute("savedUser", savedUser);
 
         return "redirect:/auth/login";
     }
 
+
+    @GetMapping("/my-page")
+    public void myPage() { }
+
     // 닉네임 수정
     @PatchMapping("/update-nickname/{userId}")
-    public ResponseEntity<UpdateNicknameResponseDTO> updateNickname(@PathVariable("userId") Long userId,
-                                                                    @Validated @RequestBody UpdateNicknameRequestDTO updateNicknameRequestDTO) {
+    public String updateNickname(@PathVariable("userId") Long userId,
+                                 @Validated UpdateNicknameRequestDTO updateNicknameRequestDTO,
+                                 Model model) {
         log.info("updateNickname : {}", userId);
 
         UpdateNicknameResponseDTO updateNickname = userService.updateNickname(userId, updateNicknameRequestDTO);
+        model.addAttribute("updatedNickname", updateNickname);
 
-        if (updateNickname == null) {
-            return ResponseEntity.status(500).body(null);
-        } else {
-            return ResponseEntity.ok().body(updateNickname);
-        }
+        return "redirect:/user/my-page";
     }
 
     // 이메일 수정
