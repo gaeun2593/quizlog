@@ -1,12 +1,10 @@
 package com.mtvs.quizlog.domain.user.controller;
 
-import com.mtvs.quizlog.domain.auth.model.AuthDetails;
 import com.mtvs.quizlog.domain.user.dto.UserListDTO;
 import com.mtvs.quizlog.domain.user.service.AdminService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
