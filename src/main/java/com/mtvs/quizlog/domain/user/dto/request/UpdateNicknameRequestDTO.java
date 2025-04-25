@@ -17,7 +17,7 @@ public class UpdateNicknameRequestDTO {
         return nickname;
     }
 
-    public UpdateNicknameRequestDTO(String nickname) {
+    public void setNickname(String nickname) {
         this.nickname = nickname;
     }
 }
