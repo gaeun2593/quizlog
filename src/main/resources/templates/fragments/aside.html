@@ -6,7 +6,7 @@
 <aside th:fragment="asideFragment" class="side-nav">
   <div>
     <a href="#"><img th:src="@{/images/home.svg}" alt="home">홈</a>
-    <a href="#"><img th:src="@{/images/folder-plus.svg}" alt="folder-plus">폴더</a>
+    <a th:href="@{/folder-chapters/folder}"><img th:src="@{/images/folder-plus.svg}" alt="folder-plus">폴더</a>
     <a href="/user/my-page"><img th:src="@{/images/settings.svg}" alt="settings">마이페이지</a>
     <a href="/admin/list-users" sec:authorize="hasAuthority('ADMIN')">
       <img th:src="@{/images/Vector.svg}" alt="admin">관리자 페이지
