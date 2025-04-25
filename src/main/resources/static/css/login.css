@@ -94,3 +94,33 @@
 .submit2:hover {
     background-color: #f4f4f4;
 }
+
+/* 권한 선택 박스 스타일 */
+.form-group2 select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f8f8f8;
+    font-size: 16px;
+    color: #333;
+    transition: all 0.3s ease;
+}
+
+.form-group2 select:hover {
+    border-color: #17CFAA;
+    background-color: #f1f1f1;
+}
+
+.form-group2 select:focus {
+    border-color: #17CFAA;
+    outline: none;
+    box-shadow: 0 0 5px #129c80;
+}
+
+.form-group2 select option {
+    padding: 10px;
+    font-size: 16px;
+    background-color: #fff;
+}
