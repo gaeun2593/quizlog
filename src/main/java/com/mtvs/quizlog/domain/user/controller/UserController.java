@@ -1,8 +1,10 @@
 package com.mtvs.quizlog.domain.user.controller;
 
 import com.mtvs.quizlog.domain.auth.model.AuthDetails;
+import com.mtvs.quizlog.domain.user.dto.UserListDTO;
 import com.mtvs.quizlog.domain.user.dto.request.*;
 import com.mtvs.quizlog.domain.user.dto.response.*;
+import com.mtvs.quizlog.domain.user.entity.User;
 import com.mtvs.quizlog.domain.user.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
@@ -13,6 +15,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/user")
@@ -42,15 +46,25 @@ public class UserController {
         return model;
     }
 
-
+    // 마이페이지 조회
     @GetMapping("/my-page")
-    public void myPage() { }
+    public ModelAndView myPage(ModelAndView model, @AuthenticationPrincipal AuthDetails authDetails) {
+        log.info("My page");
+
+        Long userId = authDetails.getLogInDTO().getUserId();
+        User user = userService.findUser(userId);
+
+        model.addObject("user", user);
+        model.setViewName("/user/my-page");
+
+        return model;
+    }
 
     // 닉네임 수정
     @PatchMapping("/update-nickname")
     public ModelAndView updateNickname(@AuthenticationPrincipal AuthDetails userDetails,
-                                 @Validated UpdateNicknameRequestDTO updateNicknameRequestDTO,
-                                 ModelAndView model) {
+                                       @Validated UpdateNicknameRequestDTO updateNicknameRequestDTO,
+                                       ModelAndView model) {
         Long userId = userDetails.getLogInDTO().getUserId();
         log.info("updateNickname : {}", userId);
 
@@ -64,7 +78,7 @@ public class UserController {
     // 이메일 수정
     @PatchMapping("/update-email")
     public ModelAndView updateEmail(@AuthenticationPrincipal AuthDetails userDetails,
-                              @Validated UpdateEmailRequestDTO updateEmailRequestDTO,
+                                    @Validated UpdateEmailRequestDTO updateEmailRequestDTO,
                                     ModelAndView model) {
         Long userId = userDetails.getLogInDTO().getUserId();
         log.info("updateEmail : {}", userId);
