@@ -1,5 +1,6 @@
 package com.mtvs.quizlog.domain.chapter.dto.response;
 
+import com.mtvs.quizlog.domain.quiz.dto.CreateQuizDTO;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -22,6 +23,8 @@ public class ResponseCreateChapterDTO {
     @Size(min =1 , max = 255, message = "설명은 1글자 이상 또는 255글자 미만입니다.")
     private String description;
 
+
+
     public Long getUserId() { return userId; }
 
     public Long getChapterId() { return chapterId; }
@@ -33,5 +36,7 @@ public class ResponseCreateChapterDTO {
     public String getDescription() {
         return description;
     }
+
+
 
 }

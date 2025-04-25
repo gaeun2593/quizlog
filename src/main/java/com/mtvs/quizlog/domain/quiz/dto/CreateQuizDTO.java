@@ -30,4 +30,8 @@ public class CreateQuizDTO {
     private String answer;
 
 
+    public CreateQuizDTO(List<Quiz> saveQuizList) {
+        this.quizList = saveQuizList;
+    }
+
 }

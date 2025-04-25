@@ -38,22 +38,25 @@ public class QuizService {
 
     @Transactional
     public CreateQuizDTO createQuiz(CreateQuizDTO createQuizDTO, Long chapterId) {
-        Optional<Quiz> findQuiz = quizRepository.findByTitle((createQuizDTO.getTitle()));
-        if(findQuiz.isPresent()) {
-            throw new IllegalArgumentException("이미 존재하는 문제 입니다. : " + createQuizDTO.getTitle());
-        }
-        Chapter chapter =chapterRepository.findById(chapterId).orElseThrow(()->new IllegalArgumentException("해당 사용자가 존재하지 않습니다: "+chapterId));
+        //챕터id->챕터로 (외래키때문)
+        Chapter chapter =chapterRepository.findById(chapterId).orElseThrow(()->new IllegalArgumentException("해당 챕터가 존재하지 않습니다: "+chapterId));
         List<Quiz> saveQuizList = new ArrayList<>();
-       createQuizDTO.getQuizList().forEach(quiz -> {
-           quiz =  Quiz.builder()
-                   .title()
-                   .answer()
+        createQuizDTO.getQuizList().forEach(DTOsQuiz -> {
+           /*
+           * DTO내의 QUIZ.
+           * 다시 챕터id 넘겨줌
+           * */
+           Quiz quiz = Quiz.builder()
+                   .title(DTOsQuiz.getTitle())
+                   .answer(DTOsQuiz.getAnswer())
                    .chapter(chapter)
-            saveQuizList.add(quiz);
+                   .build();
+           Quiz saveQuiz = quizRepository.save(quiz);
+            saveQuizList.add(saveQuiz);
        });
 
 
-        return new CreateQuizResponseDTO(sa);
+        return new CreateQuizDTO(saveQuizList);
 
     }
 

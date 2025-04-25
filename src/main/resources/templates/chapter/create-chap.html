@@ -19,40 +19,45 @@
  -->
 
 <h2>챕터 제목</h2>
-<form th:action="@{/main/create-chap}" th:object="${requestCreateChapterDTO}" method="post">
+<form th:action="@{/main/create-chap}" th:object="${requestCreateChapterDTO}" method="post" id="chapterForm">
+    <!--챕터 제목-->
     <input type="text" th:field="*{title}"/>
     <h2>답변</h2>
+    <!--챕터 설명-->
     <input type="text" th:field="*{description}" />
-    <input type="submit" value="Submit">
-</form>
 
-<!--아로나의 코드-->
-<form th:action="@{/chapter/create-chap}" th:object="${chapterWrapper}" method="post" id="chapterForm">
-    <div id="chapterContainer">
-        <div th:each="chapter, iterStat : *{chapters}">
-            <input type="text" th:field="*{chapters[__${iterStat.index}__].title}" placeholder="제목" />
-            <input type="text" th:field="*{chapters[__${iterStat.index}__].description}" placeholder="설명" />
+    <div id="QuizList">
+        <div th:each="quiz, iterStat : ">
+            <input type="text" th:field="*{quiz[${iterStat.index}].title}" placeholder="문제" />
+            <input type="text" th:field="*{quiz[${iterStat.index}].answer}" placeholder="답" />
         </div>
     </div>
-
     <button type="button" onclick="addChapter()">➕ 챕터 추가</button>
+
     <button type="submit">제출</button>
+
+    <input type="submit" value="Submit">
+
+
 </form>
+<!--
+chapterDTO 안에 퀴즈리스트 담기?
+두개 다담을 dto가 필요! ->requestCreateChapterDTO 기존꺼 활용.
+-->
 
 <script>
-    let chapterIndex = 1; // 초기 0번은 타임리프가 출력함
-
+    let quizIndex = 1; // 초기 0번은 타임리프가 출력함
     function addChapter() {
-        const container = document.getElementById("chapterContainer");
+        const container = document.getElementById("QuizList");
 
         const newDiv = document.createElement("div");
         newDiv.innerHTML = `
-      <input type="text" name="chapters[${chapterIndex}].title" placeholder="제목" />
-      <input type="text" name="chapters[${chapterIndex}].description" placeholder="설명" />
+      <input type="text" name="quiz[${quizIndex}].title" placeholder="문제" />
+      <input type="text" name="quiz[${quizIndex}].answer" placeholder="답" />
     `;
         container.appendChild(newDiv);
 
-        chapterIndex++;
+        quizIndex++;
     }
 </script>
 </body>

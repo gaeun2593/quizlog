@@ -48,7 +48,7 @@ public class ChapterController {
 
     /*챕터 생성후*/
     @PostMapping("/create-chap")
-    public String createPost(@AuthenticationPrincipal AuthDetails userDetails, @Validated RequestCreateChapterDTO requestCreateChapterDTO, CreateQuizDTO createQuizDTO,BindingResult bindingResult , Model model) {
+    public String createPost(@AuthenticationPrincipal AuthDetails userDetails, @Validated RequestCreateChapterDTO requestCreateChapterDTO,BindingResult bindingResult ,Model model) {
         Long userId = userDetails.getLogInDTO().getUserId();
         model.addAttribute(new RequestCreateChapterDTO());
         if (bindingResult.hasErrors()) {
@@ -56,9 +56,11 @@ public class ChapterController {
         }
         ResponseCreateChapterDTO responseCreateChapterDTO = chapterService.createChapter(userId, requestCreateChapterDTO);
         Long chapterId =responseCreateChapterDTO.getChapterId();
-        quizService.createQuiz(createQuizDTO,chapterId);
+
+        quizService.createQuiz(requestCreateChapterDTO.getCreateQuizDTO(),chapterId);
         return "redirect:/main/create-chap";
     }
+
 /*
 * 챕터뷰구현!!!!!
 *
