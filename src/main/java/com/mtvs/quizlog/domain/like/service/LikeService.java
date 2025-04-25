@@ -53,6 +53,6 @@ public class LikeService {
     @Transactional
     public User findTeacherById(Long teacherId) {
         User teacher = userRepository.findById(teacherId).orElseThrow(() -> new IllegalArgumentException("선생님이 존재하지 않습니다."));
-        return new User(teacher.getUserId(), teacher.getNickname(), teacher.getEmail(), teacher.getPassword(), teacher.getRole(), teacher.getStatus(), teacher.getCreatedAt(), teacher.getUpdatedAt(), teacher.getDeletedAt());
+        return teacher.toBuilder().build();
     }
 }
