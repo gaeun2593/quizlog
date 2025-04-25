@@ -31,7 +31,7 @@ public class AdminService {
     // 탈퇴된 유저만 조회
     @Transactional
     public List<UserListDTO> getDeletedUsers() {
-        List<UserListDTO> users = userRepository.findDeletedlUsersForAdmin();
+        List<UserListDTO> users = userRepository.findDeletedUsersForAdmin();
         return users;
     }
 

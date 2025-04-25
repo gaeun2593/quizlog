@@ -18,8 +18,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<UserListDTO> findAllUsersForAdmin();
 
     @Query("SELECT new com.mtvs.quizlog.domain.user.dto.UserListDTO(u.userId, u.nickname, u.email, u.role, u.status, u.createdAt) FROM User u WHERE u.status = 'DELETED'")
-    List<UserListDTO> findDeletedlUsersForAdmin();
-
-//    @Query("SELECT l FROM Like l JOIN l.user u WHERE u.role = 'TEACHER'")
-//    Optional<User> findByTeacherId(Long teacherId);
+    List<UserListDTO> findDeletedUsersForAdmin();
 }
