@@ -3,18 +3,14 @@ package com.mtvs.quizlog.domain.like.service;
 import com.mtvs.quizlog.domain.like.dto.LikeDTO;
 import com.mtvs.quizlog.domain.like.entity.Like;
 import com.mtvs.quizlog.domain.like.repository.LikeRepository;
-import com.mtvs.quizlog.domain.user.controller.UserController;
 import com.mtvs.quizlog.domain.user.entity.User;
 import com.mtvs.quizlog.domain.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
 public class LikeService {
 
-    private static final Logger log = LoggerFactory.getLogger(UserController.class);
     private final LikeRepository likeRepository;
     private final UserRepository userRepository;
 
