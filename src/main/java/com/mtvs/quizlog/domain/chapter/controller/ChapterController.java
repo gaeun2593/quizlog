@@ -47,15 +47,20 @@ public class ChapterController {
         dto.getQuizFormDTOList().add(new QuizFormDTO());
         dto.getQuizFormDTOList().add(new QuizFormDTO());
         /*
+
+        *
+        *
+        * */
+        /*
         * 빈 모델!!!!!!!!!!!!!!!!!!!!!!!!!
         * */
         model.addAttribute("chapterQuizDTO",dto);
         //view 이름
-        return "chapter/create-chap";
+        return "forward:chapter/create-chap";
     }
 
     /*
-    * 모델 동적추가.
+    * model
     *
     * */
 

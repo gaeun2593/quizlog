@@ -29,15 +29,16 @@
    <button type="button" onclick="addChapter()">➕ 챕터 추가</button>-->
     <button type="submit" >제출</button>
 </form>
-<script>
-    let quizIndex = 1; // 초기 0번은 타임리프가 출력함
+<script th:inline="javascript">
+    let quizIndex = 2; // 초기 0번은 타임리프가 출력함
     function addChapter() {
         const container = document.getElementById('quizFormList');
 
         const newDiv = document.createElement('div');
+
         newDiv.innerHTML = `
-        <input type="text" th:field="*{quizFormDTOList[__${quizIndex}__].title}" placeholder="단어" />
-        <input type="text" th:field="*{quizFormDTOList[__${quizIndex}__].answer}" placeholder="답변" />
+        <input type="text" name="*{quizFormDTOList[${quizIndex}].title" placeholder="단어" />
+        <input type="text" name="*{quizFormDTOList[${quizIndex}].answer" placeholder="답변" />
     `;
         container.appendChild(newDiv);
 
