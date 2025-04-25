@@ -32,7 +32,7 @@ public class QuizService {
     public void createQuiz(User user , QuizForm quizForm , Chapter chapter ) {
 
         Quiz quiz = Quiz.createQuiz(user,chapter, quizForm.getWord(), quizForm.getAnswer(), LocalDateTime.now(), LocalDateTime.now());
-        if((!quizForm.getWord().isEmpty())||(!quizForm.getAnswer().isEmpty())){
+        if((!quizForm.getWord().isEmpty())&&(!quizForm.getAnswer().isEmpty())){
             quizRepository.save(quiz);
         }
 
