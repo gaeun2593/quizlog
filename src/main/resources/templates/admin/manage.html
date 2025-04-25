@@ -7,16 +7,14 @@
 <div class="manage-page-container">
     <div th:replace="fragments/aside :: asideFragment" ></div>
     <div class="manage-layout">
+        <div class="manage-layout-container">
         <h1>회원 조회</h1>
         <div class="manage-menu">
             <ul>
-                <li>전체 회원 조회</li>
-                <li>탈퇴 회원 조회</li>
+                <li><a href="/admin/list-users">전체 회원 조회</li>
+                <li><a href="/admin/list-deleted-users">탈퇴 회원 조회</a></li>
             </ul>
         </div>
-        <a href="/admin/list-deleted-users">
-            <img th:src="@{/images/folder-plus.svg}" alt="folder-plus">탈퇴된 회원
-        </a>
         <div class="datatable-wrapper">
             <div class="datatable-container">
                 <table class="datatable-table table table-bordered table-hover">

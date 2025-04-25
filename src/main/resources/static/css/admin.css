@@ -59,6 +59,10 @@
     transition: .2s;
 }
 
+.btn btn-success btn-sm {
+
+}
+
 /* Simple DataTables 기본 스타일 */
 .datatable-wrapper .datatable-container {
     font-size: 0.875rem; /* $font-size-sm */
