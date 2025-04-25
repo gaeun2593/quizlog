@@ -18,7 +18,6 @@ public class FolderChapterDTO {
         this.title = title;
     }
 
-
     public Integer getId() {
         return id;
     }

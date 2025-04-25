@@ -1,4 +1,36 @@
+.btn-green-color{
+  color: #848484;
+  background-color: #f0f0f0;
 
+}
+.btn-green-color:hover{
+  color: #fff;
+  background-color: #17CFAA;
+  transition: .2s;
+}
+.btn-green-custom{
+  padding: 10px;
+  width: 100px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #848484;
+  border: 2px solid #ececec;
+  text-align: center;
+  background-color: #f0f0f0;
+
+}
+
+.btn-green-custom:hover{
+  color: #fff;
+  background-color: #17CFAA;
+  transition: .2s;
+  border: 2px solid transparent;
+}
+
+.btn-hover-text-green{
+  font-size:14px ;
+}
 
 
 .main-page-container{
@@ -63,21 +95,8 @@
 }
 .folder-content .create-folder input[type="submit"] {
   margin-bottom: 20px;
-  padding: 10px;
-  width: 100px;
-  border-radius: 10px;
-  font-size: 14px;
-  font-weight: bold;
-  color: #848484;
-  border: 2px solid #ececec;
-  text-align: center;
 }
-.folder-content .create-folder input[type="submit"]:hover{
-  color: #fff;
-  background-color: #17CFAA;
-  transition: .2s;
-  border: 2px solid transparent;
-}
+
 
 .folder-content .create-folder input[type="text"]{
   border-radius: 10px;
@@ -85,11 +104,7 @@
   border: 2px solid #ececec;
   padding: 12px;
 }
-.folder-content ul{
-  display: flex;
-  gap: 15px;
-  flex-direction: column;
-}
+
 .folder-content ul li{
   display: flex;
   align-items: center;
@@ -116,6 +131,26 @@
   transition: .3s;
 
 }
+
+
+/* 모달창 커스텀 */
+.modal-body{
+  padding: 30px 20px;
+}
+
+.modal-body input[name="folderUpdateTitle"]{
+  border-radius: 10px;
+  font-size: 14px;
+  border: 2px solid #ececec;
+  padding: 5px;
+  margin-left: 10px;
+  width: 100%;
+}
+
+.modal-body span{
+  font-size: 16px;
+  font-weight: bold;
+  color: #848484;}
 
 
 

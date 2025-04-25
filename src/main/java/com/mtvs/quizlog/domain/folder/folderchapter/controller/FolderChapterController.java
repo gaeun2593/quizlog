@@ -1,11 +1,16 @@
 package com.mtvs.quizlog.domain.folder.folderchapter.controller;
 
 
+import com.mtvs.quizlog.domain.auth.model.AuthDetails;
 import com.mtvs.quizlog.domain.folder.folderchapter.dto.FolderChapterDTO;
 import com.mtvs.quizlog.domain.folder.folderchapter.service.FolderChapterService;
+import com.mtvs.quizlog.domain.user.dto.LogInDTO;
+import com.mtvs.quizlog.domain.user.entity.User;
+import com.mtvs.quizlog.domain.user.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,27 +26,28 @@ import java.util.logging.Logger;
 public class FolderChapterController {
 
     private static final Logger logger = Logger.getLogger(FolderChapterController.class.getName());
+    private final UserService userService;
 
     //FolderChapterService를 Controller에서 사용하기 위한 의존성 주입
     private final FolderChapterService folderChapterService;
 
     @Autowired
-    public FolderChapterController(FolderChapterService folderChapterService) {
+    public FolderChapterController(FolderChapterService folderChapterService, UserService userService) {
         this.folderChapterService = folderChapterService;
+        this.userService = userService;
     }
 
     // 폴더생성
     @PostMapping("/create-folder-chapter")
     // ResponseEntity -> 클라이언트(브라우저, Postman 등)에 응답을 보낼 때, 직접 설정해서 보내고 싶을 때 사용하는 클래스
-    public String createFolderChapter(@ModelAttribute FolderChapterDTO folderChapterDTO, BindingResult bindingResult) {
-        if(bindingResult.hasErrors()) {
-            return "folder-create-failed";
-        } //유효성 검사 통과 후
-
+    public String createFolderChapter(@ModelAttribute FolderChapterDTO folderChapterDTO,@AuthenticationPrincipal AuthDetails userDetails) {
         logger.info("post : /folderChapter " + folderChapterDTO.getTitle());
 
+        // 로그인한 유저의 userId로 User 객체를 가져옴
+        Long userId = userDetails.getLogInDTO().getUserId();
+        User user = userService.findUser(userId);
         // FolderChapterService에 게시판을 생성하는 메서드에 DTO를 전달한뒤 saveFolderChapter로 받음
-       folderChapterService.createFolderChapter(folderChapterDTO);
+       folderChapterService.createFolderChapter(folderChapterDTO,user);
 
         return "redirect:/folder-chapters/folder";
 
@@ -49,19 +55,29 @@ public class FolderChapterController {
 
     // 폴더명 수정
     @PostMapping("/update-folder-chapter")
-    public String updateFolderChapter(@RequestParam("folderUpdateTitle") String folderUpdateTitle, @RequestParam("folderTitle") String folderTitle) {
+    public String updateFolderChapter(@RequestParam("folderUpdateTitle") String folderUpdateTitle, @RequestParam("folderTitle") String folderTitle,@AuthenticationPrincipal AuthDetails userDetails) {
         logger.info("patch : /folderUpdateTitle " +folderUpdateTitle);
 
-       folderChapterService.updateFolderChapter(folderUpdateTitle, folderTitle);
+        // 로그인한 유저객체 가져와서
+        Long userId = userDetails.getLogInDTO().getUserId();
+        User user = userService.findUser(userId);
+
+        // updateFolderChapte로 넘김
+       folderChapterService.updateFolderChapter(folderUpdateTitle, folderTitle, user);
 
         return "redirect:/folder-chapters/folder";
     }
 
     // 전체 조회
     @GetMapping("/folder")
-    public String getAllFolderChapters(Model model) {
+    public String getAllFolderChapters(@AuthenticationPrincipal AuthDetails userDetails, Model model) {
         //폴더의 리스트 들을 model객체로 folder 페이지에 넘김
-        List<FolderChapterDTO> folderChapters = folderChapterService.getAllFolderChapters();
+
+        // 로그인한 유저객체 가져와서
+        Long userId = userDetails.getLogInDTO().getUserId();
+        User user = userService.findUser(userId);
+
+        List<FolderChapterDTO> folderChapters = folderChapterService.getAllFolderChapters(user);
         model.addAttribute("folderChapters", folderChapters);
         return "folder";
     }
@@ -69,9 +85,14 @@ public class FolderChapterController {
 
     // 삭제
     @PostMapping("/delete-folder-chapter")
-    public String deleteFolderChapter(@RequestParam("folderTitle") String folderTitle) {
+    public String deleteFolderChapter(@RequestParam("folderTitle") String folderTitle, @AuthenticationPrincipal AuthDetails userDetails) {
         logger.info("DELETE /api/folderChapter/{}"+ folderTitle);
-        folderChapterService.deleteFolderChapter(folderTitle);
+
+        // 로그인한 유저객체 가져와서
+        Long userId = userDetails.getLogInDTO().getUserId();
+        User user = userService.findUser(userId);
+
+        folderChapterService.deleteFolderChapter(folderTitle, user);
         return "redirect:/folder-chapters/folder";
     }
 

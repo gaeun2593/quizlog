@@ -42,7 +42,7 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())  // CSRF 보호 비활성화 (테스트 용도)
             .authorizeHttpRequests(auth -> {
                 auth.requestMatchers("/user/sign-up", "/auth/login", "/","/*").permitAll();
-                auth.requestMatchers("/user/my-page", "/like/*").hasAnyAuthority(Role.STUDENT.getRole(), Role.TEACHER.getRole(), Role.ADMIN.getRole());
+                auth.requestMatchers("/user/my-page", "/like/*", "/folder-chapters/*").hasAnyAuthority(Role.STUDENT.getRole(), Role.TEACHER.getRole(), Role.ADMIN.getRole());
                 auth.requestMatchers("/admin/*").hasAnyAuthority(Role.ADMIN.getRole());
                 auth.anyRequest().authenticated();
                 }).formLogin(login -> {

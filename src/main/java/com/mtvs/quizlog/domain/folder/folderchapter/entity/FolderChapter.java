@@ -1,8 +1,8 @@
 package com.mtvs.quizlog.domain.folder.folderchapter.entity;
 
 
+import com.mtvs.quizlog.domain.user.entity.User;
 import jakarta.persistence.*;
-
 @Entity
 @Table(name = "folder_chapters")
 public class FolderChapter {
@@ -16,7 +16,17 @@ public class FolderChapter {
     private String folderChapterTitle;
 
     //users랑 다대일관계 나중에 추가!
+    @ManyToOne
+    @JoinColumn(name = "user_id") // 외래키 이름
+    private User user;
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     protected FolderChapter(){}
 
