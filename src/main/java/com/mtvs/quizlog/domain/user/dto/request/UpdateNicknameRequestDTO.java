@@ -5,8 +5,6 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
 public class UpdateNicknameRequestDTO {
 
     @NotBlank(message = "닉네임은 필수 입력값입니다.")
@@ -14,6 +12,10 @@ public class UpdateNicknameRequestDTO {
     private String nickname;
 
     public UpdateNicknameRequestDTO() { }
+
+    public String getNickname() {
+        return nickname;
+    }
 
     public UpdateNicknameRequestDTO(String nickname) {
         this.nickname = nickname;
