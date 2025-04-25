@@ -29,6 +29,13 @@ public class UserService {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
+    @Transactional
+    public User findUser(long userId) {
+        Optional<User> user = userRepository.findById(userId);
+        return user.orElse(null) ;
+    }
+
+
     // 회원가입
     @Transactional
     public SignUpResponseDTO createUser(SignUpRequestDTO signUpRequestDTO) {

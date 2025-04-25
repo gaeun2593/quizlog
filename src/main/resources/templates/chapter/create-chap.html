@@ -1,0 +1,75 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz log</title>
+    <link rel="stylesheet" type="text/css" th:href="@{ /css/common.css }" />
+</head>
+<body>
+<h1>Chapter Test</h1>
+<h2>챕터 제목</h2>
+<form th:action="@{/main/create-chap}" th:object="${requestCreateChapterDTO}" method="post">
+    <input type="text" th:field="*{title}" placeholder="제목"/>
+    <input type="text" th:field="*{description}" placeholder="설명"/>
+
+    <h2>퀴즈 목록</h2>
+    <div th:each="quiz, stat : *{quizForm}">
+        <input type="text" th:field="*{quizForm[__${stat.index}__].word}" placeholder="단어" />
+        <input type="text" th:field="*{quizForm[__${stat.index}__].answer}" placeholder="답변" />
+    </div>
+
+    <button type="submit">제출</button>
+</form>
+
+<!--아로나의 코드-->
+<!----<form th:action="@{/chapter/create-chap}" th:object="${chapterWrapper}" method="post" id="chapterForm">
+    <div id="chapterContainer">
+        <div th:each="chapter, iterStat : *{chapters}">
+            <input type="text" th:field="*{chapters[__${iterStat.index}__].title}" placeholder="제목" />
+            <input type="text" th:field="*{chapters[__${iterStat.index}__].description}" placeholder="설명" />
+        </div>
+    </div>
+
+    <button type="button" onclick="addChapter()">➕ 챕터 추가</button>
+    <button type="submit">제출</button>
+</form>
+!---->
+
+
+</body>
+
+</html>
+
+
+<!--
+
+<h3>문자열로 redirect 하기</h3>
+<button onclick="location.href='string-redirect'">문자열로 뷰 이름 반환하여 리다이렉트</button>
+
+<h3>문자열로 뷰 이름 반환하면서 flashAttribute 추가 하기</h3>
+<button onclick="location.href='string-redirect-attr'">문자열로 뷰 이름 반환하여 리다이렉트 & flashAttr 사용하기</button>
+<script>
+    const flashMessage1 = '[[${ flashMessage1 }]]';
+    console.log(flashMessage1);
+    if(flashMessage1) {
+        alert(flashMessage1);
+    }
+</script>
+
+<h3>ModelAndView로 뷰 이름 지정해서 반환하기</h3>
+<button onclick="location.href='modelandview'">ModelAndView로 뷰 이름 지정해서 반환받기</button>
+
+<h3>ModelAndView로 redirect 하기</h3>
+<button onclick="location.href='modelandview-redirect'">ModelAndView로 뷰 이름 반환하여 리다이렉트</button>
+
+<h3>ModelAndView로 뷰 이름 반환하면서 flashAttribute 추가 하기</h3>
+<button onclick="location.href='modelandview-redirect-attr'">ModelAndView로 뷰 이름 반환하여 리다이렉트</button>
+<script>
+    const flashMessage2 = '[[${ flashMessage2 }]]';
+    console.log(flashMessage2);
+    if(flashMessage2) {
+        alert(flashMessage2);
+    }
+</script>
+
+-->
