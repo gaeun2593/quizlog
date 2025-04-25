@@ -4,6 +4,8 @@ package com.mtvs.quizlog.domain.chapter.controller;
 
 import com.mtvs.quizlog.domain.auth.model.AuthDetails;
 import com.mtvs.quizlog.domain.auth.service.AuthService;
+import com.mtvs.quizlog.domain.chapter.dto.request.ChapterDto;
+import com.mtvs.quizlog.domain.chapter.dto.request.QuizDto;
 import com.mtvs.quizlog.domain.chapter.dto.request.QuizForm;
 import com.mtvs.quizlog.domain.chapter.dto.request.RequestCreateChapterDTO;
 import com.mtvs.quizlog.domain.chapter.dto.response.ResponseCreateChapterDTO;
@@ -25,6 +27,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -57,18 +60,43 @@ public class QuizChapterController {
     public String createPost(@AuthenticationPrincipal AuthDetails userDetails, @Validated @ModelAttribute("requestCreateChapterDTO") RequestCreateChapterDTO requestCreateChapterDTO) {
         Long userId = userDetails.getLogInDTO().getUserId();
 
-
         User user = userService.findUser(userId);
 
         log.info("requestCreateChapterDTO:{}", requestCreateChapterDTO.getTitle());
         log.info("requestCreateChapterDTO:{}", requestCreateChapterDTO.getDescription());
         log.info("requestCreateChapterDTO:{}", requestCreateChapterDTO.getQuizForm().get(0).getWord());
 
-        Chapter chapter = chapterService.createChapter(requestCreateChapterDTO ,user);
+        Chapter chapter = chapterService.createChapter(requestCreateChapterDTO , user);
         requestCreateChapterDTO.getQuizForm().forEach(quizForm -> quizService.createQuiz(user , quizForm, chapter));
 
         return "redirect:/main";
     }
+   // /main/chapterList
+    @GetMapping("/chapterList")
+    public String quizList(@AuthenticationPrincipal AuthDetails userDetails ,Model model) {
+
+        Long userId = userDetails.getLogInDTO().getUserId();
+
+        User user = userService.findUser(userId);
+
+        List<ChapterDto> chapter = chapterService.findChapter(user);
+
+        model.addAttribute("chapterList", chapter);
+        return "chapter/chapterList";
+    }
+
+    @GetMapping("/chapters/{chapterId}")
+    public String chapterView(@AuthenticationPrincipal AuthDetails userDetails , @PathVariable Long chapterId, Model model) {
+        log.info("chapterId:{}", chapterId);
+        Long userId = userDetails.getLogInDTO().getUserId();
+        List<QuizDto> quizDto = quizService.findbyQuizes(userId, chapterId);
+        model.addAttribute("quizList", quizDto);
+        return "quiz/quizList";
+
+    }
+
+
+
 }
 /*
 * 챕터뷰구현!!!!!

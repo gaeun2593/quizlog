@@ -1,7 +1,10 @@
 package com.mtvs.quizlog.domain.quiz.repository;
 
+import com.mtvs.quizlog.domain.chapter.dto.request.QuizDto;
+
 import com.mtvs.quizlog.domain.quiz.entity.Quiz;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
@@ -19,5 +22,15 @@ public class QuizRepository  {
 
     public void save(Quiz quiz){
         em.persist(quiz);
+    }
+
+    public List<QuizDto> findbyQuizes(Long userId, Long chapterId) {
+
+        TypedQuery<QuizDto> query = em.createQuery("select new com.mtvs.quizlog.domain.chapter.dto.request.QuizDto(q.title , q.answer) " +
+                "from Quiz q where q.user.id = :userId and q.chapter.id = :chapterId ", QuizDto.class);
+        query.setParameter("userId", userId);
+        query.setParameter("chapterId", chapterId);
+
+        return query.getResultList() ;
     }
 }

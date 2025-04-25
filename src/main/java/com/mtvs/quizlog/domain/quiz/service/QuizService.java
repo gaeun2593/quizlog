@@ -1,7 +1,8 @@
 package com.mtvs.quizlog.domain.quiz.service;
 
+import com.mtvs.quizlog.domain.chapter.dto.request.QuizDto;
 import com.mtvs.quizlog.domain.chapter.dto.request.QuizForm;
-import com.mtvs.quizlog.domain.chapter.dto.request.RequestCreateChapterDTO;
+
 import com.mtvs.quizlog.domain.chapter.entity.Chapter;
 import com.mtvs.quizlog.domain.chapter.repository.ChapterRepository;
 import com.mtvs.quizlog.domain.quiz.dto.CreateQuizDTO;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -68,6 +70,8 @@ public class QuizService {
     }
 
 
+    public List<QuizDto> findbyQuizes(Long userId, Long chapterId) {
+       return quizRepository.findbyQuizes(userId , chapterId) ;
 
-
+    }
 }
