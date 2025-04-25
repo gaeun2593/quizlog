@@ -61,3 +61,7 @@ header{
 .contentright .plus-circle{
   width: 40px;
 }
+
+.logout-button {
+  color: #000000;
+}
