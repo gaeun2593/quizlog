@@ -2,7 +2,8 @@ package com.mtvs.quizlog.domain.chapter.service;
 
 
 import com.mtvs.quizlog.domain.chapter.dto.ConvertEntityToDTO;
-import com.mtvs.quizlog.domain.chapter.dto.request.RequestCreateChapterDTO;
+import com.mtvs.quizlog.domain.chapter.dto.request.ChapterQuizDTO;
+
 import com.mtvs.quizlog.domain.chapter.dto.request.GetChapterDTO;
 import com.mtvs.quizlog.domain.chapter.dto.request.UpdateChapterDTO;
 import com.mtvs.quizlog.domain.chapter.dto.response.ResponseCreateChapterDTO;
@@ -39,15 +40,15 @@ public class ChapterService{
 
     //챕터 생성
     @Transactional
-    public ResponseCreateChapterDTO createChapter(Long userId, RequestCreateChapterDTO requestCreateChapterDTO) {
+    public Chapter createChapter(Long userId, ChapterQuizDTO chapterQuizDTO) {
 
-        Optional<Chapter> findChapter = chapterRepository.findByTitle((requestCreateChapterDTO.getTitle()));
+        Optional<Chapter> findChapter = chapterRepository.findByTitle((chapterQuizDTO.getTitle()));
 
 //        findById로 user엔티티를 user 객체로 변환. 그걸로 chapter 외래키 초기화/
         User user=  userRepository.findById(userId).orElseThrow(()->new IllegalArgumentException("해당 사용자가 존재하지 않습니다: "+userId));
 
         if(findChapter.isPresent()) {
-            throw new IllegalArgumentException("이미 존재하는 챕터 제목입니다. : " + requestCreateChapterDTO.getTitle());
+            throw new IllegalArgumentException("이미 존재하는 챕터 제목입니다. : " + chapterQuizDTO.getTitle());
         }
 /*
     Auth-> userId
@@ -62,24 +63,20 @@ public class ChapterService{
 * */
 
         Chapter chapter = Chapter.builder()
-                        .title(requestCreateChapterDTO.getTitle())
-                        .description(requestCreateChapterDTO.getDescription())
+                        .title(chapterQuizDTO.getTitle())
+                        .description(chapterQuizDTO.getDescription())
                         .status(Status.ACTIVE)
 //                user_id 외래키를 위한 user, //위 findById로 변환한 user
                         .user(user)
                         .build();
 
         Chapter saveChapter = chapterRepository.save(chapter);
-        String savedTitle = saveChapter.getTitle();
-        String savedDescription = saveChapter.getDescription();
 
-        /*getId() => chapter Id //// NOT userId!!!!!*/
-        Long chapterId = saveChapter.getId();
-        return new ResponseCreateChapterDTO(userId,chapterId,savedTitle,savedDescription);
+        return saveChapter;
     }
 
     @Transactional
-    public UpdateChapterDTO updateChapter(Long ChapterId, RequestCreateChapterDTO requestCreateChapterDTO) {
+    public UpdateChapterDTO updateChapter(Long ChapterId,ChapterQuizDTO requestCreateChapterDTO) {
 
         Chapter chapter = chapterRepository.findById(ChapterId).orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다."));
 

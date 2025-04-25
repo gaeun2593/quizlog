@@ -18,7 +18,6 @@ import java.util.List;
 @AllArgsConstructor
 public class CreateQuizDTO {
 
-    private List<Quiz> quizList;
     private Long chapterId;
     @NotBlank(message = "문제는 필수 입력 값입니다.")
     @Size(min = 2, max = 100, message = "문제은 2글자 이상 또는 100글자 미만입니다.")
@@ -29,9 +28,5 @@ public class CreateQuizDTO {
     @Size(min = 1, max = 100, message = "답은 1자 이상 100자 이하로 입력해주세요")
     private String answer;
 
-
-    public CreateQuizDTO(List<Quiz> saveQuizList) {
-        this.quizList = saveQuizList;
-    }
 
 }

@@ -3,10 +3,15 @@ package com.mtvs.quizlog.domain.chapter.controller;
 
 
 import com.mtvs.quizlog.domain.auth.model.AuthDetails;
-import com.mtvs.quizlog.domain.chapter.dto.request.RequestCreateChapterDTO;
+import com.mtvs.quizlog.domain.chapter.dto.QuizFormDTO;
+import com.mtvs.quizlog.domain.chapter.dto.request.ChapterQuizDTO;
+import lombok.extern.slf4j.Slf4j;
+
 import com.mtvs.quizlog.domain.chapter.dto.response.ResponseCreateChapterDTO;
+import com.mtvs.quizlog.domain.chapter.entity.Chapter;
 import com.mtvs.quizlog.domain.chapter.service.ChapterService;
 import com.mtvs.quizlog.domain.quiz.dto.CreateQuizDTO;
+import com.mtvs.quizlog.domain.quiz.entity.Quiz;
 import com.mtvs.quizlog.domain.quiz.service.QuizService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.logging.Logger;
 
 @Controller
+@Slf4j
 @RequestMapping("/main")
 public class ChapterController {
     private final ChapterService chapterService;
@@ -34,31 +40,35 @@ public class ChapterController {
 
     @GetMapping("/create-chap")
     public String chapterView(Model model) {
-
-        model.addAttribute(new RequestCreateChapterDTO());
+        ChapterQuizDTO dto = new ChapterQuizDTO();
+        /*
+        * 빈 폼!!!!
+        * */
+        dto.getQuizFormDTOList().add(new QuizFormDTO());
+        dto.getQuizFormDTOList().add(new QuizFormDTO());
+        /*
+        * 빈 모델!!!!!!!!!!!!!!!!!!!!!!!!!
+        * */
+        model.addAttribute("chapterQuizDTO",dto);
         //view 이름
         return "chapter/create-chap";
     }
 
     /*
-    * 챕터 생성시 퀴즈 생성하는 로직 두가지.
-    * 1번째 한 post요청에서 다처리
-    * 2번째 post요청에서 한페이지로 red
+    * 모델 동적추가.
+    *
     * */
 
     /*챕터 생성후*/
     @PostMapping("/create-chap")
-    public String createPost(@AuthenticationPrincipal AuthDetails userDetails, @Validated RequestCreateChapterDTO requestCreateChapterDTO,BindingResult bindingResult ,Model model) {
+    public String createPost(@AuthenticationPrincipal AuthDetails userDetails, @Validated @ModelAttribute("chapterQuizDTO")  ChapterQuizDTO chapterQuizDTO ) {
         Long userId = userDetails.getLogInDTO().getUserId();
-        model.addAttribute(new RequestCreateChapterDTO());
-        if (bindingResult.hasErrors()) {
-            return "redirect:/main/create-chap"; // 다시 폼으로 돌려보냄
-        }
-        ResponseCreateChapterDTO responseCreateChapterDTO = chapterService.createChapter(userId, requestCreateChapterDTO);
-        Long chapterId =responseCreateChapterDTO.getChapterId();
 
-        quizService.createQuiz(requestCreateChapterDTO.getCreateQuizDTO(),chapterId);
-        return "redirect:/main/create-chap";
+        Chapter chapter = chapterService.createChapter(userId, chapterQuizDTO);
+        System.out.println(chapter);
+        quizService.createQuiz(chapterQuizDTO.getQuizFormDTOList(),chapter);
+
+        return "redirect:/main";
     }
 
 /*

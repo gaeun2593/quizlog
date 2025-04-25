@@ -18,82 +18,41 @@
     다만 prefix가 "resources/templates/" 이고 suffix가 ".html" 이다.
  -->
 
-<h2>챕터 제목</h2>
-<form th:action="@{/main/create-chap}" th:object="${requestCreateChapterDTO}" method="post" id="chapterForm">
+<form th:action="@{/main/create-chap}" th:object="${chapterQuizDTO}" method="post" id="chapterForm">
     <!--챕터 제목-->
-    <input type="text" th:field="*{title}"/>
-    <h2>답변</h2>
-    <!--챕터 설명-->
-    <input type="text" th:field="*{description}" />
-
-    <div id="QuizList">
-        <div th:each="quiz, iterStat : ">
-            <input type="text" th:field="*{quiz[${iterStat.index}].title}" placeholder="문제" />
-            <input type="text" th:field="*{quiz[${iterStat.index}].answer}" placeholder="답" />
-        </div>
+    <input type="text" th:field="*{title}"  placeholder="제목" />
+    <input type="text" th:field="*{description}"  placeholder="설명" />
+    <div th:each="quiz, stat : *{quizFormDTOList}" id="quizFormList">
+        <input type="text" th:field="*{quizFormDTOList[__${stat.index}__].title}" placeholder="단어" />
+        <input type="text" th:field="*{quizFormDTOList[__${stat.index}__].answer}" placeholder="답변" />
     </div>
-    <button type="button" onclick="addChapter()">➕ 챕터 추가</button>
-
-    <button type="submit">제출</button>
-
-    <input type="submit" value="Submit">
-
-
+   <button type="button" onclick="addChapter()">➕ 챕터 추가</button>-->
+    <button type="submit" >제출</button>
 </form>
-<!--
-chapterDTO 안에 퀴즈리스트 담기?
-두개 다담을 dto가 필요! ->requestCreateChapterDTO 기존꺼 활용.
--->
-
 <script>
     let quizIndex = 1; // 초기 0번은 타임리프가 출력함
     function addChapter() {
-        const container = document.getElementById("QuizList");
+        const container = document.getElementById('quizFormList');
 
-        const newDiv = document.createElement("div");
+        const newDiv = document.createElement('div');
         newDiv.innerHTML = `
-      <input type="text" name="quiz[${quizIndex}].title" placeholder="문제" />
-      <input type="text" name="quiz[${quizIndex}].answer" placeholder="답" />
+        <input type="text" th:field="*{quizFormDTOList[__${quizIndex}__].title}" placeholder="단어" />
+        <input type="text" th:field="*{quizFormDTOList[__${quizIndex}__].answer}" placeholder="답변" />
     `;
         container.appendChild(newDiv);
 
         quizIndex++;
     }
 </script>
+
+
 </body>
 
 </html>
 
 
 <!--
-
-<h3>문자열로 redirect 하기</h3>
-<button onclick="location.href='string-redirect'">문자열로 뷰 이름 반환하여 리다이렉트</button>
-
-<h3>문자열로 뷰 이름 반환하면서 flashAttribute 추가 하기</h3>
-<button onclick="location.href='string-redirect-attr'">문자열로 뷰 이름 반환하여 리다이렉트 & flashAttr 사용하기</button>
-<script>
-    const flashMessage1 = '[[${ flashMessage1 }]]';
-    console.log(flashMessage1);
-    if(flashMessage1) {
-        alert(flashMessage1);
-    }
-</script>
-
-<h3>ModelAndView로 뷰 이름 지정해서 반환하기</h3>
-<button onclick="location.href='modelandview'">ModelAndView로 뷰 이름 지정해서 반환받기</button>
-
-<h3>ModelAndView로 redirect 하기</h3>
-<button onclick="location.href='modelandview-redirect'">ModelAndView로 뷰 이름 반환하여 리다이렉트</button>
-
-<h3>ModelAndView로 뷰 이름 반환하면서 flashAttribute 추가 하기</h3>
-<button onclick="location.href='modelandview-redirect-attr'">ModelAndView로 뷰 이름 반환하여 리다이렉트</button>
-<script>
-    const flashMessage2 = '[[${ flashMessage2 }]]';
-    console.log(flashMessage2);
-    if(flashMessage2) {
-        alert(flashMessage2);
-    }
-</script>
-
+chapterDTO 안에 퀴즈리스트 담기?
+두개 다담을 dto가 필요! ->requestCreateChapterDTO 기존꺼 활용.
 -->
+

@@ -60,7 +60,7 @@ public class Chapter {
     private Status status;
 
     @CreationTimestamp
-    @Column(name = "created_at", columnDefinition = "DATETIME DEFAULT 'CURRENT_TIMESTAMP'")
+    @Column(name = "created_at", columnDefinition = "DATETIME")
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at", columnDefinition = "DATETIME")

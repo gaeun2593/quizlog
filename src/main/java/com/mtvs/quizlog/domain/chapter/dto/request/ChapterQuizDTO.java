@@ -2,20 +2,28 @@ package com.mtvs.quizlog.domain.chapter.dto.request;
 
 import com.mtvs.quizlog.domain.chapter.dto.QuizFormDTO;
 import com.mtvs.quizlog.domain.quiz.dto.CreateQuizDTO;
-import com.mtvs.quizlog.domain.quiz.entity.Quiz;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
+
+
+/*
+*
+*
+*
+* */
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RequestCreateChapterDTO {
+@Data
+public class ChapterQuizDTO {
 
-    private List<QuizFormDTO> quizFormDTOList;
+    private List<QuizFormDTO> quizFormDTOList = new ArrayList<>();
 
     private Long userId;
 
@@ -27,7 +35,6 @@ public class RequestCreateChapterDTO {
     @Size(min =1 , max = 255, message = "설명은 1글자 이상 또는 255글자 미만입니다.")
     private String description;
 
-    private CreateQuizDTO createQuizDTO;
 
     public Long getUserId() { return userId; }
 

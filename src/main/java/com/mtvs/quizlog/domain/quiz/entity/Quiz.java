@@ -37,8 +37,8 @@ public class Quiz {
     @Column(name = "answer" , nullable = false ,columnDefinition = "TEXT")
     private String answer;
 
-    @Column(name = "hint" , nullable = false , columnDefinition = "TEXT")
-    private String hint;
+   /* @Column(name = "hint"  , columnDefinition = "TEXT")
+    private String hint;*/
 
     @Column(name = "created_at", columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createdAt;
