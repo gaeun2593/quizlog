@@ -1,15 +1,21 @@
 package com.mtvs.quizlog.domain.chapter.dto.request;
 
+import com.mtvs.quizlog.domain.chapter.dto.QuizFormDTO;
 import com.mtvs.quizlog.domain.quiz.dto.CreateQuizDTO;
+import com.mtvs.quizlog.domain.quiz.entity.Quiz;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+
+import java.util.List;
 
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class RequestCreateChapterDTO {
+
+    private List<QuizFormDTO> quizFormDTOList;
 
     private Long userId;
 
@@ -33,5 +39,4 @@ public class RequestCreateChapterDTO {
         return description;
     }
 
-    public CreateQuizDTO getCreateQuizDTO() {return createQuizDTO;}
 }
