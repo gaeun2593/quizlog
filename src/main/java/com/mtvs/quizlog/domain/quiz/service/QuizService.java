@@ -29,16 +29,12 @@ public class QuizService {
     private final ChapterRepository chapterRepository;
 
 
-    public void  createQuiz(User user , QuizForm quizForm , Chapter chapter ) {
-        //Optional<Quiz> findQuiz = quizRepository.findByTitle((createQuizDTO.getTitle()));
-        /*if(findQuiz.isPresent()) {
-            throw new IllegalArgumentException("이미 존재하는 문제 입니다. : " + createQuizDTO.getTitle());
-        }*/
-       // Chapter chapter =chapterRepository.findById(chapterId).orElseThrow(()->new IllegalArgumentException("해당 사용자가 존재하지 않습니다: "+chapterId));
-       // Quiz quiz = new Quiz(createQuizDTO.getTitle(), createQuizDTO.getAnswer(),chapterId);
-        //Quiz saveQuiz =quizRepository.save(quiz);
+    public void createQuiz(User user , QuizForm quizForm , Chapter chapter ) {
+
         Quiz quiz = Quiz.createQuiz(user,chapter, quizForm.getWord(), quizForm.getAnswer(), LocalDateTime.now(), LocalDateTime.now());
-        quizRepository.save(quiz);
+        if((!quizForm.getWord().isEmpty())||(!quizForm.getAnswer().isEmpty())){
+            quizRepository.save(quiz);
+        }
 
     }
 
