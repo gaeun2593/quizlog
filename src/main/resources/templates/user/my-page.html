@@ -3,37 +3,41 @@
 <head th:replace="fragments/head :: commonHead"></head>
 <body>
 <div th:replace="fragments/header :: header"></div>
-<div th:replace="fragments/aside :: asideFragment" ></div>
-<h1>닉네임 수정</h1>
-<form th:action="@{/user/update-nickname}" th:method="patch">
-    수정할 닉네임 : <input type="text" name="nickname"/> <br>
-    <button type="submit">변경하기</button>
-</form>
-<h1>이메일 수정</h1>
-<form th:action="@{/user/update-email}" th:method="patch">
-    수정할 이메일 : <input type="email" name="email"/> <br>
-    <button type="submit">변경하기</button>
-</form>
-<h1>역할 수정</h1>
-<form th:action="@{/user/update-role}" method="post">
-    <input type="hidden" name="_method" value="patch"/>
-    권한(역할 선택):
-    <select name="role">
-        <option value="STUDENT">학생</option>
-        <option value="TEACHER">선생님</option>
-    </select>
-    <br><br>
-    <button type="submit">변경하기</button>
-</form>
-<h1>비밀번호 수정</h1>
-<form th:action="@{/user/update-password}" th:method="patch">
-    수정할 비밀번호 : <input type="password" name="newPassword"/> <br>
-    수정할 비밀번호 확인 : <input type="password" name="passwordCheck"/> <br>
-    <button type="submit">변경하기</button>
-</form>
-<h1>회원 탈퇴</h1>
-<form th:action="@{/user/delete}" th:method="patch">
-    <button type="submit">탈퇴하기</button>
-</form>
+<div class="main-page-container">
+    <div th:replace="fragments/aside :: asideFragment" ></div>
+    <div class="main-layout">
+        <h1>닉네임 수정</h1>
+        <form th:action="@{/user/update-nickname}" th:method="patch">
+            수정할 닉네임 : <input type="text" name="nickname"/> <br>
+            <button type="submit">변경하기</button>
+        </form>
+        <h1>이메일 수정</h1>
+        <form th:action="@{/user/update-email}" th:method="patch">
+            수정할 이메일 : <input type="email" name="email"/> <br>
+            <button type="submit">변경하기</button>
+        </form>
+        <h1>역할 수정</h1>
+        <form th:action="@{/user/update-role}" method="post">
+            <input type="hidden" name="_method" value="patch"/>
+            권한(역할 선택):
+            <select name="role">
+                <option value="STUDENT">학생</option>
+                <option value="TEACHER">선생님</option>
+            </select>
+            <br><br>
+            <button type="submit">변경하기</button>
+        </form>
+        <h1>비밀번호 수정</h1>
+        <form th:action="@{/user/update-password}" th:method="patch">
+            수정할 비밀번호 : <input type="password" name="newPassword"/> <br>
+            수정할 비밀번호 확인 : <input type="password" name="passwordCheck"/> <br>
+            <button type="submit">변경하기</button>
+        </form>
+        <h1>회원 탈퇴</h1>
+        <form th:action="@{/user/delete}" th:method="patch">
+            <button type="submit">탈퇴하기</button>
+        </form>
+    </div>
+</div>
 </body>
 </html>

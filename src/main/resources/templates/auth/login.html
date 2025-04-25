@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<head th:replace="fragments/head :: commonHead"></head>
 <body>
 <form th:action="@{/auth/login}" th:method="POST">
     <label>이메일 : </label>

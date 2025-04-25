@@ -6,9 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -47,6 +45,16 @@ public class AdminController {
         model.setViewName("/admin/deleted");
 
         return model;
+    }
+
+    // 회원 계정 복구
+    @PostMapping("/restore-user")
+    public String restoreUserStatus(@RequestParam Long userId) {
+        log.info("Restore user");
+
+        adminService.restoreUserStatus(userId);
+
+        return "redirect:/admin/list-deleted-users";
     }
 
     // 문의사항 조회 - 채팅으로
