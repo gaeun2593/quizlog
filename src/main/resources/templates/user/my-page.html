@@ -38,15 +38,23 @@
 
                 <h3>역할</h3>
                 <div id="role-view">
-                    <form th:action="@{/user/update-role}" method="post">
-                        <input type="hidden" name="_method" value="patch"/>
-                        <span th:text="${user.role}">현재 역할</span>
-                        <select name="role" id="role" required>
-                            <option value="STUDENT">학생</option>
-                            <option value="TEACHER">선생님</option>
-                        </select>
-                        <button type="submit">변경하기</button>
-                    </form>
+                    <!-- 관리자는 역할을 변경할 수 없다는 메시지 -->
+                    <div th:if="${isAdmin}" class="error-message" style="color: red;">
+                        관리자는 역할을 변경할 수 없습니다.
+                    </div>
+
+                    <!-- 관리자가 아니라면 역할 수정 폼 표시 -->
+                    <div th:if="${not isAdmin}">
+                        <form th:action="@{/user/update-role}" method="post">
+                            <input type="hidden" name="_method" value="patch"/>
+                            <span th:text="${user.role}">현재 역할</span>
+                            <select name="role" id="role" required>
+                                <option value="STUDENT">학생</option>
+                                <option value="TEACHER">선생님</option>
+                            </select>
+                            <button type="submit">변경하기</button>
+                        </form>
+                    </div>
                 </div>
 
                 <h3>비밀번호 수정</h3>
