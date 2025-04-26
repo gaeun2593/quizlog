@@ -6,6 +6,8 @@ import com.mtvs.quizlog.domain.user.dto.response.*;
 import com.mtvs.quizlog.domain.user.entity.Status;
 import com.mtvs.quizlog.domain.user.entity.User;
 import com.mtvs.quizlog.domain.user.repository.UserRepository;
+import com.mtvs.quizlog.global.exception.EmailDuplicateException;
+import com.mtvs.quizlog.global.exception.NicknameDuplicateException;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,13 +48,13 @@ public class UserService {
         // 닉네임 중복 검사
         Optional<User> findUserNickname = userRepository.findByNickname(signUpRequestDTO.getNickname());
         if (findUserNickname.isPresent()) {
-            throw new InternalAuthenticationServiceException("nickname already exists");
+            throw new NicknameDuplicateException("nickname already exists");
         }
 
         // 이메일 중복 검사
         Optional<User> findUserEmail = userRepository.findByEmail(signUpRequestDTO.getEmail());
         if (findUserEmail.isPresent()) {
-            throw new InternalAuthenticationServiceException("email already exists");
+            throw new EmailDuplicateException("email already exists");
         }
 
         // 비밀번호 확인 일치 여부 검사

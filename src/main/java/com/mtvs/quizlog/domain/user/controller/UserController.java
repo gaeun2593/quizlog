@@ -6,11 +6,15 @@ import com.mtvs.quizlog.domain.user.dto.request.*;
 import com.mtvs.quizlog.domain.user.dto.response.*;
 import com.mtvs.quizlog.domain.user.entity.User;
 import com.mtvs.quizlog.domain.user.service.UserService;
+import com.mtvs.quizlog.global.exception.EmailDuplicateException;
+import com.mtvs.quizlog.global.exception.NicknameDuplicateException;
 import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -39,9 +43,17 @@ public class UserController {
     public ModelAndView createUser(SignUpRequestDTO signUpRequestDTO, ModelAndView model) {
         log.info("createUser: {}", signUpRequestDTO.getNickname());
 
-        SignUpResponseDTO savedUser = userService.createUser(signUpRequestDTO);
-        model.addObject("savedUser", savedUser);
-        model.setViewName("redirect:/auth/login");
+        try {
+            SignUpResponseDTO savedUser = userService.createUser(signUpRequestDTO);
+            model.addObject("savedUser", savedUser);
+            model.setViewName("redirect:/auth/login");
+        } catch (NicknameDuplicateException e) {
+            model.addObject("nicknameError", "이미 사용 중인 닉네임입니다.");
+            model.setViewName("user/sign-up");
+        } catch (EmailDuplicateException e) {
+            model.addObject("emailError", "이미 사용 중인 이메일입니다.");
+            model.setViewName("user/sign-up");
+        }
 
         return model;
     }
