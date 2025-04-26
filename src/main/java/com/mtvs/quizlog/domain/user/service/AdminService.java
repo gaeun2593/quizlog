@@ -7,9 +7,11 @@ import com.mtvs.quizlog.domain.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class AdminService {
@@ -23,16 +25,46 @@ public class AdminService {
 
     // 모든 유저 조회
     @Transactional
-    public List<UserListDTO> getUsers() {
-        List<UserListDTO> users = userRepository.findAllUsersForAdmin();
-        return users;
+    public Page<UserListDTO> getUsers(String keyword, int page) {
+        Pageable pageable = PageRequest.of(page, 10, Sort.by(Sort.Direction.ASC, "userId"));
+
+        Page<User> users;
+        if (keyword == null || keyword.trim().isEmpty()) {
+            users = userRepository.findByStatus(Status.ACTIVE, pageable);
+        } else {
+            users = userRepository.findByStatusAndNicknameContainingIgnoreCase(Status.ACTIVE, keyword, pageable);
+        }
+
+        return users.map(user -> new UserListDTO(
+                user.getUserId(),
+                user.getNickname(),
+                user.getEmail(),
+                user.getRole(),
+                user.getStatus(),
+                user.getCreatedAt()
+        ));
     }
 
-    // 탈퇴된 유저만 조회
+    // 탈퇴된 유저 조회
     @Transactional
-    public List<UserListDTO> getDeletedUsers() {
-        List<UserListDTO> users = userRepository.findDeletedUsersForAdmin();
-        return users;
+    public Page<UserListDTO> getDeletedUsers(String keyword, int page) {
+        Pageable pageable = PageRequest.of(page, 10, Sort.by(Sort.Direction.ASC, "userId"));
+
+        Page<User> users;
+        if (keyword == null || keyword.trim().isEmpty()) {
+            users = userRepository.findByStatus(Status.DELETED, pageable);
+        } else {
+            users = userRepository.findByStatusAndNicknameContainingIgnoreCase(Status.DELETED, keyword, pageable);
+        }
+
+        return users.map(user -> new UserListDTO(
+                user.getUserId(),
+                user.getNickname(),
+                user.getEmail(),
+                user.getRole(),
+                user.getStatus(),
+                user.getCreatedAt()
+        ));
     }
 
     // 회원 계정 복구

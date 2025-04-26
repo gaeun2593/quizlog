@@ -37,8 +37,10 @@
 .manage-layout-container{
     display: flex;
     flex-direction: column;
-    gap: 50px;
-
+}
+.manage-menu {
+    margin-top: 50px;
+    margin-bottom: 20px;
 }
 
 .manage-menu ul{
@@ -110,7 +112,8 @@
 }
 
 .datatable-input {
-    width: 100%;
+    width: 20%;
+
 }
 
 .datatable-info {

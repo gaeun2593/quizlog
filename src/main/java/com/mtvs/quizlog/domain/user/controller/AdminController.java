@@ -5,6 +5,7 @@ import com.mtvs.quizlog.domain.user.service.AdminService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -25,23 +26,37 @@ public class AdminController {
 
     // 회원 목록 조회
     @GetMapping("/list-users")
-    public ModelAndView listUsers(ModelAndView model) {
+    public ModelAndView listUsers(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(required = false) String keyword,
+            ModelAndView model) {
         log.info("List users");
 
-        List<UserListDTO> users = adminService.getUsers();
-        model.addObject("users", users);
+        Page<UserListDTO> usersPage = adminService.getUsers(keyword, page);
+
+        model.addObject("users", usersPage.getContent());
+        model.addObject("currentPage", page);
+        model.addObject("totalPages", usersPage.getTotalPages());
+        model.addObject("keyword", keyword);
         model.setViewName("/admin/manage");
 
         return model;
     }
 
-    // 회원 탈퇴 조회
+    // 탈퇴된 회원 목록 조회
     @GetMapping("/list-deleted-users")
-    public ModelAndView listDeletedUsers(ModelAndView model) {
+    public ModelAndView listDeletedUsers(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(required = false) String keyword,
+            ModelAndView model) {
         log.info("List deleted users");
 
-        List<UserListDTO> deletedUsers = adminService.getDeletedUsers();
-        model.addObject("deletedUsers", deletedUsers);
+        Page<UserListDTO> deletedUsersPage = adminService.getDeletedUsers(keyword, page);
+
+        model.addObject("deletedUsers", deletedUsersPage.getContent());
+        model.addObject("currentPage", page);
+        model.addObject("totalPages", deletedUsersPage.getTotalPages());
+        model.addObject("keyword", keyword);
         model.setViewName("/admin/deleted");
 
         return model;
