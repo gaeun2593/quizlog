@@ -2,10 +2,7 @@ package com.mtvs.quizlog.domain.chapter.service;
 
 
 import com.mtvs.quizlog.domain.chapter.dto.ConvertEntityToDTO;
-import com.mtvs.quizlog.domain.chapter.dto.request.ChapterDto;
-import com.mtvs.quizlog.domain.chapter.dto.request.RequestCreateChapterDTO;
-import com.mtvs.quizlog.domain.chapter.dto.request.GetChapterDTO;
-import com.mtvs.quizlog.domain.chapter.dto.request.UpdateChapterDTO;
+import com.mtvs.quizlog.domain.chapter.dto.request.*;
 import com.mtvs.quizlog.domain.chapter.dto.response.ResponseCreateChapterDTO;
 import com.mtvs.quizlog.domain.chapter.entity.Status;
 import com.mtvs.quizlog.domain.chapter.repository.ChapterRepository;
@@ -14,6 +11,7 @@ import com.mtvs.quizlog.domain.user.entity.User;
 import com.mtvs.quizlog.domain.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +24,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class ChapterService{
 
     private final ChapterRepository chapterRepository;
@@ -44,5 +43,20 @@ public class ChapterService{
     }
 
 
+    public List<Chapter> findchpaterAndQuizs(Long chapterId, Long userId) {
+        return chapterRepository.findchpaterAndQuizs(chapterId,  userId);
+    }
 
+    public void updateChapter(long chapterId , String title , String description) {
+        Optional<Chapter> chapter = chapterRepository.find(chapterId);
+        if(!chapter.isPresent()) {
+            log.info("Chapter not found");
+        }
+        else{
+            chapter.get().setTitle(title);
+            chapter.get().setDescription(description);
+            chapter.get().setUpdatedAt(LocalDateTime.now());
+        }
+
+    }
 }
