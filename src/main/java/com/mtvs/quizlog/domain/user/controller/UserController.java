@@ -1,9 +1,9 @@
 package com.mtvs.quizlog.domain.user.controller;
 
 import com.mtvs.quizlog.domain.auth.model.AuthDetails;
-import com.mtvs.quizlog.domain.user.dto.UserListDTO;
 import com.mtvs.quizlog.domain.user.dto.request.*;
 import com.mtvs.quizlog.domain.user.dto.response.*;
+import com.mtvs.quizlog.domain.user.entity.Role;
 import com.mtvs.quizlog.domain.user.entity.User;
 import com.mtvs.quizlog.domain.user.service.UserService;
 import com.mtvs.quizlog.global.exception.EmailDuplicateException;
@@ -12,15 +12,11 @@ import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.List;
 
 @Controller
 @RequestMapping("/user")
@@ -65,7 +61,9 @@ public class UserController {
 
         Long userId = authDetails.getLogInDTO().getUserId();
         User user = userService.findUser(userId);
+        boolean isAdmin = user.getRole() == Role.ADMIN;  // Role enum 비교
 
+        model.addObject("isAdmin", isAdmin);
         model.addObject("user", user);
         model.setViewName("/user/my-page");
 
@@ -112,6 +110,7 @@ public class UserController {
 
         UpdateRoleResponseDTO updateRole = userService.updateRole(userId, updateRoleRequestDTO);
         model.addObject("updatedRole", updateRole);
+        // 관리자 권한인지 확인하여 model에 추가
         model.setViewName("redirect:/user/my-page");
 
         return model;
