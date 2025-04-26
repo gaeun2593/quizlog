@@ -10,6 +10,9 @@ import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -43,18 +46,18 @@ public class UserService {
         // 닉네임 중복 검사
         Optional<User> findUserNickname = userRepository.findByNickname(signUpRequestDTO.getNickname());
         if (findUserNickname.isPresent()) {
-            throw new IllegalArgumentException("nickname already exists");
+            throw new InternalAuthenticationServiceException("nickname already exists");
         }
 
         // 이메일 중복 검사
         Optional<User> findUserEmail = userRepository.findByEmail(signUpRequestDTO.getEmail());
         if (findUserEmail.isPresent()) {
-            throw new IllegalArgumentException("email already exists");
+            throw new InternalAuthenticationServiceException("email already exists");
         }
 
         // 비밀번호 확인 일치 여부 검사
         if (!signUpRequestDTO.getPassword().equals(signUpRequestDTO.getPasswordCheck())) {
-            throw new IllegalArgumentException("password does not match");
+            throw new BadCredentialsException("password does not match");
         }
 
         try {
@@ -83,7 +86,7 @@ public class UserService {
         Optional<User> user = userRepository.findByEmail(email);
 
         if (user.get().getStatus() != Status.ACTIVE) {
-            throw new IllegalArgumentException("user does not exist");
+            throw new DisabledException("탈퇴된 회원입니다.");
         }
 
         return user.map(u -> new LogInDTO(
@@ -109,13 +112,13 @@ public class UserService {
         // 사용자 상태 확인
         Optional<User> findUserStatus = userRepository.findById(userId);
         if (findUserStatus.get().getStatus() != Status.ACTIVE) {
-            throw new IllegalArgumentException("탈퇴된 회원입니다.");
+            throw new DisabledException("탈퇴된 회원입니다.");
         }
 
         // 닉네임 중복 검사
         Optional<User> findUserNickname = userRepository.findByNickname(updateNicknameRequestDTO.getNickname());
         if (findUserNickname.isPresent()) {
-            throw new IllegalArgumentException("이미 사용 중인 닉네임입니다.");
+            throw new InternalAuthenticationServiceException("이미 사용 중인 닉네임입니다.");
         }
 
         try {
@@ -144,12 +147,12 @@ public class UserService {
         // 사용자 상태 확인
         Optional<User> findUserStatus = userRepository.findById(userId);
         if (findUserStatus.get().getStatus() != Status.ACTIVE) {
-            throw new IllegalArgumentException("탈퇴된 회원입니다.");
+            throw new DisabledException("탈퇴된 회원입니다.");
         }
 
         // 현재 사용 중인 이메일인지 검사
         if (user.getEmail().equals(updateEmailRequestDTO.getEmail())) {
-            throw new IllegalArgumentException("현재 사용 중인 이메일입니다.");
+            throw new InternalAuthenticationServiceException("현재 사용 중인 이메일입니다.");
         }
 
         try {
@@ -178,7 +181,7 @@ public class UserService {
         // 사용자 상태 확인
         Optional<User> findUserStatus = userRepository.findById(userId);
         if (findUserStatus.get().getStatus() != Status.ACTIVE) {
-            throw new IllegalArgumentException("탈퇴된 회원입니다.");
+            throw new DisabledException("탈퇴된 회원입니다.");
         }
 
         try {
@@ -207,12 +210,12 @@ public class UserService {
         // 사용자 상태 확인
         Optional<User> findUserStatus = userRepository.findById(userId);
         if (findUserStatus.get().getStatus() != Status.ACTIVE) {
-            throw new IllegalArgumentException("탈퇴된 회원입니다.");
+            throw new DisabledException("탈퇴된 회원입니다.");
         }
 
         // 비밀번호 확인 일치 여부 검사
         if (!updatePasswordRequestDTO.getNewPassword().equals(updatePasswordRequestDTO.getPasswordCheck())) {
-            throw new IllegalArgumentException("password does not match");
+            throw new BadCredentialsException("password does not match");
         }
 
         try {
@@ -241,7 +244,7 @@ public class UserService {
         // 사용자 상태 확인
         Optional<User> findUserStatus = userRepository.findById(userId);
         if (findUserStatus.get().getStatus() != Status.ACTIVE) {
-            throw new IllegalArgumentException("이미 탈퇴된 회원입니다.");
+            throw new DisabledException("이미 탈퇴된 회원입니다.");
         }
 
         try {
