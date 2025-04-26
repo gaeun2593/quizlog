@@ -32,7 +32,7 @@ public class InquiryTeacherController {
 
     //문의페이지 조회
     @GetMapping("/support")
-    public String quizList(@AuthenticationPrincipal AuthDetails userDetails ,Model model) {
+    public String quizList(Model model) {
         List<InquiryTeacherListDTO> inquiry = inquiryTeacherService.findAll();
         model.addAttribute("inquiryListAttribute", inquiry);
 //        내부리소스
@@ -40,29 +40,30 @@ public class InquiryTeacherController {
     }
 
 // 문의 세부조회
-    @GetMapping("/support/{InquiryId}")
-    public String chapterView(@AuthenticationPrincipal AuthDetails userDetails , @PathVariable Long chapterId, Model model) {
+    @GetMapping("/support/{inquiryId}")
+    public String chapterView(@AuthenticationPrincipal AuthDetails userDetails , @PathVariable Long inquiryId, Model model) {
         Long userId = userDetails.getLogInDTO().getUserId();
-        List<QuizDto> quizDto = quizService.findbyQuizes(userId, chapterId);
-        model.addAttribute("quizList", quizDto);
-        return "quiz/quizList";
-
+        InquiryTeacherListDTO inquiryDTOS = inquiryTeacherService.findByChapterId(inquiryId,userId);
+        model.addAttribute("quizList", inquiryDTOS);
+        return "inquiry/inquiry";
     }
+/*
 
-
+//  문의 생성
     @PostMapping("/support/create")
     public String createPost(@AuthenticationPrincipal AuthDetails userDetails, @Validated @ModelAttribute("requestCreateChapterDTO") RequestCreateChapterDTO requestCreateChapterDTO) {
-        Long userId = userDetails.getLogInDTO().getUserId();
 
-        User user = userService.findUser(userId);
 
-        Chapter chapter = chapterService.createChapter(requestCreateChapterDTO , user);
+
+        Chapter chapter = inquiryTeacherService.createInquiry(requestCreateChapterDTO , user);
         requestCreateChapterDTO.getQuizForm().forEach(quizForm -> quizService.createQuiz(user , quizForm, chapter));
 
         return "redirect:/main";
     }
-    // /main/chapterList
+//  문의 수정
+//  문의 삭제
 
 
+*/
 
 }

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>InquiryPage</title>
+</head>
+<body>
+<div class="inquiry-item" th:each="inquiry : ${inquiryList}" >
+    <div class="inquiry-item" th:each="inquiry : ${inquiryList}">
+        <a th:href="@{'/support/' + ${inquiry.id}}" th:text="${inquiry.title}"></a>
+        <p th:text="${inquiry.content}"></p>
+    </div>
+</div>
+</body>
+</html>

@@ -67,8 +67,14 @@ public class InquiryTeacherService {
         }
     }
 
-    // 문의 조회
+    // 문의 리스트 조회
     public List<InquiryTeacherListDTO> findAll() {
         return inquiryTeacherRepository.findAllList();
     }
+
+    // 문의 단일 조회
+    public InquiryTeacherListDTO findByChapterId(Long chapterId,Long userId) {
+        return inquiryTeacherRepository.findByChapterId(chapterId,userId);
+    }
+
 }

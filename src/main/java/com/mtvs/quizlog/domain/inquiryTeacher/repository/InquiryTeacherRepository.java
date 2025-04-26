@@ -34,4 +34,15 @@ public interface InquiryTeacherRepository extends JpaRepository<InquiryTeacher, 
             "JOIN i.user u " +
             "JOIN i.chapter c")
     List<InquiryTeacherListDTO> findAllList();
+
+
+    @Query("SELECT new com.mtvs.quizlog.domain.inquiryTeacher.dto.InquiryTeacherListDTO(" +
+            "i.inquiryTeacherId, i.title, i.content, i.createdAt, i.updatedAt, i.status, u.nickname, c.title) " +
+            "FROM InquiryTeacher i " +
+            "JOIN i.user u " +
+            "JOIN i.chapter c " +
+            "WHERE c.id = :chapterId " +
+            "AND u.userId = :userId"
+    )
+    InquiryTeacherListDTO findByChapterId(Long chapterId,Long userId);
 }
