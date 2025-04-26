@@ -35,6 +35,7 @@ public class AdminService {
             users = userRepository.findByStatusAndNicknameContainingIgnoreCase(Status.ACTIVE, keyword, pageable);
         }
 
+        // User를 UserListDTO로 변환해서 반환
         return users.map(user -> new UserListDTO(
                 user.getUserId(),
                 user.getNickname(),
@@ -57,6 +58,7 @@ public class AdminService {
             users = userRepository.findByStatusAndNicknameContainingIgnoreCase(Status.DELETED, keyword, pageable);
         }
 
+        // User를 UserListDTO로 변환해서 반환
         return users.map(user -> new UserListDTO(
                 user.getUserId(),
                 user.getNickname(),
