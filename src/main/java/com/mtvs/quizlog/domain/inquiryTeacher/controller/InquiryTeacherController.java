@@ -39,9 +39,17 @@ public class InquiryTeacherController {
         return "inquiry/inquiryList";
     }
 
+// 문의 세부조회
+    @GetMapping("/support/{InquiryId}")
+    public String chapterView(@AuthenticationPrincipal AuthDetails userDetails , @PathVariable Long chapterId, Model model) {
+        Long userId = userDetails.getLogInDTO().getUserId();
+        List<QuizDto> quizDto = quizService.findbyQuizes(userId, chapterId);
+        model.addAttribute("quizList", quizDto);
+        return "quiz/quizList";
+
+    }
 
 
-/*
     @PostMapping("/support/create")
     public String createPost(@AuthenticationPrincipal AuthDetails userDetails, @Validated @ModelAttribute("requestCreateChapterDTO") RequestCreateChapterDTO requestCreateChapterDTO) {
         Long userId = userDetails.getLogInDTO().getUserId();
@@ -56,19 +64,5 @@ public class InquiryTeacherController {
     // /main/chapterList
 
 
-    @GetMapping("/chapters/{chapterId}")
-    public String chapterView(@AuthenticationPrincipal AuthDetails userDetails , @PathVariable Long chapterId, Model model) {
-        log.info("chapterId:{}", chapterId);
-        Long userId = userDetails.getLogInDTO().getUserId();
-        List<QuizDto> quizDto = quizService.findbyQuizes(userId, chapterId);
-        model.addAttribute("quizList", quizDto);
-        return "quiz/quizList";
 
-    }
-    @GetMapping("support")
-    public String support() {
-
-        return "support";
-    }
-*/
 }
