@@ -26,6 +26,7 @@ public class AdminService {
     // 모든 유저 조회
     @Transactional
     public Page<UserListDTO> getUsers(String keyword, int page) {
+        // PageRequest.of(page, size, sort)를 이용해 Pageable 객체 생성
         Pageable pageable = PageRequest.of(page, 10, Sort.by(Sort.Direction.ASC, "userId"));
 
         Page<User> users;
