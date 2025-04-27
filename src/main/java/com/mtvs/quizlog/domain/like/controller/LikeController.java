@@ -2,15 +2,12 @@ package com.mtvs.quizlog.domain.like.controller;
 
 import com.mtvs.quizlog.domain.auth.model.AuthDetails;
 import com.mtvs.quizlog.domain.like.dto.LikeDTO;
-import com.mtvs.quizlog.domain.like.dto.TeacherLikeRankingDto;
 import com.mtvs.quizlog.domain.like.service.LikeService;
 import com.mtvs.quizlog.domain.user.entity.User;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.List;
 
 @Controller
 @RequestMapping("/like")
@@ -30,8 +27,10 @@ public class LikeController {
         Long userId = authDetails.getLogInDTO().getUserId();
 
         User teacher = likeService.findTeacherById(teacherId);
-        boolean liked = likeService.hasLiked(userId, teacherId); // 현재 사용자가 이 선생님을 좋아요 눌렀는지
-        int likeCount = likeService.getLikeCount(teacherId); // 선생님 총 좋아요 수
+        // 현재 사용자가 이 선생님을 좋아요 눌렀는지
+        boolean liked = likeService.hasLiked(userId, teacherId);
+        // 선생님 총 좋아요 수
+        int likeCount = likeService.getLikeCount(teacherId);
 
         model.addObject("teacher", teacher);
         model.addObject("liked", liked);
@@ -56,13 +55,13 @@ public class LikeController {
     }
 
 
-    // 선생님 좋아요 top5 조회
-    @GetMapping("/test")
-    public ModelAndView mainPage(ModelAndView model) {
-        List<TeacherLikeRankingDto> topTeachers = likeService.getTop5TeachersByLikes();
-        System.out.println("Top Teachers: " + topTeachers);  // 데이터 확인
-        model.addObject("topTeachers", topTeachers);
-        model.setViewName("main");
-        return model;
-    }
+//    // 선생님 좋아요 top5 조회
+//    @GetMapping("/test")
+//    public ModelAndView mainPage(ModelAndView model) {
+//        List<TeacherLikeRankingDto> topTeachers = likeService.getTop5TeachersByLikes();
+//        System.out.println("Top Teachers: " + topTeachers);  // 데이터 확인
+//        model.addObject("topTeachers", topTeachers);
+//        model.setViewName("main");
+//        return model;
+//    }
 }

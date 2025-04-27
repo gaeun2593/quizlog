@@ -26,9 +26,6 @@ public class LikeService {
     // 좋아요 누르기
     @Transactional
     public void like(LikeDTO likeDTO) {
-        if (likeDTO.getUserId().equals(likeDTO.getTeacherId())) {
-            throw new IllegalArgumentException("본인에게는 좋아요를 누를 수 없습니다.");
-        }
 
         User user = userRepository.findById(likeDTO.getUserId())
                 .orElseThrow(() -> new IllegalArgumentException("유저 없음"));
