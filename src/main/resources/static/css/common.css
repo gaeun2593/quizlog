@@ -61,3 +61,31 @@ ul{
   background-color: #efeeee;
   border-radius: 10px;
 }
+
+.teacher-ranking {
+  display: flex;
+  gap: 20px;  /* 각 선생님 사이의 간격 */
+  overflow-x: auto;  /* 너무 많을 경우 수평 스크롤 가능 */
+}
+
+.teacher-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: auto;
+}
+
+.teacher-name {
+  background-color: #f8f9fa;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 1.2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.teacher-name:hover {
+  background-color: #007bff;
+  color: white;
+}

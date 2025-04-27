@@ -10,8 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
-
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
@@ -64,12 +62,13 @@ public class AdminController {
 
     // 회원 계정 복구
     @PostMapping("/restore-user")
-    public String restoreUserStatus(@RequestParam Long userId) {
+    public ModelAndView restoreUserStatus(@RequestParam Long userId, ModelAndView model) {
         log.info("Restore user");
 
         adminService.restoreUserStatus(userId);
+        model.setViewName("redirect:/admin/list-deleted-users");
 
-        return "redirect:/admin/list-deleted-users";
+        return model;
     }
 
     // 문의사항 조회 - 채팅으로
