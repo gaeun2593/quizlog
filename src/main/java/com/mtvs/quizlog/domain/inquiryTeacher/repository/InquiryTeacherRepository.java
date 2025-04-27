@@ -29,20 +29,16 @@ import java.util.List;
 @Repository
 public interface InquiryTeacherRepository extends JpaRepository<InquiryTeacher, Long> {
     @Query("SELECT new com.mtvs.quizlog.domain.inquiryTeacher.dto.InquiryTeacherListDTO(" +
-            "i.inquiryTeacherId, i.title,i.content, i.createdAt, i.updatedAt, i.status, u.nickname, c.title) " +
+            "i.id, i.title,i.content, i.createdAt, i.updatedAt, i.status, u.nickname) " +
             "FROM InquiryTeacher i " +
             "JOIN i.user u " +
-            "JOIN i.chapter c")
-    List<InquiryTeacherListDTO> findAllList();
+            "WHERE u.userId = :userId")
+    List<InquiryTeacherListDTO> findAllList(long userId);
 
-
-    @Query("SELECT new com.mtvs.quizlog.domain.inquiryTeacher.dto.InquiryTeacherListDTO(" +
-            "i.inquiryTeacherId, i.title, i.content, i.createdAt, i.updatedAt, i.status, u.nickname, c.title) " +
+    @Query("SELECT new com.mtvs.quizlog.domain.inquiryTeacher.dto.InquiryTeacherDTO(" +
+            "i.id, i.title,i.content, i.createdAt, i.updatedAt, i.status, i.user) " +
             "FROM InquiryTeacher i " +
             "JOIN i.user u " +
-            "JOIN i.chapter c " +
-            "WHERE c.id = :chapterId " +
-            "AND u.userId = :userId"
-    )
-    InquiryTeacherListDTO findByChapterId(Long chapterId,Long userId);
+            "WHERE u.userId = :teacherId")
+    InquiryTeacherDTO findByTeacherId(long inquiryId, long teacherId);
 }

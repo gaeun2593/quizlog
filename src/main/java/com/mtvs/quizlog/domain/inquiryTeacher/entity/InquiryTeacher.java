@@ -20,7 +20,7 @@ public class InquiryTeacher {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "inquiry_teacher_id")
-    private Long inquiryTeacherId;
+    private Long id;
 
     private String title;
     private String content;
@@ -39,6 +39,9 @@ public class InquiryTeacher {
     @JoinColumn(name="user_id")
     private User user;
 
+    @ManyToOne(fetch = FetchType.LAZY , cascade = CascadeType.ALL)
+    @JoinColumn(name="teacher_id")
+    private User teacher;
     //chapter n:1, 1:1answer
 
     //    Chapter

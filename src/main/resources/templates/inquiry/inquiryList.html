@@ -38,7 +38,7 @@
 
 <div class="inquiry-list">
     <div class="inquiry-header">
-        <span>Title</span>
+        <span>문의목록</span>
     </div>
 <!--
   private Long inquiryTeacherId;
@@ -51,12 +51,12 @@
     private String chapterTitle;
 
 -->
-    <div class="inquiry-item" th:each="inquiry : ${inquiryList}" >
+
         <div class="inquiry-item" th:each="inquiry : ${inquiryList}">
-            <a th:href="@{'/main/inquirys/' + ${inquiry.id}}" th:text="${inquiry.title}"></a>
+            <a th:href="@{'/support/' + ${inquiry.id}}" th:text="${inquiry.title}"></a>
             <p th:text="${inquiry.content}"></p>
         </div>
-    </div>
+
 </div>
 
 </body>
