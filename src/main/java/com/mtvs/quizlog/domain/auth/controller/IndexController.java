@@ -2,7 +2,6 @@ package com.mtvs.quizlog.domain.auth.controller;
 
 import com.mtvs.quizlog.domain.like.dto.TeacherLikeRankingDto;
 import com.mtvs.quizlog.domain.like.service.LikeService;
-import com.mtvs.quizlog.domain.user.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;

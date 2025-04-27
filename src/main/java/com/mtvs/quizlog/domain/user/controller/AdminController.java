@@ -71,5 +71,5 @@ public class AdminController {
         return model;
     }
 
-    // 문의사항 조회 - 채팅으로
+    // 문의사항 조회 - 채팅
 }

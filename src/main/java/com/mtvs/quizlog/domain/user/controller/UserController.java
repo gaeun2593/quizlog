@@ -150,4 +150,9 @@ public class UserController {
 
         return model;
     }
+
+    @GetMapping("/compare")
+    public String compare() {
+        return "compare";
+    }
 }

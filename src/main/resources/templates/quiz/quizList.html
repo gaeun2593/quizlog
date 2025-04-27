@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Chapter List</title>
+    <style>
+        .chapter-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 400px;
+            margin: 0 auto;
+        }
+        .chapter-header, .chapter-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            border: 1px solid #aaa;
+            border-radius: 6px;
+            background-color: #f9f9f9;
+        }
+        .chapter-header {
+            font-weight: bold;
+            background-color: #e0e0e0;
+        }
+        .chapter-item a {
+            text-decoration: none;
+            color: #007bff;
+            margin-left: 10px;
+        }
+        .chapter-item a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<h1>퀴즈 목록</h1>
+
+<!-- 새 챕터 등록 링크 -->
+<p><a th:href="@{'/main/'+ ${chapterId} +'/edit'}">수정</a></p>
+
+<!-- 퀴즈 리스트 -->
+<div class="chapter-list">
+    <div class="chapter-header">
+        <span>단어</span>
+        <span>정답</span>
+
+    </div>
+
+    <div class="chapter-item" th:each="quiz : ${quizList}">
+        <span th:text="${quiz.title}">Title</span>
+        <span th:text="${quiz.answer}">Answer</span>
+
+    </div>
+</div>
+
+</body>
+</html>
