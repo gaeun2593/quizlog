@@ -33,7 +33,11 @@ public class UserController {
 
     // 회원가입
     @GetMapping("/sign-up")
-    public void signUp() { }
+    public ModelAndView signUp(ModelAndView model) {
+
+        model.setViewName("/user/sign-up");
+        return model;
+    }
 
     @PostMapping("/sign-up")
     public ModelAndView createUser(SignUpRequestDTO signUpRequestDTO, ModelAndView model) {

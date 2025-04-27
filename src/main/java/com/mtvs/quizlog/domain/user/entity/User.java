@@ -47,7 +47,7 @@ public class User {
     private LocalDateTime deletedAt;
 
 
-    //폴더챕터랑 일대다 맵핑
+    // 폴더챕터랑 일대다 맵핑
     @OneToMany(mappedBy = "user")
     private List<FolderChapter> folderChapters;
 
