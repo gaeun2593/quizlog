@@ -23,14 +23,14 @@ public class LikeService {
         this.userRepository = userRepository;
     }
 
-    // 좋아요 누르기
+    // 좋아요 등록
     @Transactional
-    public void like(LikeDTO likeDTO) {
+    public void like(Long userId, Long teacherId) {
 
-        User user = userRepository.findById(likeDTO.getUserId())
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("유저 없음"));
 
-        User teacher = userRepository.findById(likeDTO.getTeacherId())
+        User teacher = userRepository.findById(teacherId)
                 .orElseThrow(() -> new IllegalArgumentException("선생님 없음"));
 
         if (likeRepository.existsByUserAndTeacher(user, teacher)) {
@@ -41,7 +41,7 @@ public class LikeService {
         likeRepository.save(like);
     }
 
-    // 좋아요 취소 (unlike)
+    // 좋아요 취소
     @Transactional
     public void unlike(Long userId, Long teacherId) {
         User user = userRepository.findById(userId)
@@ -56,13 +56,23 @@ public class LikeService {
         likeRepository.delete(like);
     }
 
+    // 현재 유저가 선생님에게 좋아요 눌렀는지 체크
+    @Transactional
+    public boolean hasLiked(Long userId, Long teacherId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("유저 없음"));
+
+        User teacher = userRepository.findById(teacherId)
+                .orElseThrow(() -> new IllegalArgumentException("선생님 없음"));
+
+        return likeRepository.existsByUserAndTeacher(user, teacher);
+    }
+
     // 선생님 조회
     @Transactional
     public User findTeacherById(Long teacherId) {
         return userRepository.findById(teacherId)
-                .orElseThrow(() -> new IllegalArgumentException("선생님이 존재하지 않습니다."))
-                .toBuilder()
-                .build();
+                .orElseThrow(() -> new IllegalArgumentException("선생님이 존재하지 않습니다."));
     }
 
     // 선생님 좋아요 수 가져오기
@@ -78,17 +88,5 @@ public class LikeService {
     @Transactional
     public List<TeacherLikeRankingDto> getTop5TeachersByLikes() {
         return likeRepository.findTop5TeachersByLikes(PageRequest.of(0, 5));
-    }
-
-    // 현재 유저가 선생님에게 좋아요 눌렀는지 체크
-    @Transactional
-    public boolean hasLiked(Long userId, Long teacherId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("유저 없음"));
-
-        User teacher = userRepository.findById(teacherId)
-                .orElseThrow(() -> new IllegalArgumentException("선생님 없음"));
-
-        return likeRepository.existsByUserAndTeacher(user, teacher);
     }
 }
