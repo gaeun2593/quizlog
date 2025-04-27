@@ -7,10 +7,10 @@ import com.mtvs.quizlog.domain.inquiryTeacher.dto.InquiryTeacherDTO;
 import com.mtvs.quizlog.domain.inquiryTeacher.dto.InquiryTeacherListDTO;
 import com.mtvs.quizlog.domain.inquiryTeacher.entity.InquiryTeacher;
 import com.mtvs.quizlog.domain.inquiryTeacher.entity.InquiryTeacherAnswer;
+import com.mtvs.quizlog.domain.inquiryTeacher.entity.Status;
 import com.mtvs.quizlog.domain.inquiryTeacher.repository.InquiryTeacherRepository;
 import com.mtvs.quizlog.domain.user.dto.request.SignUpRequestDTO;
 import com.mtvs.quizlog.domain.user.dto.response.SignUpResponseDTO;
-import com.mtvs.quizlog.domain.user.entity.Status;
 import com.mtvs.quizlog.domain.user.entity.User;
 import com.mtvs.quizlog.domain.user.service.UserService;
 import jakarta.transaction.Transactional;
@@ -36,7 +36,7 @@ public class InquiryTeacherService {
     }
 
     //문의 등록
-    public InquiryTeacherDTO createInquiry(InquiryTeacherDTO inquiryTeacherDTO) {
+    public InquiryTeacherDTO createInquiry(InquiryTeacherDTO inquiryTeacherDTO,User user) {
         log.info("InquiryTeacher: {}", inquiryTeacherDTO.getInquiryTeacherId());
 
         try {
@@ -44,10 +44,9 @@ public class InquiryTeacherService {
                     InquiryTeacher.builder()
                             .title(inquiryTeacherDTO.getTitle())
                             .content(inquiryTeacherDTO.getContent())
-                            .status(inquiryTeacherDTO.getStatus())
-                            .createdAt(inquiryTeacherDTO.getCreatedAt())
-                            .chapter(inquiryTeacherDTO.getChapter())
-                            .user(inquiryTeacherDTO.getUser())
+                            .status(Status.ACTIVE)
+                            .createdAt(LocalDateTime.now())
+                            .user(user)
                             .build();
 
             InquiryTeacher inquiryTeacher = inquiryTeacherRepository.save(inquiry);
@@ -57,7 +56,6 @@ public class InquiryTeacherService {
                                             .content(inquiryTeacher.getContent())
                                             .status(inquiryTeacher.getStatus())
                                             .createdAt(inquiryTeacher.getCreatedAt())
-                                            .chapter(inquiryTeacher.getChapter())
                                             .user(inquiryTeacher.getUser())
                                             .build();
 

@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>Title</title>
 </head>
 <body>
-$END$
+<form th:action="@{/support/create}" th:object="${inquiryTeacherDTO}" method="post">
+    <input type="text" th:field="*{title}" placeholder="제목"/>
+    <input type="text" th:field="*{content}" placeholder="설명"/>
+    <button type="submit" value="submit">저장</button>
+</form>
 </body>
 </html>

@@ -1,6 +1,7 @@
 package com.mtvs.quizlog.domain.like.service;
 
 import com.mtvs.quizlog.domain.like.dto.LikeDTO;
+
 import com.mtvs.quizlog.domain.like.dto.TeacherLikeRankingDto;
 import com.mtvs.quizlog.domain.like.entity.Like;
 import com.mtvs.quizlog.domain.like.repository.LikeRepository;
