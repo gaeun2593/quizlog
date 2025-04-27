@@ -7,6 +7,7 @@
     <div th:replace="fragments/aside :: asideFragment" ></div>
     <div class="teacher-layout">
         <div class="teacher-layout-container">
+
             <div class="teacher-header">
                 <h2 th:text="${teacher.nickname}">선생님 닉네임</h2>
                 <form th:action="@{/like/teacher}" method="post" class="like-form">
@@ -17,6 +18,7 @@
                     <span th:text="${likeCount}"></span>
                 </form>
             </div>
+
             <div class="teacher-menu">
                 <ul>
                     <li>챕터 목록</li>
