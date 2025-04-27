@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: commonHead"></head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div class="main-page-container">
+    <div th:replace="fragments/aside :: asideFragment" ></div>
+    <div class="teacher-layout">
+        <div class="teacher-layout-container">
+            <div class="teacher-header">
+                <h2 th:text="${teacher.nickname}">선생님 닉네임</h2>
+                <form th:action="@{/like/teacher}" method="post" class="like-form">
+                    <input type="hidden" name="teacherId" th:value="${teacher.userId}" />
+                    <button type="submit" class="like-button">
+                        <span th:text="${liked} ? '❤️' : '🤍'"></span>
+                    </button>
+                    <span th:text="${likeCount}"></span>
+                </form>
+            </div>
+            <div class="teacher-menu">
+                <ul>
+                    <li>챕터 목록</li>
+                    <li>레슨</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

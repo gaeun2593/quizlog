@@ -1,0 +1,112 @@
+.main-page-container {
+    display: flex;
+    height: 100%;
+}
+
+/* 사이드바 */
+.main-page-container .side-nav {
+    flex: 1;
+    padding: 20px 10px;
+}
+
+.main-page-container .side-nav > div {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.main-page-container .side-nav > div a {
+    padding: 10px 10px;
+    display: flex;
+    gap: 15px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.main-page-container .side-nav > div a:hover {
+    background-color: rgb(238, 249, 249);
+    transition: 0.3s;
+}
+
+/* 메인페이지 */
+.page-layout {
+    flex: 5;
+    padding: 40px;
+    height: 100%;
+}
+
+.page-layout-container {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+/* 수정 영역 스타일 */
+.page-menu > div {
+    border-bottom: 1px solid #ddd;
+    padding: 16px 0;
+}
+
+/* 닉네임, 이메일, 역할 보기 영역 - 텍스트 + 수정버튼 정렬 */
+#nickname-view,
+#email-view,
+#role-view,
+#password-view {
+    display: flex;
+    justify-content: space-between;  /* 텍스트 좌측, 버튼 우측 정렬 */
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+/* 수정 폼 */
+#nickname-form,
+#email-form {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-top: 8px;
+}
+
+.page-menu form {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+/* 입력 필드 우측 여백 */
+#nickname-form input,
+#email-form input {
+    margin-right: 8px;
+}
+
+.withdrawal-wrapper {
+    display: flex;
+    justify-content: space-between; /* 병렬 배치 및 양쪽 정렬 */
+}
+
+.withdrawal-form {
+    display: flex;
+    justify-content: flex-end; /* 버튼을 오른쪽 정렬 */
+}
+
+.withdraw-button {
+    background-color: #ff4d4f;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 999px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.withdraw-button:hover {
+    background-color: #e04344;
+}
+
+.withdraw-info {
+    font-size: 13px;
+    color: #888;
+    text-align: left;
+}
