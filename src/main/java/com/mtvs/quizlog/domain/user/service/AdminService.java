@@ -31,8 +31,10 @@ public class AdminService {
 
         Page<User> users;
         if (keyword == null || keyword.trim().isEmpty()) {
+            // 만약 검색어가 없거나 공백이면 Status.ACTIVE (활성화된) 회원을 전부 가져옴
             users = userRepository.findByStatus(Status.ACTIVE, pageable);
         } else {
+            // 만약 검색어가 있으면 Status.ACTIVE면서 닉네임에 검색어가 포함된 회원만 가져옴.
             users = userRepository.findByStatusAndNicknameContainingIgnoreCase(Status.ACTIVE, keyword, pageable);
         }
 
