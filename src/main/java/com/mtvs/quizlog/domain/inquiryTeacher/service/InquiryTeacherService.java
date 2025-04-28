@@ -3,11 +3,13 @@ package com.mtvs.quizlog.domain.inquiryTeacher.service;
 
 import com.mtvs.quizlog.domain.chapter.dto.request.GetChapterDTO;
 import com.mtvs.quizlog.domain.chapter.entity.Chapter;
+import com.mtvs.quizlog.domain.inquiryTeacher.dto.AnswerDTO;
 import com.mtvs.quizlog.domain.inquiryTeacher.dto.InquiryTeacherDTO;
 import com.mtvs.quizlog.domain.inquiryTeacher.dto.InquiryTeacherListDTO;
 import com.mtvs.quizlog.domain.inquiryTeacher.entity.InquiryTeacher;
 import com.mtvs.quizlog.domain.inquiryTeacher.entity.InquiryTeacherAnswer;
 import com.mtvs.quizlog.domain.inquiryTeacher.entity.Status;
+import com.mtvs.quizlog.domain.inquiryTeacher.repository.InquiryTeacherAnswerRepository;
 import com.mtvs.quizlog.domain.inquiryTeacher.repository.InquiryTeacherRepository;
 import com.mtvs.quizlog.domain.user.dto.request.SignUpRequestDTO;
 import com.mtvs.quizlog.domain.user.dto.response.SignUpResponseDTO;
@@ -27,12 +29,14 @@ import java.util.Optional;
 @Service
 public class InquiryTeacherService {
     private static final Logger log = LoggerFactory.getLogger(InquiryTeacherService.class);
-    private  InquiryTeacherRepository inquiryTeacherRepository;
+    private final InquiryTeacherRepository inquiryTeacherRepository;
+    private final InquiryTeacherAnswerRepository inquiryTeacherAnswerRepository;
 
 
     @Autowired
-    public InquiryTeacherService(InquiryTeacherRepository inquiryTeacherRepository) {
+    public InquiryTeacherService(InquiryTeacherRepository inquiryTeacherRepository,InquiryTeacherAnswerRepository inquiryTeacherAnswerRepository) {
         this.inquiryTeacherRepository = inquiryTeacherRepository;
+        this.inquiryTeacherAnswerRepository = inquiryTeacherAnswerRepository;
     }
 
     //문의 등록
@@ -91,4 +95,42 @@ public class InquiryTeacherService {
         inquiryTeacher.setStatus(Status.DELETED);
         inquiryTeacher.setDeletedAt(LocalDateTime.now());
     }
+
+    public AnswerDTO createAnswer(AnswerDTO answerDTO,InquiryTeacher inquiryTeacher) {
+        log.info("InquiryTeacher: {}", answerDTO.getId());
+        try {
+            InquiryTeacherAnswer answer =
+                    InquiryTeacherAnswer.builder()
+                            .title(answerDTO.getTitle())
+                            .content(answerDTO.getContent())
+                            .status(Status.ACTIVE)
+                            .createdAt(LocalDateTime.now())
+                            .inquiryTeacher(inquiryTeacher)
+                            .build();
+
+            InquiryTeacherAnswer savedAnswer = inquiryTeacherAnswerRepository.save(answer);
+
+            return AnswerDTO.builder()
+                    .title(inquiryTeacher.getTitle())
+                    .content(inquiryTeacher.getContent())
+                    .status(inquiryTeacher.getStatus())
+                    .createdAt(inquiryTeacher.getCreatedAt())
+                    .user(inquiryTeacher.getUser())
+                    .build();
+
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return null;
+        }
+    }
+
+    public InquiryTeacher findEntityById(Long inquiryId) {
+        InquiryTeacher inquiryTeacher  = inquiryTeacherRepository.findById(inquiryId).orElseThrow(()->new IllegalArgumentException("존재하지 않음"+inquiryId));
+        return inquiryTeacher;
+    }
+
+    public AnswerDTO findAnswerById(InquiryTeacherDTO inquiry) {
+        return inquiryTeacherAnswerRepository.findAnswerDTOByInquiryTeacherId(inquiry.getId());
+    }
 }
+

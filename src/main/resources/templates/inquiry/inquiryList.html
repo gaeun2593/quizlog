@@ -55,6 +55,7 @@
         <div class="inquiry-item" th:each="inquiry : ${inquiryList}">
             <a th:href="@{'/support/' + ${inquiry.id}}" th:text="${inquiry.title}"></a>
             <p th:text="${inquiry.content}"></p>
+            <p th:text="${inquiry.getId()}"></p>
         </div>
 
 </div>
