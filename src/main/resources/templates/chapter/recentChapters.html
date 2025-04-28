@@ -43,7 +43,7 @@
   </div>
 
   <div class="chapter-item" th:each="chapter : ${userChapter}">
-    <a th:href="@{'/main/chapters/' + ${chapter.title}}" th:text="${chapter.title}">Chapter Title</a>
+    <a th:href="@{'/main/recentChapters/' + ${chapter.id}}" th:text="${chapter.title}">Chapter Title</a>
     <span th:text="${chapter.nickname}">Nickname</span>
   </div>
 

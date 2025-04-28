@@ -50,7 +50,7 @@ public class ChapterRepository {
     }
 
     public List<UserChapter> findAll() {
-        TypedQuery<UserChapter> query = em.createQuery("select new com.mtvs.quizlog.domain.chapter.dto.request.UserChapter(c.title , u.nickname) from Chapter c join c.user u order by c.createdAt DESC", UserChapter.class);
+        TypedQuery<UserChapter> query = em.createQuery("select new com.mtvs.quizlog.domain.chapter.dto.request.UserChapter(c.id , c.title , u.nickname) from Chapter c join c.user u order by c.createdAt DESC", UserChapter.class);
         return query.getResultList();
     }
 }
