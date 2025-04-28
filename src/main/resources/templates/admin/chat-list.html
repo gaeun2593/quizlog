@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: commonHead">
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+<div class="manage-page-container">
+    <div th:replace="fragments/aside :: asideFragment"></div>
+
+    <div class="manage-layout">
+        <div class="manage-layout-container">
+            <h1>사용자 문의 관리</h1>
+
+            <div class="manage-menu">
+                <ul>
+                    <li><a href="/admin/list-users">전체 회원 조회</a></li>
+                    <li><a href="/admin/list-deleted-users">탈퇴 회원 조회</a></li>
+                    <li><a href="/admin/chat/rooms">사용자 문의 관리</a></li>
+                </ul>
+            </div>
+
+            <table>
+                <thead>
+                <tr>
+                    <th>채팅방 ID</th>
+                    <th>보낸 사람</th>
+                    <th>내용 미리보기</th>
+                    <th>생성일</th>
+                    <th>상태</th>
+                    <th>입장</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="chatRoom: ${chatRooms}">
+                    <td th:text="${chatRoom.chatRoomId}"></td>
+                    <td th:text="${chatRoom.senderNickname}"></td>
+                    <td>
+                <span th:text="${#strings.length(chatRoom.latestMessage) > 10} ?
+                                ${#strings.substring(chatRoom.latestMessage, 0, 10) + '...'} :
+                                ${chatRoom.latestMessage}">
+                </span>
+                    </td>
+                    <td th:text="${#temporals.format(chatRoom.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
+                    <td th:text="${chatRoom.status}"></td>
+                    <td>
+                        <a th:href="@{|/chat/room/${chatRoom.chatRoomId}|}">입장</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+
+
+        </div>
+    </div>
+</div>
