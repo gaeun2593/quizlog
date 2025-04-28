@@ -4,14 +4,12 @@ package com.mtvs.quizlog.domain.chapter.controller;
 
 import com.mtvs.quizlog.domain.auth.model.AuthDetails;
 import com.mtvs.quizlog.domain.auth.service.AuthService;
-import com.mtvs.quizlog.domain.chapter.dto.request.ChapterDto;
-import com.mtvs.quizlog.domain.chapter.dto.request.QuizDto;
-import com.mtvs.quizlog.domain.chapter.dto.request.QuizForm;
-import com.mtvs.quizlog.domain.chapter.dto.request.RequestCreateChapterDTO;
+import com.mtvs.quizlog.domain.chapter.dto.request.*;
 import com.mtvs.quizlog.domain.chapter.dto.response.ResponseCreateChapterDTO;
 import com.mtvs.quizlog.domain.chapter.entity.Chapter;
 import com.mtvs.quizlog.domain.chapter.service.ChapterService;
 import com.mtvs.quizlog.domain.quiz.dto.CreateQuizDTO;
+import com.mtvs.quizlog.domain.quiz.entity.Quiz;
 import com.mtvs.quizlog.domain.quiz.service.QuizService;
 import com.mtvs.quizlog.domain.user.dto.LogInDTO;
 import com.mtvs.quizlog.domain.user.entity.User;
@@ -87,12 +85,60 @@ public class QuizChapterController {
 
     @GetMapping("/chapters/{chapterId}")
     public String chapterView(@AuthenticationPrincipal AuthDetails userDetails , @PathVariable Long chapterId, Model model) {
-        log.info("chapterId:{}", chapterId);
         Long userId = userDetails.getLogInDTO().getUserId();
         List<QuizDto> quizDto = quizService.findbyQuizes(userId, chapterId);
+        model.addAttribute("chapterId" , chapterId);
         model.addAttribute("quizList", quizDto);
         return "quiz/quizList";
+    }
 
+    @GetMapping("/{chapterId}/edit")
+    public String edit(@AuthenticationPrincipal AuthDetails userDetails , @PathVariable Long chapterId , Model model) {
+        Long userId = userDetails.getLogInDTO().getUserId();
+        RequestCreateChapterDTO dto = new RequestCreateChapterDTO();
+
+
+        List<Chapter> chapter = chapterService.findchpaterAndQuizs(chapterId, userId);
+
+        for (Chapter c : chapter) {
+            dto.setTitle(c.getTitle());
+            dto.setChapterId(c.getId());
+            dto.setDescription(c.getDescription());
+            List<Quiz> quizzes = c.getQuizzes();
+            for (Quiz quiz : quizzes) {
+                dto.getQuizForm().add(new QuizForm(quiz.getId(), quiz.getTitle(), quiz.getAnswer()));
+            }
+
+        }
+
+
+
+
+        model.addAttribute("requestCreateChapterDTO", dto);
+        return "chapter/editForm";
+    }
+
+    @PostMapping("/{chapterId}/edit")
+    public String editPost(@PathVariable Long chapterId ,@Validated @ModelAttribute("requestCreateChapterDTO") RequestCreateChapterDTO requestCreateChapterDTO) {
+
+        for (QuizForm quizForm : requestCreateChapterDTO.getQuizForm()) {
+            log.info("QuizForm: {}", quizForm.getId());
+            log.info("QuizForm: {}", quizForm.getWord());
+        }
+        chapterService.updateChapter(chapterId , requestCreateChapterDTO.getTitle() , requestCreateChapterDTO.getDescription()) ;
+        quizService.updateQuiz(chapterId ,requestCreateChapterDTO.getQuizForm());
+
+
+        return "redirect:/main";
+    }
+
+    @GetMapping("/recentChapters")
+    public String recentChapters(Model model) {
+        List<UserChapter> UserChapters = chapterService.findAll();
+        log.info("UserChapters: {}", UserChapters.size());
+        model.addAttribute("userChapter", UserChapters);
+
+        return "chapter/recentChapters";
     }
 
 
@@ -127,44 +173,4 @@ public class QuizChapterController {
         return mv;
     }
 */
-
-    /*
-        @PatchMapping("/{chapterId}")
-        public ResponseEntity<CDTO> updateChapter(@PathVariable("chapterId") int chapterId, @Validated @RequestBody ChapterDTO chapterDTO) {
-            logger.info("patch : /chapter " +chapterId);
-
-            ChapterDTO updateChapter = chapterService.updateChapter(chapterId, chapterDTO);
-
-            if(updateChapter == null){
-                return ResponseEntity.status(500).body(null);
-            }else{
-                return ResponseEntity.ok().body(updateChapter);
-            }
-        }
-
-
-        // 삭제
-        @DeleteMapping("/{chapterId}")
-        public ResponseEntity<Void> deleteChapter(@PathVariable("chapterId") int chapterId) {
-            logger.info("DELETE /api/chapters/{}"+ chapterId);
-            chapterService.deleteChapter(chapterId);
-            return ResponseEntity.noContent().build();
-        }
-
-
-        // 상세 조회
-        @GetMapping("/{chapterId}")
-        public ResponseEntity<ChapterDTO> getChapterById(@PathVariable("chapterId") int chapterId) {
-            logger.info("GET /api/chapters/{}"+ chapterId);
-            ChapterDTO chapter = chapterService.getChapterById(chapterId);
-            return ResponseEntity.ok(chapter);
-        }
-        */
-    // 예외 처리
-/*    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
-        logger.warning("Validation error: {}"+ ex.getMessage());
-        return ResponseEntity.badRequest().body(ex.getMessage());
-    }*/
-
 

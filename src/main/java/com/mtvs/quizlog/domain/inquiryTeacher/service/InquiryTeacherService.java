@@ -80,4 +80,7 @@ public class InquiryTeacherService {
     }
 
 
+    public void updateInquiry(InquiryTeacherDTO inquiryTeacherDTO) {
+        inquiryTeacherDTO
+    }
 }

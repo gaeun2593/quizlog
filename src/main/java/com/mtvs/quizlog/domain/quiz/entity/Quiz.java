@@ -48,7 +48,7 @@ public class Quiz {
 
     @ManyToOne(fetch = LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name="chapter_id")
-    Chapter chapter;
+    private Chapter chapter;
 
     @ManyToOne(fetch = FetchType.LAZY , cascade = CascadeType.ALL)
     @JoinColumn(name="user_id")
@@ -63,7 +63,5 @@ public class Quiz {
         quiz.setCreatedAt(createdAt);
         quiz.setUpdatedAt(updatedAt);
         return quiz  ;
-
     }
-
 }

@@ -89,18 +89,18 @@ public class InquiryTeacherController {
     }
 //  문의 수정
     @GetMapping("/support/{inquiryId}/edit")
-    public String updatePost(@AuthenticationPrincipal AuthDetails userDetails, @Validated @ModelAttribute("inquiryTeacherDTO") InquiryTeacherDTO inquiryTeacherDTO) {
+    public String getUpdatePost(@AuthenticationPrincipal AuthDetails userDetails,@PathVariable Long inquiryId, @Validated @ModelAttribute("inquiryTeacherDTO") InquiryTeacherDTO inquiryTeacherDTO,Model model) {
         User user = userService.findUser(userDetails.getLogInDTO().getUserId());
-        log.info("inquiryTeacherDTO = {}", inquiryTeacherDTO.getContent());
-        inquiryTeacherService.createInquiry(inquiryTeacherDTO,user);
-        return "redirect:/support";
+        InquiryTeacherDTO inquiry = inquiryTeacherService.findById(inquiryId);
+        model.addAttribute("inquiry", inquiry);
+        return "inquiry/edit";
     }
 
-    @PostMapping("/support/{inquiryId}/edit")
-    public String deletePost(@AuthenticationPrincipal AuthDetails userDetails,@PathVariable Long inquiryId, @Validated @ModelAttribute("inquiryTeacherDTO") InquiryTeacherDTO inquiryTeacherDTO) {
+    @PatchMapping ("/support/{inquiryId}/edit")
+    public String updatePost(@AuthenticationPrincipal AuthDetails userDetails,@PathVariable Long inquiryId, @Validated @ModelAttribute("inquiryTeacherDTO") InquiryTeacherDTO inquiryTeacherDTO) {
         User user = userService.findUser(userDetails.getLogInDTO().getUserId());
         log.info("inquiryTeacherDTO = {}", inquiryTeacherDTO.getContent());
-        inquiryTeacherService.createInquiry(inquiryTeacherDTO,user);
+        inquiryTeacherService.updateInquiry(inquiryTeacherDTO);
         return "redirect:/support/"+inquiryId;
     }
 // 태용님코드

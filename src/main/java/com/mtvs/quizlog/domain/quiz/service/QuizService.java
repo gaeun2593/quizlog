@@ -12,6 +12,7 @@ import com.mtvs.quizlog.domain.quiz.repository.QuizRepository;
 import com.mtvs.quizlog.domain.user.entity.User;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,7 @@ import java.util.Optional;
 @Service
 @Transactional
 @RequiredArgsConstructor
+@Slf4j
 public class QuizService {
 
     private final QuizRepository quizRepository;
@@ -38,32 +40,26 @@ public class QuizService {
 
     }
 
-    public UpdateQuizDTO updateQuiz(Long quizId, CreateQuizDTO createQuizDTO) {
+    public void updateQuiz(Long chapterId ,List<QuizForm> quizFormList)  {
+        quizFormList.forEach(quizForm -> {
 
-       // Quiz quiz = quizRepository.findById(quizId).orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다."));
+            if (quizForm.getId() == null) {
+                Optional<Chapter> chapter = chapterRepository.find(chapterId);
+                quizRepository.save(Quiz.createQuiz(chapter.get().getUser(), chapter.get(), quizForm.getWord(), quizForm.getAnswer(), LocalDateTime.now(), LocalDateTime.now()));
+            }
 
-       // Optional<Quiz> findQuiz = quizRepository.findByTitleAndIdNot(createQuizDTO.getTitle(), quizId);
-       // if(findQuiz.isPresent()) {
-       //     throw new IllegalArgumentException("중복되는 문제가 존재 합니다.");
-       // }
+            else {
+                quizRepository.find(quizForm.getId()).ifPresent(quiz -> {
+                    quiz.setTitle(quizForm.getWord());
+                    quiz.setAnswer(quizForm.getAnswer());
+                    quiz.setUpdatedAt(LocalDateTime.now());
+                });
 
-     /*    quiz = Quiz.builder()
-                    .title(createQuizDTO.getTitle())
-                    .answer(createQuizDTO.getAnswer())
-                    .build();*/
-       /* Quiz savedQuiz = quizRepository.save(quiz);*/
+            }
+        });
 
-        return new UpdateQuizDTO();
     }
 
-    public void deleteQuiz(Long quizId) {
-       // boolean result = quizRepository.existsById(quizId);
-
-     //  if(!result) {
-      //      throw new IllegalArgumentException("게시글이 존재하지 않습니다. " + quizId);
-     //   }
-      //  quizRepository.deleteById(quizId);
-    }
 
 
     public List<QuizDto> findbyQuizes(Long userId, Long chapterId) {

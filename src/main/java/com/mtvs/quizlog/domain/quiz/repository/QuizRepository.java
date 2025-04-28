@@ -24,6 +24,11 @@ public class QuizRepository  {
         em.persist(quiz);
     }
 
+    public Optional<Quiz> find(long id){
+        Quiz quiz = em.find(Quiz.class, id);
+        return Optional.ofNullable(quiz);
+    }
+
     public List<QuizDto> findbyQuizes(Long userId, Long chapterId) {
 
         TypedQuery<QuizDto> query = em.createQuery("select new com.mtvs.quizlog.domain.chapter.dto.request.QuizDto(q.title , q.answer) " +
