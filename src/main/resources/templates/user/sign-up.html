@@ -7,7 +7,7 @@
         <div class="login-box2">
             <a href="/"><img th:src="@{/images/chevron-left.svg}" class="back-to-home-img" alt="홈으로 돌아가기"></a>
             <h2>회원가입</h2>
-            <form th:action="@{/user/sign-up}" method="post" onsubmit="return validateForm()">
+            <form th:action="@{/user/sign-up}" method="post" onsubmit="return validateForm(), validateEmail()">
             <div class="form-group">
                     <label for="nickname">닉네임</label>
                     <input type="text" name="nickname" id="nickname" placeholder="닉네임을 입력하세요" required />
@@ -20,6 +20,7 @@
                     <label for="email">이메일</label>
                     <input type="email" name="email" id="email" placeholder="이메일을 입력하세요" required />
                 </div>
+                <div id="email-error" class="error-message" style="display: none;">유효한 이메일 형식을 입력하세요.</div>
                 <div th:if="${emailError}" class="error-message" style="color: red; margin-bottom: 10px;">
                     <span th:text="${emailError}"></span>
                 </div>
@@ -76,6 +77,20 @@
         errorDiv.style.display = "none";
         errorDiv.textContent = "";
         return true;
+    }
+
+    function validateEmail() {
+        const email = document.getElementById("email").value;
+        const emailError = document.getElementById("email-error");
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!regex.test(email)) {
+            emailError.style.display = "block";
+            return false; // form 제출 막음
+        } else {
+            emailError.style.display = "none";
+            return true;
+        }
     }
 </script>
 
