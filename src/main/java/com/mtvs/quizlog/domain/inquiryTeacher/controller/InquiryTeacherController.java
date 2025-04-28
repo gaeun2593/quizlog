@@ -16,6 +16,7 @@ import com.mtvs.quizlog.domain.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -65,6 +66,7 @@ public class InquiryTeacherController {
     public String inquiryView(@AuthenticationPrincipal AuthDetails userDetails , @PathVariable Long inquiryId, Model model) {
         InquiryTeacherDTO inquiry = inquiryTeacherService.findById(inquiryId);
         model.addAttribute("inquiry", inquiry);
+        log.info("inquiry: {}", inquiry.getId());
         AnswerDTO answer = inquiryTeacherService.findAnswerById(inquiry);
         log.info("answer: {}", answer);
         model.addAttribute("answer", answer);
@@ -94,12 +96,12 @@ public class InquiryTeacherController {
         try{
 
             InquiryTeacherDTO inquiry =inquiryTeacherService.findById(inquiryId);
-
+            log.info("inquiry = {}", inquiry);
             if(inquiry==null) {
 //문의 에러처리
             }
-
             AnswerDTO answerDTO = new AnswerDTO();
+            model.addAttribute("inquiryId", inquiryId);
             model.addAttribute("answerDTO", answerDTO);
             return "inquiry/createAnswer";
 
@@ -113,7 +115,7 @@ public class InquiryTeacherController {
 //      findById entity 반환
 //      답변할 inquiry식별
         InquiryTeacher inquiry = inquiryTeacherService.findEntityById(inquiryId);
-        inquiryTeacherService.createAnswer(answerDTO,inquiry);
+        inquiryTeacherService.createAnswer(answerDTO,inquiry,user);
         return "redirect:/support";
     }
   /*  @GetMapping("/support/{inquiryId}/edit")
@@ -132,67 +134,18 @@ public class InquiryTeacherController {
         inquiryTeacherService.updateInquiry(inquiryTeacherDTO,inquiryId);
         return "redirect:/support/"+inquiryId;
     }
-/*
-    //  답변 수정
-    @PatchMapping ("/support/{inquiryId}/edit")
-    public String updateAnswer(@AuthenticationPrincipal AuthDetails userDetails,@PathVariable Long inquiryId, @Validated @ModelAttribute("inquiryTeacherDTO") InquiryTeacherDTO inquiryTeacherDTO) {
-        User user = userService.findUser(userDetails.getLogInDTO().getUserId());
-        log.info("inquiryTeacherDTO = {}", inquiryTeacherDTO.getContent());
-        inquiryTeacherService.updateInquiry(inquiryTeacherDTO,inquiryId);
-        return "redirect:/support/"+inquiryId;
-    }*/
+
 //  문의 삭제
     @PatchMapping ("/support/{inquiryId}/delete")
     public String deletePost(@AuthenticationPrincipal AuthDetails userDetails,@PathVariable Long inquiryId, @Validated @ModelAttribute("inquiryTeacherDTO") InquiryTeacherDTO inquiryTeacherDTO){
         inquiryTeacherService.deleteInquiry(inquiryId);
         return "redirect:/support/";
     }
-// 태용님코드
-/*
-
-    @GetMapping("/{chapterId}/edit")
-    public String edit(@AuthenticationPrincipal AuthDetails userDetails , @PathVariable Long chapterId , Model model) {
-        Long userId = userDetails.getLogInDTO().getUserId();
-        RequestCreateChapterDTO dto = new RequestCreateChapterDTO();
-
-
-        List<Chapter> chapter = chapterService.findchpaterAndQuizs(chapterId, userId);
-
-        for (Chapter c : chapter) {
-            dto.setTitle(c.getTitle());
-            dto.setChapterId(c.getId());
-            dto.setDescription(c.getDescription());
-            List<Quiz> quizzes = c.getQuizzes();
-            for (Quiz quiz : quizzes) {
-                dto.getQuizForm().add(new QuizForm(quiz.getId(), quiz.getTitle(), quiz.getAnswer()));
-            }
-
-        }
-
-
-
-
-        model.addAttribute("requestCreateChapterDTO", dto);
-        return "chapter/editForm";
+//  답변 삭제
+    @PatchMapping ("/support/{inquiryId}/answerDelete")
+    public String deleteAnswer(@AuthenticationPrincipal AuthDetails userDetails, @PathVariable Long inquiryId, @Validated @ModelAttribute("answerDTO") AnswerDTO answerDTO) {
+        inquiryTeacherService.deleteAnswer(inquiryId);
+        return "redirect:/support/";
     }
-
-    @PostMapping("/{chapterId}/edit")
-    public String editPost(@PathVariable Long chapterId ,@Validated @ModelAttribute("requestCreateChapterDTO") RequestCreateChapterDTO requestCreateChapterDTO) {
-
-        for (QuizForm quizForm : requestCreateChapterDTO.getQuizForm()) {
-            log.info("QuizForm: {}", quizForm.getId());
-            log.info("QuizForm: {}", quizForm.getWord());
-        }
-        chapterService.updateChapter(chapterId , requestCreateChapterDTO.getTitle() , requestCreateChapterDTO.getDescription()) ;
-        quizService.updateQuiz(chapterId ,requestCreateChapterDTO.getQuizForm());
-
-
-        return "redirect:/main";
-    }
-*/
-
-//  문의 삭제
-
-
 
 }

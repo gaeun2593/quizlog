@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface InquiryTeacherAnswerRepository extends JpaRepository<InquiryTeacherAnswer, Long> {
@@ -16,6 +17,9 @@ public interface InquiryTeacherAnswerRepository extends JpaRepository<InquiryTea
             "a.id, a.title, a.content, a.createdAt, a.updatedAt, a.status, a.inquiryTeacher, a.user" +
             ") " +
             "FROM InquiryTeacherAnswer a " +
-            "WHERE a.inquiryTeacher.id = :inquiryTeacherId")
-    AnswerDTO findAnswerDTOByInquiryTeacherId(Long inquiryTeacherId);
+            "JOIN a.inquiryTeacher t " +
+            "WHERE t.id = :inquiryTeacherId " +
+            "AND a.status = 'ACTIVE'")
+    AnswerDTO findAnswerDTOByInquiryTeacherId(long inquiryTeacherId);
+
 }

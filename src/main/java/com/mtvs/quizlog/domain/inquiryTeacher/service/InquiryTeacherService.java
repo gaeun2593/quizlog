@@ -85,18 +85,31 @@ public class InquiryTeacherService {
 
     public void updateInquiry(InquiryTeacherDTO inquiryTeacherDTO,long inquiryId) {
         InquiryTeacher inquiryTeacher  = inquiryTeacherRepository.findById(inquiryId).orElseThrow(()->new IllegalArgumentException("존재하지 않음"+inquiryId));
-        inquiryTeacher.setTitle(inquiryTeacherDTO.getTitle());
-        inquiryTeacher.setContent(inquiryTeacherDTO.getContent());
-        inquiryTeacher.setUpdatedAt(LocalDateTime.now());
+        // 답변이 없을때만 수정가능
+        if(inquiryTeacherAnswerRepository.findAnswerDTOByInquiryTeacherId(inquiryId)==null){
+            inquiryTeacher.setTitle(inquiryTeacherDTO.getTitle());
+            inquiryTeacher.setContent(inquiryTeacherDTO.getContent());
+            inquiryTeacher.setUpdatedAt(LocalDateTime.now());
+        }
+        else{
+           /*팝업창 띄우기*/
+        }
     }
 
     public void deleteInquiry(long inquiryId) {
         InquiryTeacher inquiryTeacher  = inquiryTeacherRepository.findById(inquiryId).orElseThrow(()->new IllegalArgumentException("존재하지 않음"+inquiryId));
-        inquiryTeacher.setStatus(Status.DELETED);
-        inquiryTeacher.setDeletedAt(LocalDateTime.now());
+
+        // 답변이 없을때만 삭제가능
+        if(inquiryTeacherAnswerRepository.findAnswerDTOByInquiryTeacherId(inquiryId)==null){
+            inquiryTeacher.setStatus(Status.DELETED);
+            inquiryTeacher.setDeletedAt(LocalDateTime.now());
+        }
+        else{
+            /*팝업창 띄우기*/
+        }
     }
 
-    public AnswerDTO createAnswer(AnswerDTO answerDTO,InquiryTeacher inquiryTeacher) {
+    public AnswerDTO createAnswer(AnswerDTO answerDTO,InquiryTeacher inquiryTeacher,User user) {
         log.info("InquiryTeacher: {}", answerDTO.getId());
         try {
             InquiryTeacherAnswer answer =
@@ -106,6 +119,7 @@ public class InquiryTeacherService {
                             .status(Status.ACTIVE)
                             .createdAt(LocalDateTime.now())
                             .inquiryTeacher(inquiryTeacher)
+                            .user(user)
                             .build();
 
             InquiryTeacherAnswer savedAnswer = inquiryTeacherAnswerRepository.save(answer);
@@ -115,7 +129,7 @@ public class InquiryTeacherService {
                     .content(inquiryTeacher.getContent())
                     .status(inquiryTeacher.getStatus())
                     .createdAt(inquiryTeacher.getCreatedAt())
-                    .user(inquiryTeacher.getUser())
+                    .user(user)
                     .build();
 
         } catch (Exception e) {
@@ -124,13 +138,23 @@ public class InquiryTeacherService {
         }
     }
 
-    public InquiryTeacher findEntityById(Long inquiryId) {
+    public InquiryTeacher findEntityById(long inquiryId) {
         InquiryTeacher inquiryTeacher  = inquiryTeacherRepository.findById(inquiryId).orElseThrow(()->new IllegalArgumentException("존재하지 않음"+inquiryId));
         return inquiryTeacher;
     }
 
     public AnswerDTO findAnswerById(InquiryTeacherDTO inquiry) {
-        return inquiryTeacherAnswerRepository.findAnswerDTOByInquiryTeacherId(inquiry.getId());
+            return inquiryTeacherAnswerRepository.findAnswerDTOByInquiryTeacherId(inquiry.getId());
+    }
+
+    public InquiryTeacherAnswer findAnswerById(Long answerId) {
+        return inquiryTeacherAnswerRepository.findById(answerId).orElseThrow(()->new IllegalArgumentException("존재하지않는답변"+answerId));
+    }
+
+    public void deleteAnswer(Long answerId) {
+        InquiryTeacherAnswer inquiryTeacherAnswer = findAnswerById(answerId);
+        inquiryTeacherAnswer.setStatus(Status.DELETED);
+        inquiryTeacherAnswer.setDeletedAt(LocalDateTime.now());
     }
 }
 
