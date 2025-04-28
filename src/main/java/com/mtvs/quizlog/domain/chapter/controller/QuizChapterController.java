@@ -146,33 +146,4 @@ public class QuizChapterController {
 
 
 }
-/*
-* 챕터뷰구현!!!!!
-*
-* */
-/*
-
-    public String updateRole(@AuthenticationPrincipal AuthDetails userDetails,
-                             @Validated UpdateRoleRequestDTO updateRoleRequestDTO,
-                             Model model) {
-        Long userId = userDetails.getLogInDTO().getUserId();
-        log.info("updateRole : {}", userId);
-
-        UpdateRoleResponseDTO updateRole = userService.updateRole(userId, updateRoleRequestDTO);
-        model.addAttribute("updatedRole", updateRole);
-
-        return "/user/my-page";
-    }
-
-*/
-    /*
-
-     @GetMapping("createChapter")
-     public ModelAndView expression(ModelAndView mv) {
-        *//* view 이름부터 설정 *//*
-        mv.setViewName("Chapter");
-        mv.addObject("createChapterDTO", new RequestCreateChapterDTO());
-        return mv;
-    }
-*/
 

@@ -3,9 +3,7 @@ package com.mtvs.quizlog.domain.inquiryTeacher.service;
 
 import com.mtvs.quizlog.domain.chapter.dto.request.GetChapterDTO;
 import com.mtvs.quizlog.domain.chapter.entity.Chapter;
-import com.mtvs.quizlog.domain.inquiryTeacher.dto.AnswerDTO;
-import com.mtvs.quizlog.domain.inquiryTeacher.dto.InquiryTeacherDTO;
-import com.mtvs.quizlog.domain.inquiryTeacher.dto.InquiryTeacherListDTO;
+import com.mtvs.quizlog.domain.inquiryTeacher.dto.*;
 import com.mtvs.quizlog.domain.inquiryTeacher.entity.InquiryTeacher;
 import com.mtvs.quizlog.domain.inquiryTeacher.entity.InquiryTeacherAnswer;
 import com.mtvs.quizlog.domain.inquiryTeacher.entity.Status;
@@ -75,8 +73,8 @@ public class InquiryTeacherService {
         return inquiryTeacherRepository.findAllList(userId);
     }
 
-    public InquiryTeacherDTO findByTeacherId(Long inquiryId, Long teacherId) {
-        return inquiryTeacherRepository.findByTeacherId(inquiryId, teacherId);
+    public List<InquiryTeacherListDTO> findAllByTeacher(Long teacherId) {
+        return inquiryTeacherRepository.findAllListByTeacher(teacherId);
     }
 
     /**
@@ -160,6 +158,10 @@ public class InquiryTeacherService {
         InquiryTeacherAnswer inquiryTeacherAnswer = findAnswerById(answerId);
         inquiryTeacherAnswer.setStatus(Status.DELETED);
         inquiryTeacherAnswer.setDeletedAt(LocalDateTime.now());
+    }
+
+    public List<InquiryTeacherAllDTO> findAllByAdmin() {
+        return inquiryTeacherRepository.findAllListByAdmin();
     }
 }
 

@@ -4,26 +4,27 @@ package com.mtvs.quizlog.domain.inquiryTeacher.controller;
 import com.mtvs.quizlog.domain.auth.model.AuthDetails;
 import com.mtvs.quizlog.domain.chapter.service.ChapterService;
 import com.mtvs.quizlog.domain.inquiryTeacher.dto.AnswerDTO;
+import com.mtvs.quizlog.domain.inquiryTeacher.dto.InquiryTeacherAllDTO;
 import com.mtvs.quizlog.domain.inquiryTeacher.dto.InquiryTeacherDTO;
 import com.mtvs.quizlog.domain.inquiryTeacher.dto.InquiryTeacherListDTO;
 
 import com.mtvs.quizlog.domain.inquiryTeacher.entity.InquiryTeacher;
-import com.mtvs.quizlog.domain.inquiryTeacher.entity.InquiryTeacherAnswer;
+
 import com.mtvs.quizlog.domain.inquiryTeacher.repository.InquiryTeacherRepository;
 import com.mtvs.quizlog.domain.inquiryTeacher.service.InquiryTeacherService;
 
-import com.mtvs.quizlog.domain.user.entity.Role;
 import com.mtvs.quizlog.domain.user.entity.User;
 import com.mtvs.quizlog.domain.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.parameters.P;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -46,45 +47,32 @@ public class InquiryTeacherController {
     //본인문의페이지 조회
     @GetMapping("/support")
     public String quizList(@AuthenticationPrincipal AuthDetails userDetails ,Model model) {
-//        권한조회
         Long userId = userDetails.getLogInDTO().getUserId();
         User user = userService.findUser(userId);
+
+//      학생 선생을 위한 문의목록
+        List<InquiryTeacherListDTO> inquiry;
         switch (user.getRole()) {
-            //        학생 -> 이아래로직
             case ADMIN:
-
-
+                // 전 체 조 회
+                List<InquiryTeacherAllDTO> adminInquiryList = inquiryTeacherService.findAllByAdmin();
+                model.addAttribute("inquiryList", adminInquiryList);
                 break;
             case TEACHER:
-                //        선생->다른 findAll로직.(자신의 대해 조회하
-                /*
-                 * 1. 새로운 dto 만듬
-                 * 2. 새로운 Answerdto에는 teacherId정보가 담김.
-                 * 3. 그 teacherId->teacherId로 전부 조회. role
-                 * */
+                //        선생->자신한테 쓴 문의 조회.
+                inquiry = inquiryTeacherService.findAllByTeacher(userDetails.getLogInDTO().getUserId());
+                model.addAttribute("inquiryList", inquiry);
                 break;
             case STUDENT:
-                List<InquiryTeacherListDTO> inquiry = inquiryTeacherService.findAll(userDetails.getLogInDTO().getUserId());
+                //        학생 -> 자신이 쓴 문의 조회.
+                inquiry = inquiryTeacherService.findAll(userDetails.getLogInDTO().getUserId());
                 model.addAttribute("inquiryList", inquiry);
                 break;
         }
-
-
 //        내부리소스
         return "inquiry/inquiryList";
     }
-/*
-*  @GetMapping("/chapters/{chapterId}")
-    public String chapterView(@AuthenticationPrincipal AuthDetails userDetails , @PathVariable Long chapterId, Model model) {
-        Long userId = userDetails.getLogInDTO().getUserId();
-        List<QuizDto> quizDto = quizService.findbyQuizes(userId, chapterId);
-        model.addAttribute("chapterId" , chapterId);
-        model.addAttribute("quizList", quizDto);
-        return "quiz/quizList";
-    }
 
-*
-* */
 // 1. 문의 답변을 일단 안에서 조회하게한다!
 // 문의세부조회
 //  +답변조회
@@ -109,7 +97,8 @@ public class InquiryTeacherController {
         InquiryTeacherDTO inquiryTeacherDTO = new InquiryTeacherDTO();
         model.addAttribute("inquiryTeacherDTO", inquiryTeacherDTO);
         long teacherId = -1 ;
-        model.addAttribute("teacherId", teacherId);
+//        나중에추가!!
+//        model.addAttribute("teacherId", teacherId);
         return "inquiry/create";
     }
 
