@@ -1,0 +1,53 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz log</title>
+    <link rel="stylesheet" type="text/css" th:href="@{ /css/common.css }" />
+</head>
+<body>
+<h1>Chapter Test</h1>
+<h2>챕터 제목</h2>
+<form th:action="@{/main/create-chap}" th:object="${requestCreateChapterDTO}" method="post">
+    <input type="text" th:field="*{title}" placeholder="제목"/>
+    <input type="text" th:field="*{description}" placeholder="설명"/>
+
+    <h2>퀴즈 목록</h2>
+    <div id="quiz-container">
+        <div th:each="quiz, stat : *{quizForm}">
+            <input type="text" th:field="*{quizForm[__${stat.index}__].word}" placeholder="단어" />
+            <input type="text" th:field="*{quizForm[__${stat.index}__].answer}" placeholder="답변" />
+        </div>
+    </div>
+
+    <button type="button" onclick="addQuiz()">퀴즈 추가</button>
+    <button type="submit">저장</button>
+</form>
+
+<script th:inline="javascript">
+    let quizIndex = [[${#lists.size(requestCreateChapterDTO.quizForm)}]];
+    console.log(quizIndex);
+    function addQuiz() {
+        const container = document.getElementById("quiz-container");
+
+        const newDiv = document.createElement("div");
+        newDiv.classList.add("quiz-entry");
+
+        newDiv.innerHTML = `
+            <input type="text" name="quizForm[${quizIndex}].word" placeholder="단어"/>
+            <input type="text" name="quizForm[${quizIndex}].answer" placeholder="정답"/>
+        `;
+
+        container.appendChild(newDiv);
+        quizIndex++;
+    }
+</script>
+
+
+
+
+</body>
+
+</html>
+
+

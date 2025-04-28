@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Inquiry List</title>
+    <style>
+        .inquiry-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 300px;
+        }
+        .inquiry-header, .inquiry-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px;
+            border: 1px solid #aaa;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+        }
+        .inquiry-header {
+            font-weight: bold;
+            background-color: #e0e0e0;
+        }
+
+        .inquiry-item a {
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        .inquiry-item a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<h1>inquiry List</h1>
+
+<div class="inquiry-list">
+    <div class="inquiry-header">
+        <span>문의목록</span>
+    </div>
+<!--
+  private Long inquiryTeacherId;
+    private String title;
+    private String content;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+    private Status status;
+    private String userNickname;
+    private String chapterTitle;
+
+-->
+
+        <div class="inquiry-item" th:each="inquiry : ${inquiryList}">
+            <a th:href="@{'/support/' + ${inquiry.id}}" th:text="${inquiry.title}"></a>
+            <p th:text="${inquiry.content}"></p>
+        </div>
+
+</div>
+
+</body>
+</html>

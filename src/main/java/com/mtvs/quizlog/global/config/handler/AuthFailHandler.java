@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -31,6 +32,9 @@ public class AuthFailHandler extends SimpleUrlAuthenticationFailureHandler {
         } else if (exception instanceof AuthenticationCredentialsNotFoundException) {
             //보안 컨텍스트에 인증 객체가 존재하지 않거나 인증 정보가 없는 상태에서 보안처리된 리소스에 접근하는 경우 발생
             errorMessage = "인증 요청이 거부되었습니다.";
+        } else if (exception instanceof DisabledException) {
+            // 탈퇴된 회원일 때
+            errorMessage = "이미 탈퇴된 회원입니다.";
         } else {
             errorMessage = "알 수 없는 오류로 로그인 요청을 처리할 수 없습니다.";
         }

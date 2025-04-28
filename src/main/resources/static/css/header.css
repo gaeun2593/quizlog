@@ -48,16 +48,18 @@ header{
     align-items: center;
     gap: 20px;
   }
+
   .contentright a{
     padding-top: 5px;
   }
+
   .contentright .user-profile{
     background-color: #f8f5f5;
     width: 40px;
     height: 40px;
     border-radius: 100%;
-
   }
+
 .contentright .plus-circle{
   width: 40px;
 }

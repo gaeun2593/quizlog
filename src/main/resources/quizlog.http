@@ -1,0 +1,14 @@
+
+###
+### GET request to example server
+GET https://examples.http-client.intellij.net/get
+    ?generated-in=IntelliJ IDEA
+
+### POST request to quizlog.chapter
+POST http://localhost:8080/chapter/createChapter
+Content-Type: application/json
+
+{
+    "title": "테스트",
+    "description": "테스트"
+}
