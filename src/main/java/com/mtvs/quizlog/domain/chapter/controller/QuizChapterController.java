@@ -112,8 +112,6 @@ public class QuizChapterController {
         }
 
 
-
-
         model.addAttribute("requestCreateChapterDTO", dto);
         return "chapter/editForm";
     }
@@ -121,10 +119,7 @@ public class QuizChapterController {
     @PostMapping("/{chapterId}/edit")
     public String editPost(@PathVariable Long chapterId ,@Validated @ModelAttribute("requestCreateChapterDTO") RequestCreateChapterDTO requestCreateChapterDTO) {
 
-        for (QuizForm quizForm : requestCreateChapterDTO.getQuizForm()) {
-            log.info("QuizForm: {}", quizForm.getId());
-            log.info("QuizForm: {}", quizForm.getWord());
-        }
+
         chapterService.updateChapter(chapterId , requestCreateChapterDTO.getTitle() , requestCreateChapterDTO.getDescription()) ;
         quizService.updateQuiz(chapterId ,requestCreateChapterDTO.getQuizForm());
 
@@ -135,10 +130,17 @@ public class QuizChapterController {
     @GetMapping("/recentChapters")
     public String recentChapters(Model model) {
         List<UserChapter> UserChapters = chapterService.findAll();
-        log.info("UserChapters: {}", UserChapters.size());
         model.addAttribute("userChapter", UserChapters);
 
         return "chapter/recentChapters";
+    }
+
+
+    @GetMapping("/recentChapters/{chapterId}")
+    public String recentChapter(@PathVariable Long chapterId , @ModelAttribute("userChapter") UserChapter userChapter) {
+        log.info("UserChapters: {}", userChapter.getTitle());
+
+        return "redirect:/main";
     }
 
 

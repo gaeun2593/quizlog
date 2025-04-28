@@ -35,18 +35,13 @@ public class UserSolvedQuiz {
     @JoinColumn(name = "chapter_id")
     private Chapter chapter;
 
-    @Enumerated(EnumType.STRING)
-    private Status status;
-
-
-    public UserSolvedQuiz(User user, Quiz quiz, Status status, Chapter chapter) {
+    
+    public UserSolvedQuiz(User user, Quiz quiz, Chapter chapter) {
         this.user = user;
         this.quiz = quiz;
-        this.status = status;
+
         this.chapter = chapter;
     }
 
-    public void updateStatus(Status status) {
-        this.status = status;
-    }
+
 }
