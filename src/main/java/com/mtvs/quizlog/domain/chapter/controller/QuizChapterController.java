@@ -4,10 +4,7 @@ package com.mtvs.quizlog.domain.chapter.controller;
 
 import com.mtvs.quizlog.domain.auth.model.AuthDetails;
 import com.mtvs.quizlog.domain.auth.service.AuthService;
-import com.mtvs.quizlog.domain.chapter.dto.request.ChapterDto;
-import com.mtvs.quizlog.domain.chapter.dto.request.QuizDto;
-import com.mtvs.quizlog.domain.chapter.dto.request.QuizForm;
-import com.mtvs.quizlog.domain.chapter.dto.request.RequestCreateChapterDTO;
+import com.mtvs.quizlog.domain.chapter.dto.request.*;
 import com.mtvs.quizlog.domain.chapter.dto.response.ResponseCreateChapterDTO;
 import com.mtvs.quizlog.domain.chapter.entity.Chapter;
 import com.mtvs.quizlog.domain.chapter.service.ChapterService;
@@ -135,7 +132,14 @@ public class QuizChapterController {
         return "redirect:/main";
     }
 
+    @GetMapping("/recentChapters")
+    public String recentChapters(Model model) {
+        List<UserChapter> UserChapters = chapterService.findAll();
+        log.info("UserChapters: {}", UserChapters.size());
+        model.addAttribute("userChapter", UserChapters);
 
+        return "chapter/recentChapters";
+    }
 
 
 

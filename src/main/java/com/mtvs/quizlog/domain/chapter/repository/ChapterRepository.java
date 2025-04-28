@@ -1,8 +1,8 @@
 package com.mtvs.quizlog.domain.chapter.repository;
 
+import com.mtvs.quizlog.domain.chapter.dto.request.UserChapter;
 import com.mtvs.quizlog.domain.chapter.dto.request.ChapterDto;
 import com.mtvs.quizlog.domain.chapter.entity.Chapter;
-import com.mtvs.quizlog.domain.quiz.entity.Quiz;
 import com.mtvs.quizlog.domain.user.entity.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -47,7 +47,10 @@ public class ChapterRepository {
 
         return  query.getResultList();
 
+    }
 
-
+    public List<UserChapter> findAll() {
+        TypedQuery<UserChapter> query = em.createQuery("select new com.mtvs.quizlog.domain.chapter.dto.request.UserChapter(c.title , u.nickname) from Chapter c join c.user u order by c.createdAt DESC", UserChapter.class);
+        return query.getResultList();
     }
 }
