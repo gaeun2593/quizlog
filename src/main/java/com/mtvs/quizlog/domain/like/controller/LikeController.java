@@ -61,7 +61,7 @@ public class LikeController {
 //    @GetMapping("/test")
 //    public ModelAndView mainPage(ModelAndView model) {
 //        List<TeacherLikeRankingDto> topTeachers = likeService.getTop5TeachersByLikes();
-//        System.out.println("Top Teachers: " + topTeachers);  // 데이터 확인
+//        System.out.println("Top Teachers: " + topTeachers);
 //        model.addObject("topTeachers", topTeachers);
 //        model.setViewName("main");
 //        return model;
