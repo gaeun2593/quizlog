@@ -1,5 +1,6 @@
 package com.mtvs.quizlog.domain.user.entity;
 
+import com.mtvs.quizlog.domain.folder.folderbookmarks.entity.FolderBookmark;
 import com.mtvs.quizlog.domain.folder.folderchapter.entity.FolderChapter;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -50,6 +51,10 @@ public class User {
     // 폴더챕터랑 일대다 맵핑
     @OneToMany(mappedBy = "user")
     private List<FolderChapter> folderChapters;
+
+    //폴더북마크랑 일대다 맵핑
+    @OneToMany(mappedBy = "user")
+    private List<FolderBookmark> folderBookmarks;
 
     public User(String nickname, String email, String password, Role role, Status status, LocalDateTime createdAt, LocalDateTime updatedAt, LocalDateTime deletedAt) {
         this.nickname = nickname;

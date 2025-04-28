@@ -46,7 +46,7 @@ public class FolderChapterController {
         // FolderChapterService에 게시판을 생성하는 메서드에 DTO를 전달한뒤 saveFolderChapter로 받음
        folderChapterService.createFolderChapter(folderChapterDTO,user);
 
-        return "redirect:/folder-chapters/folder";
+        return "redirect:/folder-chapters/folder-chapters-view";
 
     }
 
@@ -62,11 +62,11 @@ public class FolderChapterController {
         // updateFolderChapte로 넘김
        folderChapterService.updateFolderChapter(folderUpdateTitle, folderTitle, user);
 
-        return "redirect:/folder-chapters/folder";
+        return "redirect:/folder-chapters/folder-chapters-view";
     }
 
     // 전체 조회
-    @GetMapping("/folder")
+    @GetMapping("/folder-chapters-view")
     public String getAllFolderChapters(@AuthenticationPrincipal AuthDetails userDetails, Model model) {
         //폴더의 리스트 들을 model객체로 folder 페이지에 넘김
 
@@ -76,7 +76,7 @@ public class FolderChapterController {
 
         List<FolderChapterDTO> folderChapters = folderChapterService.getAllFolderChapters(user);
         model.addAttribute("folderChapters", folderChapters);
-        return "folder";
+        return "folder/folder-chapters";
     }
 
 
@@ -90,7 +90,7 @@ public class FolderChapterController {
         User user = userService.findUser(userId);
 
         folderChapterService.deleteFolderChapter(folderTitle, user);
-        return "redirect:/folder-chapters/folder";
+        return "redirect:/folder-chapters/folder-chapters-view";
     }
 
 

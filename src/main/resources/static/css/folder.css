@@ -82,17 +82,27 @@
   border-bottom: 2px solid #ececec ;
 }
 .library-menu ul li{
-  font-size: 14px;
-  font-weight: bold;
-  color: #848484;
   padding-bottom: 10px;
   border-bottom: 2px solid transparent;
 }
+
+.library-menu ul li {
+  font-weight: bold;
+  color: #848484;
+  font-size: 14px;
+}
+
+
 .library-menu ul li:hover{
-  color: #17CFAA;
   box-shadow: 0 2px 0 #17CFAA;
   transition: .2s;
 }
+
+.library-menu ul li:hover a{
+  color: #17CFAA;
+  transition: .2s;
+}
+
 .folder-content .create-folder input[type="submit"] {
   margin-bottom: 20px;
 }
