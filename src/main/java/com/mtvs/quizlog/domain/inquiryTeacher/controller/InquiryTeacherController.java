@@ -2,6 +2,7 @@ package com.mtvs.quizlog.domain.inquiryTeacher.controller;
 
 
 import com.mtvs.quizlog.domain.auth.model.AuthDetails;
+import com.mtvs.quizlog.domain.chapter.service.ChapterService;
 import com.mtvs.quizlog.domain.inquiryTeacher.dto.AnswerDTO;
 import com.mtvs.quizlog.domain.inquiryTeacher.dto.InquiryTeacherDTO;
 import com.mtvs.quizlog.domain.inquiryTeacher.dto.InquiryTeacherListDTO;
@@ -11,6 +12,7 @@ import com.mtvs.quizlog.domain.inquiryTeacher.entity.InquiryTeacherAnswer;
 import com.mtvs.quizlog.domain.inquiryTeacher.repository.InquiryTeacherRepository;
 import com.mtvs.quizlog.domain.inquiryTeacher.service.InquiryTeacherService;
 
+import com.mtvs.quizlog.domain.user.entity.Role;
 import com.mtvs.quizlog.domain.user.entity.User;
 import com.mtvs.quizlog.domain.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -28,22 +30,46 @@ import java.util.List;
 @RequestMapping
 @Slf4j
 public class InquiryTeacherController {
+    private final ChapterService chapterService;
     private InquiryTeacherService inquiryTeacherService;
     private UserService userService;
     private InquiryTeacherRepository inquiryTeacherRepository;
 
     @Autowired
-    public InquiryTeacherController(InquiryTeacherService inquiryTeacherService, UserService userService,InquiryTeacherRepository inquiryTeacherRepository) {
+    public InquiryTeacherController(InquiryTeacherService inquiryTeacherService, UserService userService, InquiryTeacherRepository inquiryTeacherRepository, ChapterService chapterService) {
         this.inquiryTeacherService = inquiryTeacherService;
         this.userService = userService;
         this.inquiryTeacherRepository = inquiryTeacherRepository;
+        this.chapterService = chapterService;
     }
 
-    //문의페이지 조회
+    //본인문의페이지 조회
     @GetMapping("/support")
     public String quizList(@AuthenticationPrincipal AuthDetails userDetails ,Model model) {
-        List<InquiryTeacherListDTO> inquiry = inquiryTeacherService.findAll(userDetails.getLogInDTO().getUserId());
-        model.addAttribute("inquiryList", inquiry);
+//        권한조회
+        Long userId = userDetails.getLogInDTO().getUserId();
+        User user = userService.findUser(userId);
+        switch (user.getRole()) {
+            //        학생 -> 이아래로직
+            case ADMIN:
+
+
+                break;
+            case TEACHER:
+                //        선생->다른 findAll로직.(자신의 대해 조회하
+                /*
+                 * 1. 새로운 dto 만듬
+                 * 2. 새로운 Answerdto에는 teacherId정보가 담김.
+                 * 3. 그 teacherId->teacherId로 전부 조회. role
+                 * */
+                break;
+            case STUDENT:
+                List<InquiryTeacherListDTO> inquiry = inquiryTeacherService.findAll(userDetails.getLogInDTO().getUserId());
+                model.addAttribute("inquiryList", inquiry);
+                break;
+        }
+
+
 //        내부리소스
         return "inquiry/inquiryList";
     }
@@ -75,30 +101,36 @@ public class InquiryTeacherController {
 
 
 //  문의 생성
+    /*url /teacherId를 받아올것 .*/
+    /* 선생님페이지에서 버튼만들것.
+    * */
     @GetMapping("/support/create")
     public String addQuizPage(Model model) {
         InquiryTeacherDTO inquiryTeacherDTO = new InquiryTeacherDTO();
         model.addAttribute("inquiryTeacherDTO", inquiryTeacherDTO);
+        long teacherId = -1 ;
+        model.addAttribute("teacherId", teacherId);
         return "inquiry/create";
     }
 
-    @PostMapping("/support/create")
-    public String createPost(@AuthenticationPrincipal AuthDetails userDetails, @Validated @ModelAttribute("inquiryTeacherDTO") InquiryTeacherDTO inquiryTeacherDTO) {
+    @PostMapping("/support/create/{teacherId}")
+    public String createPost(@AuthenticationPrincipal AuthDetails userDetails, @Validated @ModelAttribute("inquiryTeacherDTO") InquiryTeacherDTO inquiryTeacherDTO,@PathVariable Long teacherId) {
         User user = userService.findUser(userDetails.getLogInDTO().getUserId());
+        User teacher = userService.findUser(teacherId);
+//      로깅 나중에 지우기.
         log.info("inquiryTeacherDTO = {}", inquiryTeacherDTO.getContent());
-        inquiryTeacherService.createInquiry(inquiryTeacherDTO,user);
+        inquiryTeacherService.createInquiry(inquiryTeacherDTO,user,teacher);
         return "redirect:/support";
     }
 //  답변 생성
-//  문의 생성 페이지 GET
+//  답변 생성 페이지 GET
     @GetMapping("/support/createAnswer/{inquiryId}")
     public String getAnswerPage(Model model,@PathVariable Long inquiryId) {
         try{
-
             InquiryTeacherDTO inquiry =inquiryTeacherService.findById(inquiryId);
             log.info("inquiry = {}", inquiry);
             if(inquiry==null) {
-//문의 에러처리
+//  문의 에러처리
             }
             AnswerDTO answerDTO = new AnswerDTO();
             model.addAttribute("inquiryId", inquiryId);
@@ -144,7 +176,8 @@ public class InquiryTeacherController {
 //  답변 삭제
     @PatchMapping ("/support/{inquiryId}/answerDelete")
     public String deleteAnswer(@AuthenticationPrincipal AuthDetails userDetails, @PathVariable Long inquiryId, @Validated @ModelAttribute("answerDTO") AnswerDTO answerDTO) {
-        inquiryTeacherService.deleteAnswer(inquiryId);
+        InquiryTeacherDTO inquiry = inquiryTeacherService.findById(inquiryId);
+        inquiryTeacherService.deleteAnswer(inquiryTeacherService.findAnswerById(inquiry).getId());
         return "redirect:/support/";
     }
 

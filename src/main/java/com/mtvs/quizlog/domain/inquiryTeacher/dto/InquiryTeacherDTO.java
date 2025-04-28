@@ -22,5 +22,5 @@ public class InquiryTeacherDTO {
     private LocalDateTime updatedAt;
     private Status status;
     private User user;
-
+    private User teacher;
 }

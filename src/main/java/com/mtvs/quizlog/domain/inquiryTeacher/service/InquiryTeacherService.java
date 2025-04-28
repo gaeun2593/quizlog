@@ -40,7 +40,7 @@ public class InquiryTeacherService {
     }
 
     //문의 등록
-    public InquiryTeacherDTO createInquiry(InquiryTeacherDTO inquiryTeacherDTO,User user) {
+    public InquiryTeacherDTO createInquiry(InquiryTeacherDTO inquiryTeacherDTO,User user,User teacher) {
         log.info("InquiryTeacher: {}", inquiryTeacherDTO.getId());
 
         try {
@@ -51,6 +51,7 @@ public class InquiryTeacherService {
                             .status(Status.ACTIVE)
                             .createdAt(LocalDateTime.now())
                             .user(user)
+                            .teacher(teacher)
                             .build();
 
             InquiryTeacher inquiryTeacher = inquiryTeacherRepository.save(inquiry);
@@ -78,9 +79,13 @@ public class InquiryTeacherService {
         return inquiryTeacherRepository.findByTeacherId(inquiryId, teacherId);
     }
 
+    /**
+     * 문의 ID로 문의글 찾는 함수. 반환값 유의
+     * @return InquiryTeacherDTO
+     * */
     public InquiryTeacherDTO findById(Long inquiryId) {
         InquiryTeacher inquiryTeacher  = inquiryTeacherRepository.findById(inquiryId).orElseThrow(()->new IllegalArgumentException("존재하지 않음"+inquiryId));
-        return new InquiryTeacherDTO(inquiryTeacher.getId(),inquiryTeacher.getTitle(),inquiryTeacher.getContent(),inquiryTeacher.getCreatedAt(),inquiryTeacher.getUpdatedAt(),inquiryTeacher.getStatus(),inquiryTeacher.getUser());
+        return new InquiryTeacherDTO(inquiryTeacher.getId(),inquiryTeacher.getTitle(),inquiryTeacher.getContent(),inquiryTeacher.getCreatedAt(),inquiryTeacher.getUpdatedAt(),inquiryTeacher.getStatus(),inquiryTeacher.getUser(),inquiryTeacher.getTeacher());
     }
 
     public void updateInquiry(InquiryTeacherDTO inquiryTeacherDTO,long inquiryId) {
