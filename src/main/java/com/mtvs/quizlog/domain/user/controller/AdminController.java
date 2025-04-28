@@ -32,9 +32,13 @@ public class AdminController {
 
         Page<UserListDTO> usersPage = adminService.getUsers(keyword, page);
 
+        // usersPage에서 실제 회원 목록 데이터만 꺼내서(getContent()), 모델에 "users"라는 이름으로 담기
         model.addObject("users", usersPage.getContent());
+        // 현재 페이지 번호도 모델에 추가
         model.addObject("currentPage", page);
+        // 전체 페이지 수를 모델에 추가
         model.addObject("totalPages", usersPage.getTotalPages());
+        // 검색어도 그대로 모델에 담기 (검색창에 다시 보여주거나, 검색 기능 유지하려기 위함)
         model.addObject("keyword", keyword);
         model.setViewName("/admin/manage");
 
@@ -71,5 +75,5 @@ public class AdminController {
         return model;
     }
 
-    // 문의사항 조회 - 채팅으로
+    // 문의사항 조회 - 채팅
 }

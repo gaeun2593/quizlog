@@ -26,12 +26,15 @@ public class AdminService {
     // 모든 유저 조회
     @Transactional
     public Page<UserListDTO> getUsers(String keyword, int page) {
+        // PageRequest.of(page, size, sort)를 이용해 Pageable 객체 생성
         Pageable pageable = PageRequest.of(page, 10, Sort.by(Sort.Direction.ASC, "userId"));
 
         Page<User> users;
         if (keyword == null || keyword.trim().isEmpty()) {
+            // 만약 검색어가 없거나 공백이면 Status.ACTIVE (활성화된) 회원을 전부 가져옴
             users = userRepository.findByStatus(Status.ACTIVE, pageable);
         } else {
+            // 만약 검색어가 있으면 Status.ACTIVE면서 닉네임에 검색어가 포함된 회원만 가져옴.
             users = userRepository.findByStatusAndNicknameContainingIgnoreCase(Status.ACTIVE, keyword, pageable);
         }
 

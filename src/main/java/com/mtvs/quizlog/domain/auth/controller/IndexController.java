@@ -2,7 +2,6 @@ package com.mtvs.quizlog.domain.auth.controller;
 
 import com.mtvs.quizlog.domain.like.dto.TeacherLikeRankingDto;
 import com.mtvs.quizlog.domain.like.service.LikeService;
-import com.mtvs.quizlog.domain.user.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -20,9 +19,6 @@ public class IndexController {
 
     @GetMapping("/")
     public String index() { return "index"; }
-
-//    @GetMapping("/main")
-//    public String main() { return "main"; }
 
     // 선생님 좋아요 top5 조회
     @GetMapping("/main")

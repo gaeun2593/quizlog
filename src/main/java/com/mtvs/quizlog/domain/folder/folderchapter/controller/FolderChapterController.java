@@ -4,16 +4,13 @@ package com.mtvs.quizlog.domain.folder.folderchapter.controller;
 import com.mtvs.quizlog.domain.auth.model.AuthDetails;
 import com.mtvs.quizlog.domain.folder.folderchapter.dto.FolderChapterDTO;
 import com.mtvs.quizlog.domain.folder.folderchapter.service.FolderChapterService;
-import com.mtvs.quizlog.domain.user.dto.LogInDTO;
 import com.mtvs.quizlog.domain.user.entity.User;
 import com.mtvs.quizlog.domain.user.service.UserService;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
