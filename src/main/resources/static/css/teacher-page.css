@@ -1,0 +1,80 @@
+.main-page-container{
+    display: flex;
+
+    height: 100%;
+}
+
+/* 사이드바 */
+.main-page-container .side-nav{
+    flex: 1;
+    padding: 20px 10px;
+
+}
+.main-page-container .side-nav>div{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+}
+.main-page-container .side-nav>div a{
+    padding: 10px 10px;
+    display: flex;
+    gap: 15px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+.main-page-container .side-nav>div a:hover{
+    background-color: rgb(238, 249, 249);
+    transition: 0.3s;
+}
+
+/* 메인페이지 */
+.teacher-layout{
+    flex: 5;
+    padding: 40px;
+    height: 100%;
+}
+.teacher-layout-container{
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+
+}
+
+.teacher-menu ul{
+    display: flex;
+    gap: 30px;
+    border-bottom: 2px solid #ececec ;
+}
+.teacher-menu ul li{
+    font-size: 14px;
+    font-weight: bold;
+    color: #848484;
+    padding-bottom: 10px;
+    border-bottom: 2px solid transparent;
+}
+.teacher-menu ul li:hover{
+    color: #17CFAA;
+    box-shadow: 0 2px 0 #17CFAA;
+    transition: .2s;
+}
+
+.teacher-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.like-form {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* 버튼과 좋아요 수 간격 */
+}
+
+.like-button {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+}

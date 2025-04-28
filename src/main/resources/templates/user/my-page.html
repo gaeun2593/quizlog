@@ -5,39 +5,95 @@
 <div th:replace="fragments/header :: header"></div>
 <div class="main-page-container">
     <div th:replace="fragments/aside :: asideFragment" ></div>
-    <div class="main-layout">
-        <h1>닉네임 수정</h1>
-        <form th:action="@{/user/update-nickname}" th:method="patch">
-            수정할 닉네임 : <input type="text" name="nickname"/> <br>
-            <button type="submit">변경하기</button>
-        </form>
-        <h1>이메일 수정</h1>
-        <form th:action="@{/user/update-email}" th:method="patch">
-            수정할 이메일 : <input type="email" name="email"/> <br>
-            <button type="submit">변경하기</button>
-        </form>
-        <h1>역할 수정</h1>
-        <form th:action="@{/user/update-role}" method="post">
-            <input type="hidden" name="_method" value="patch"/>
-            권한(역할 선택):
-            <select name="role">
-                <option value="STUDENT">학생</option>
-                <option value="TEACHER">선생님</option>
-            </select>
-            <br><br>
-            <button type="submit">변경하기</button>
-        </form>
-        <h1>비밀번호 수정</h1>
-        <form th:action="@{/user/update-password}" th:method="patch">
-            수정할 비밀번호 : <input type="password" name="newPassword"/> <br>
-            수정할 비밀번호 확인 : <input type="password" name="passwordCheck"/> <br>
-            <button type="submit">변경하기</button>
-        </form>
-        <h1>회원 탈퇴</h1>
-        <form th:action="@{/user/delete}" th:method="patch">
-            <button type="submit">탈퇴하기</button>
-        </form>
+    <div class="page-layout">
+        <div class="page-layout-container">
+            <h1>개인 정보</h1>
+            <div class="page-menu">
+                <h3>닉네임</h3>
+                <div id="nickname-view">
+                    <span th:text="${user.nickname}">현재 닉네임</span>
+                    <button type="button" onclick="toggleForm('nickname', true)">수정</button>
+                </div>
+                <div id="nickname-form" style="display: none;">
+                    <form th:action="@{/user/update-nickname}" th:method="patch">
+                        <input type="text" name="nickname" placeholder="새로운 닉네임을 입력하세요" required />
+                        <button type="submit">변경하기</button>
+                        <button type="button" onclick="toggleForm('nickname', false)">취소</button>
+                    </form>
+                </div>
+
+                <h3>이메일</h3>
+                <div id="email-view">
+                    <span th:text="${user.email}">example@email.com</span>
+                    <button type="button" onclick="toggleForm('email', true)">수정</button>
+                </div>
+                <div id="email-form" style="display: none;">
+                    <form th:action="@{/user/update-email}" th:method="patch">
+                        <input type="email" name="email" placeholder="새로운 이메일을 입력하세요" required />
+                        <button type="submit">변경하기</button>
+                        <button type="button" onclick="toggleForm('email', false)">취소</button>
+                    </form>
+                </div>
+
+
+                <h3>역할</h3>
+                <div id="role-view">
+                    <!-- 관리자는 역할을 변경할 수 없다는 메시지 -->
+                    <div th:if="${isAdmin}" class="error-message" style="color: red;">
+                        관리자는 역할을 변경할 수 없습니다.
+                    </div>
+
+                    <!-- 관리자가 아니라면 역할 수정 폼 표시 -->
+                    <div th:if="${not isAdmin}">
+                        <form th:action="@{/user/update-role}" method="post">
+                            <input type="hidden" name="_method" value="patch"/>
+                            <span th:text="${user.role}">현재 역할</span>
+                            <select name="role" id="role" required>
+                                <option value="STUDENT">학생</option>
+                                <option value="TEACHER">선생님</option>
+                            </select>
+                            <button type="submit">변경하기</button>
+                        </form>
+                    </div>
+                </div>
+
+                <h3>비밀번호 수정</h3>
+                <div id="password-view">
+                    <form th:action="@{/user/update-password}" th:method="patch">
+                        <label for="newPassword">새로운 비밀번호</label>
+                        <input type="password" name="newPassword" id="newPassword" placeholder="새로운 비밀번호를 입력하세요" required />
+                        <br>
+                        <label for="passwordCheck">비밀번호 확인</label>
+                        <input type="password" name="passwordCheck" id="passwordCheck" placeholder="비밀번호를 다시 입력하세요" required />
+                        <button type="submit">변경하기</button>
+                    </form>
+                </div>
+
+                <h3>회원 탈퇴</h3>
+                <div class="withdrawal-wrapper">
+                    <p class="withdraw-info">탈퇴 시 퀴즈로그를 이용하실 수 없습니다. 탈퇴하시겠습니까?</p>
+                    <form th:action="@{/user/delete}" th:method="patch" class="withdrawal-form">
+                        <button type="submit" class="withdraw-button">탈퇴하기</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
     </div>
 </div>
+<script>
+    function toggleForm(type, show) {
+        const view = document.getElementById(`${type}-view`);
+        const form = document.getElementById(`${type}-form`);
+        if (show) {
+            view.style.display = 'none';
+            form.style.display = 'block';
+        } else {
+            view.style.display = 'flex';
+            form.style.display = 'none';
+        }
+    }
+</script>
+
 </body>
 </html>

@@ -1,5 +1,6 @@
 package com.mtvs.quizlog.domain.user.entity;
 
+import com.mtvs.quizlog.domain.folder.folderchapter.entity.FolderChapter;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -8,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -43,6 +45,11 @@ public class User {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private LocalDateTime deletedAt;
+
+
+    // 폴더챕터랑 일대다 맵핑
+    @OneToMany(mappedBy = "user")
+    private List<FolderChapter> folderChapters;
 
     public User(String nickname, String email, String password, Role role, Status status, LocalDateTime createdAt, LocalDateTime updatedAt, LocalDateTime deletedAt) {
         this.nickname = nickname;

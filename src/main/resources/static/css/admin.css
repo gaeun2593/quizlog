@@ -1,0 +1,254 @@
+.manage-page-container{
+    display: flex;
+
+    height: 100%;
+}
+/* 사이드바 */
+.manage-page-container .side-nav{
+    flex: 1;
+    padding: 20px 10px;
+
+}
+.manage-page-container .side-nav>div{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+}
+.manage-page-container .side-nav>div a{
+    padding: 10px 10px;
+    display: flex;
+    gap: 15px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+.manage-page-container .side-nav>div a:hover{
+    background-color: rgb(238, 249, 249);
+    transition: 0.3s;
+}
+
+/* 메인페이지 */
+.manage-layout{
+    flex: 5;
+    padding: 40px;
+    height: 100%;
+}
+.manage-layout-container{
+    display: flex;
+    flex-direction: column;
+}
+.manage-menu {
+    margin-top: 50px;
+    margin-bottom: 20px;
+}
+
+.manage-menu ul{
+    display: flex;
+    gap: 30px;
+    border-bottom: 2px solid #ececec ;
+}
+.manage-menu ul li{
+    font-size: 14px;
+    font-weight: bold;
+    color: #848484;
+    padding-bottom: 10px;
+    border-bottom: 2px solid transparent;
+}
+.manage-menu ul li:hover{
+    color: #17CFAA;
+    box-shadow: 0 2px 0 #17CFAA;
+    transition: .2s;
+}
+
+.btn btn-success btn-sm {
+
+}
+
+/* Simple DataTables 기본 스타일 */
+.datatable-wrapper .datatable-container {
+    font-size: 0.875rem; /* $font-size-sm */
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.datatable-wrapper.no-header .datatable-container {
+    border-top: none;
+}
+
+.datatable-wrapper.no-footer .datatable-container {
+    border-bottom: none;
+}
+
+.datatable-top {
+    padding: 0 0 1rem;
+}
+
+.datatable-bottom {
+    padding: 0;
+}
+
+.datatable-top > nav:first-child,
+.datatable-top > div:first-child,
+.datatable-bottom > nav:first-child,
+.datatable-bottom > div:first-child {
+    float: left;
+}
+
+.datatable-top > nav:last-child,
+.datatable-top > div:last-child,
+.datatable-bottom > nav:last-child,
+.datatable-bottom > div:last-child {
+    float: right;
+}
+
+.datatable-selector {
+    width: auto;
+    display: inline-block;
+    padding-left: 1.125rem;
+    padding-right: 2.125rem;
+    margin-right: 0.25rem;
+}
+
+.datatable-input {
+    width: 20%;
+
+}
+
+.datatable-info {
+    margin: 7px 0;
+}
+
+/* PAGER */
+
+.datatable-pagination ul {
+    display: flex;
+    list-style: none;
+    padding-left: 0;
+}
+
+.datatable-pagination li {
+    margin: 0 4px;
+}
+
+.datatable-pagination a {
+    padding: 5px 10px;
+    text-decoration: none;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-weight: normal;
+}
+
+.datatable-pagination a:hover {
+    background-color: #f1f1f1;
+}
+
+.datatable-pagination .active a {
+    background-color: #007bff;
+    color: white;
+}
+
+.datatable-pagination .ellipsis a,
+.datatable-pagination .disabled a {
+    cursor: not-allowed;
+}
+
+.datatable-pagination .pager a {
+    font-weight: bold;
+}
+
+/* TABLE */
+
+.datatable-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.datatable-table > tbody > tr > td,
+.datatable-table > tbody > tr > th,
+.datatable-table > tfoot > tr > td,
+.datatable-table > tfoot > tr > th,
+.datatable-table > thead > tr > td,
+.datatable-table > thead > tr > th {
+    vertical-align: top;
+    padding: 0.75rem 1rem;
+}
+
+.datatable-table > thead > tr > th {
+    vertical-align: bottom;
+    text-align: left;
+    border-bottom: none;
+}
+
+.datatable-table > tfoot > tr > th {
+    vertical-align: bottom;
+    text-align: left;
+}
+
+.datatable-table th {
+    vertical-align: bottom;
+    text-align: left;
+}
+
+.datatable-table th a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.datatable-sorter {
+    display: inline-block;
+    height: 100%;
+    position: relative;
+    width: 100%;
+    padding-right: 1rem;
+}
+
+.datatable-sorter::before,
+.datatable-sorter::after {
+    content: "";
+    height: 0;
+    width: 0;
+    position: absolute;
+    right: 4px;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    opacity: 0.2;
+}
+
+.datatable-sorter::before {
+    bottom: 4px;
+}
+
+.datatable-sorter::after {
+    top: 0px;
+}
+
+.asc .datatable-sorter::after,
+.desc .datatable-sorter::before {
+    opacity: 0.6;
+}
+
+.datatables-empty {
+    text-align: center;
+}
+
+.datatable-top::after,
+.datatable-bottom::after {
+    clear: both;
+    content: " ";
+    display: table;
+}
+
+.datatable-pagination li.datatable-hidden {
+    visibility: visible;
+}
+
+/* DataTable button */
+
+.btn-datatable {
+    height: 20px !important;
+    width: 20px !important;
+    font-size: 0.75rem;
+    border-radius: 0.25rem !important; /* $border-radius */
+}
