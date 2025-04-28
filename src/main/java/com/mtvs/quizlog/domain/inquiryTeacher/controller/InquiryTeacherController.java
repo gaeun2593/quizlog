@@ -87,21 +87,28 @@ public class InquiryTeacherController {
         inquiryTeacherService.createInquiry(inquiryTeacherDTO,user);
         return "redirect:/support";
     }
-//  문의 수정
-    @GetMapping("/support/{inquiryId}/edit")
+  /*  @GetMapping("/support/{inquiryId}/edit")
     public String getUpdatePost(@AuthenticationPrincipal AuthDetails userDetails,@PathVariable Long inquiryId, @Validated @ModelAttribute("inquiryTeacherDTO") InquiryTeacherDTO inquiryTeacherDTO,Model model) {
         User user = userService.findUser(userDetails.getLogInDTO().getUserId());
         InquiryTeacherDTO inquiry = inquiryTeacherService.findById(inquiryId);
         model.addAttribute("inquiry", inquiry);
         return "inquiry/edit";
     }
-
+*/
+    //  문의 수정
     @PatchMapping ("/support/{inquiryId}/edit")
     public String updatePost(@AuthenticationPrincipal AuthDetails userDetails,@PathVariable Long inquiryId, @Validated @ModelAttribute("inquiryTeacherDTO") InquiryTeacherDTO inquiryTeacherDTO) {
         User user = userService.findUser(userDetails.getLogInDTO().getUserId());
         log.info("inquiryTeacherDTO = {}", inquiryTeacherDTO.getContent());
-        inquiryTeacherService.updateInquiry(inquiryTeacherDTO);
+        inquiryTeacherService.updateInquiry(inquiryTeacherDTO,inquiryId);
         return "redirect:/support/"+inquiryId;
+    }
+
+//  문의 삭제
+    @PatchMapping ("/support/{inquiryId}/delete")
+    public String deletePost(@AuthenticationPrincipal AuthDetails userDetails,@PathVariable Long inquiryId, @Validated @ModelAttribute("inquiryTeacherDTO") InquiryTeacherDTO inquiryTeacherDTO){
+        inquiryTeacherService.deleteInquiry(inquiryId);
+        return "redirect:/support/";
     }
 // 태용님코드
 /*

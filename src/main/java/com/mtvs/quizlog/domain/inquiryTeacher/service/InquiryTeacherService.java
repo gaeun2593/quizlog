@@ -79,8 +79,16 @@ public class InquiryTeacherService {
         return new InquiryTeacherDTO(inquiryTeacher.getId(),inquiryTeacher.getTitle(),inquiryTeacher.getContent(),inquiryTeacher.getCreatedAt(),inquiryTeacher.getUpdatedAt(),inquiryTeacher.getStatus(),inquiryTeacher.getUser());
     }
 
+    public void updateInquiry(InquiryTeacherDTO inquiryTeacherDTO,long inquiryId) {
+        InquiryTeacher inquiryTeacher  = inquiryTeacherRepository.findById(inquiryId).orElseThrow(()->new IllegalArgumentException("존재하지 않음"+inquiryId));
+        inquiryTeacher.setTitle(inquiryTeacherDTO.getTitle());
+        inquiryTeacher.setContent(inquiryTeacherDTO.getContent());
+        inquiryTeacher.setUpdatedAt(LocalDateTime.now());
+    }
 
-    public void updateInquiry(InquiryTeacherDTO inquiryTeacherDTO) {
-        inquiryTeacherDTO
+    public void deleteInquiry(long inquiryId) {
+        InquiryTeacher inquiryTeacher  = inquiryTeacherRepository.findById(inquiryId).orElseThrow(()->new IllegalArgumentException("존재하지 않음"+inquiryId));
+        inquiryTeacher.setStatus(Status.DELETED);
+        inquiryTeacher.setDeletedAt(LocalDateTime.now());
     }
 }
