@@ -94,6 +94,15 @@ public class FolderChapterController {
     }
 
 
+
+    // 폴더 속 챕터 조회
+    @GetMapping("/folder-chapter-detail")
+    public String folderChapterDetail(@AuthenticationPrincipal AuthDetails userDetails, Model model) {
+
+        return "folder/folder-chapter-detail";
+    }
+
+
     // 예외 처리
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {

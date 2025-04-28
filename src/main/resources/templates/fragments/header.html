@@ -33,7 +33,7 @@
     <input type="text" placeholder="퀴즈검색">
   </div>
   <div class="header-right">
-    <a href="/auth/login"><img src="./images/plus-circle.png" alt="plus-circle"></a>
+    <a href="/auth/login"><img src="/images/plus-circle.png" alt="plus-circle"></a>
     <div sec:authorize="isAuthenticated()">
       <form th:action="@{/auth/logout}" method="post">
         <button class="btn-primary" type="submit">로그아웃</button>

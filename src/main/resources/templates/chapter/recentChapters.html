@@ -40,11 +40,13 @@
   <div class="chapter-header">
     <span>Title</span>
     <span>크리에이터</span>
+    <span>챕터 북마크</span>
   </div>
 
   <div class="chapter-item" th:each="chapter : ${userChapter}">
     <a th:href="@{'/main/recentChapters/' + ${chapter.id}}" th:text="${chapter.title}">Chapter Title</a>
     <span th:text="${chapter.nickname}">Nickname</span>
+    <a th:href="@{'/main/recentChapters/' + ${chapter.id}}">챕터북마크하기</a>
   </div>
 
 </div>
