@@ -3,11 +3,7 @@ package com.mtvs.quizlog.domain.user.dto.request;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
 public class UpdatePasswordRequestDTO {
 
     @NotBlank(message = "비밀번호는 필수 입력값입니다.")
@@ -23,6 +19,22 @@ public class UpdatePasswordRequestDTO {
 
     public UpdatePasswordRequestDTO(String newPassword, String passwordCheck) {
         this.newPassword = newPassword;
+        this.passwordCheck = passwordCheck;
+    }
+
+    public String getNewPassword() {
+        return newPassword;
+    }
+
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
+    }
+
+    public String getPasswordCheck() {
+        return passwordCheck;
+    }
+
+    public void setPasswordCheck(String passwordCheck) {
         this.passwordCheck = passwordCheck;
     }
 }

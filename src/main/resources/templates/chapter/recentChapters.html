@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Chapter List</title>
+  <style>
+    .chapter-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 300px;
+    }
+    .chapter-header, .chapter-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px;
+      border: 1px solid #aaa;
+      border-radius: 4px;
+      background-color: #f9f9f9;
+    }
+    .chapter-header {
+      font-weight: bold;
+      background-color: #e0e0e0;
+    }
+
+    .chapter-item a {
+      text-decoration: none;
+      color: #007bff;
+    }
+
+    .chapter-item a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+<h1>Chapter List</h1>
+
+<div class="chapter-list">
+  <div class="chapter-header">
+    <span>Title</span>
+    <span>크리에이터</span>
+  </div>
+
+  <div class="chapter-item" th:each="chapter : ${userChapter}">
+    <a th:href="@{'/main/recentChapters/' + ${chapter.id}}" th:text="${chapter.title}">Chapter Title</a>
+    <span th:text="${chapter.nickname}">Nickname</span>
+  </div>
+
+</div>
+
+</body>
+</html>

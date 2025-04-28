@@ -2,11 +2,7 @@ package com.mtvs.quizlog.domain.user.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
 public class UpdateNicknameRequestDTO {
 
     @NotBlank(message = "닉네임은 필수 입력값입니다.")
@@ -15,7 +11,11 @@ public class UpdateNicknameRequestDTO {
 
     public UpdateNicknameRequestDTO() { }
 
-    public UpdateNicknameRequestDTO(String nickname) {
-        this.nickname = nickname;
+    public String getNickname() {
+        return nickname;
     }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    } // 커밋
 }
