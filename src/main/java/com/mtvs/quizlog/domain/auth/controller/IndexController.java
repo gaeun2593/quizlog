@@ -20,9 +20,6 @@ public class IndexController {
     @GetMapping("/")
     public String index() { return "index"; }
 
-//    @GetMapping("/main")
-//    public String main() { return "main"; }
-
     // 선생님 좋아요 top5 조회
     @GetMapping("/main")
     public ModelAndView mainPage(ModelAndView model) {
