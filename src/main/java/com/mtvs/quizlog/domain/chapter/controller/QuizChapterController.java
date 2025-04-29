@@ -123,6 +123,7 @@ public class QuizChapterController {
         return "redirect:/main";
     }
 
+    /* 최신순으로 모든 유저의 챕터조회 /main/recentChapters */
     @GetMapping("/recentChapters")
     public String recentChapters(Model model) {
         List<UserChapter> UserChapters = chapterService.findAll();
@@ -132,11 +133,16 @@ public class QuizChapterController {
     }
 
 
+    /* 챕터의 상세페이지 */
     @GetMapping("/recentChapters/{chapterId}")
     public String recentChapter(@PathVariable Long chapterId , Model model) {
         log.info("chapterId = {}", chapterId);
         List<QuizForm> quizForm  = quizService.findAll(chapterId);
         model.addAttribute("quizForm", quizForm);
+
+        /* 챕터 Id로 객체찾아서 퀴즈 페이지로 전달 */
+        Chapter chapter = chapterService.findId(chapterId);
+        model.addAttribute("chapter", chapter);
 
         return "quiz/recentQuizList" ;
     }

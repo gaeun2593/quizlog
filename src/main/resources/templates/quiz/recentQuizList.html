@@ -41,6 +41,18 @@
 
 <!-- 퀴즈 리스트 -->
 <div class="chapter-list">
+  <div>
+    챕터
+    <span>폴더생성해서 넣기</span>
+    <form action="/folder-chapters/create-folder-chapter" method="POST">
+      <input type="text" name="title" pattern=".*\S.*" required>
+      <input type="hidden" name="chapterId" th:value="${chapter.id}"/>
+      <input type="submit" value="폴더생성" class="btn-green-custom">
+    </form>
+    <span>기존 폴더에 넣기</span>
+
+
+  </div>
   <div class="chapter-header">
     <span>단어</span>
     <span>정답</span>

@@ -3,7 +3,6 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
 
-<!--새롭게 바꿀 헤더-->
 <header th:fragment="headerFragment">
   <div class="header-left">
     <svg xmlns="http://www.w3.org/2000/svg" class="bi bi-list" viewBox="0 0 16 16">
@@ -24,20 +23,17 @@
         </a>
       </div>
     </div>  </div>
-  <div class="search">
+  <div class="header-center">
+    <svg xmlns="http://www.w3.org/2000/svg" class="bi bi-search" viewBox="0 0 16 16">
+      <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+    </svg>
     <form method="get" th:action="@{/main/search}">
       <button type="submit" class="search-icon"><img th:src="@{/images/search.svg}" alt="search-icon"></button>
       <input type="text" name="search" placeholder="문제검색">
     </form>
   </div>
-  <div class="header-center">
-    <svg xmlns="http://www.w3.org/2000/svg" class="bi bi-search" viewBox="0 0 16 16">
-      <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
-    </svg>
-    <input type="text" placeholder="퀴즈검색">
-  </div>
   <div class="header-right">
-    <a href="/auth/login"><img src="/images/plus-circle.png" alt="plus-circle"></a>
+    <a><img src="/images/plus-circle.png" alt="plus-circle"></a>
     <div sec:authorize="isAuthenticated()">
       <form th:action="@{/auth/logout}" method="post">
         <button class="btn-primary" type="submit">로그아웃</button>
