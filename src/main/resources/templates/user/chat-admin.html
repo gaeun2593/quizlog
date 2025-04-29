@@ -1,74 +1,58 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
+<head th:replace="fragments/head :: commonHead">
     <title>채팅방</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-    <style>
-        #chat-messages {
-            height: 400px;
-            overflow-y: auto;
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin-bottom: 10px;
-        }
-        .message {
-            margin-bottom: 5px;
-        }
-        .message .sender {
-            font-weight: bold;
-        }
-        form {
-            display: flex;
-            gap: 10px;
-        }
-        textarea {
-            flex-grow: 1;
-            height: 50px;
-        }
-    </style>
 </head>
 <body>
-<h2>채팅방 ID: <span id="roomId" th:text="${chatRoomId}"></span></h2>
-<div id="connection-status">연결 상태: 연결 중...</div>
+<div th:replace="fragments/header :: header"></div>
 
-<!-- 메시지 리스트 -->
-<div id="chat-messages">
-    <div th:each="message : ${messages}" class="message">
-        <p><span class="sender" th:text="${message.senderNickname}">닉네임</span>: <span th:text="${message.message}">메시지 내용</span></p>
-    </div>
-</div>
+<div class="chat-admin-page-container">
+    <div th:replace="fragments/aside :: asideFragment"></div>
 
-<!-- 메시지 입력 폼 (WebSocket 사용) -->
-<form id="message-form" onsubmit="sendMessage(event)">
-    <input type="hidden" id="chatRoomId" th:value="${chatRoomId}">
-    <textarea id="message-input" placeholder="메시지를 입력하세요"></textarea>
-    <button type="submit">보내기</button>
-</form>
+    <div class="chat-layout">
+        <div class="chat-layout-container">
+            <h2>채팅방 ID: <span id="roomId" th:text="${chatRoomId}"></span></h2>
+            <div id="connection-status">연결 상태: 연결 중...</div>
+
+            <!-- 메시지 리스트 -->
+            <div id="chat-messages">
+                <div th:each="message : ${messages}" class="message">
+                    <p><span class="sender" th:text="${message.senderNickname}">닉네임</span>: <span th:text="${message.message}">메시지 내용</span></p>
+                </div>
+            </div>
+
+            <!-- 메시지 입력 폼 (WebSocket 사용) -->
+            <form id="message-form" class="chat-form" onsubmit="sendMessage(event)">
+                <input type="hidden" id="chatRoomId" th:value="${chatRoomId}">
+                <textarea id="message-input" placeholder="메시지를 입력하세요"></textarea>
+                <button type="submit">보내기</button>
+            </form>
 
 <script th:inline="javascript">
     const nickname = /*[[${#authentication.principal.logInDTO.nickname}]]*/ 'Anonymous';
     const chatRoomId = document.getElementById('roomId').textContent;
     let stompClient = null;
-    
+
     // 페이지 로드 시 WebSocket 연결
     window.onload = function() {
         connect();
-        
+
         // 스크롤을 가장 아래로 이동
         const chatMessages = document.getElementById('chat-messages');
         chatMessages.scrollTop = chatMessages.scrollHeight;
     };
-    
+
     // WebSocket 연결 함수
     function connect() {
         const socket = new SockJS('/ws');
         stompClient = Stomp.over(socket);
-        
+
         stompClient.connect({}, function(frame) {
             console.log('Connected: ' + frame);
             document.getElementById('connection-status').textContent = '연결 상태: 연결됨';
-            
+
             // 특정 채팅방 구독
             stompClient.subscribe('/topic/room/' + chatRoomId, function(response) {
                 const message = JSON.parse(response.body);
@@ -81,14 +65,14 @@
             setTimeout(connect, 3000);
         });
     }
-    
+
     // 메시지 전송 함수
     function sendMessage(event) {
         event.preventDefault();
-        
+
         const messageInput = document.getElementById('message-input');
         const message = messageInput.value.trim();
-        
+
         if (message && stompClient) {
             const chatMessage = {
                 chatRoomId: chatRoomId,
@@ -96,34 +80,35 @@
                 message: message,
                 messageType: 'TALK'
             };
-            
+
             stompClient.send("/app/message", {}, JSON.stringify(chatMessage));
             messageInput.value = '';
         }
     }
-    
+
     // 메시지 화면에 표시 함수
     function displayMessage(message) {
         const chatMessages = document.getElementById('chat-messages');
         const messageElement = document.createElement('div');
         messageElement.className = 'message';
-        
+
         const senderSpan = document.createElement('span');
         senderSpan.className = 'sender';
         senderSpan.textContent = message.senderNickname;
-        
+
         const messageContent = document.createTextNode(': ' + message.message);
-        
+
         const paragraph = document.createElement('p');
         paragraph.appendChild(senderSpan);
         paragraph.appendChild(messageContent);
-        
+
         messageElement.appendChild(paragraph);
         chatMessages.appendChild(messageElement);
-        
+
         // 스크롤을 가장 아래로 이동
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 </script>
+<div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>

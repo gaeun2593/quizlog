@@ -1,0 +1,63 @@
+#chat-messages {
+    height: 400px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+.message {
+    margin-bottom: 5px;
+}
+.message .sender {
+    font-weight: bold;
+}
+chat-form {
+    display: flex;
+    gap: 10px;
+}
+textarea {
+    flex-grow: 1;
+    height: 50px;
+}
+
+.chat-admin-page-container{
+    display: flex;
+
+    height: 100%;
+}
+/* 사이드바 */
+.chat-admin-page-container .side-nav{
+    flex: 1;
+    padding: 20px 10px;
+
+}
+.chat-admin-page-container .side-nav>div{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+}
+.chat-admin-page-container .side-nav>div a{
+    padding: 10px 10px;
+    display: flex;
+    gap: 15px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+.chat-admin-page-container .side-nav>div a:hover{
+    background-color: rgb(238, 249, 249);
+    transition: 0.3s;
+}
+
+
+/* 메인페이지 */
+.chat-layout{
+    flex: 5;
+    padding: 40px;
+    height: 100%;
+}
+.chat-layout-container{
+    display: flex;
+    flex-direction: column;
+}

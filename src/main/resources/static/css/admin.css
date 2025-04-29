@@ -62,7 +62,7 @@
 }
 
 .btn btn-success btn-sm {
-
+    color: #17CFAA;
 }
 
 /* Simple DataTables 기본 스타일 */
@@ -251,4 +251,16 @@
     width: 20px !important;
     font-size: 0.75rem;
     border-radius: 0.25rem !important; /* $border-radius */
+}
+
+footer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60px;
+}
+footer .container{
+    width: 1024px;
+    display: flex;
+    gap: 20px;
 }
