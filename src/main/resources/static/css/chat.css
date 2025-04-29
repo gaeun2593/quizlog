@@ -81,8 +81,6 @@
 
 .chat-admin-page-container{
     display: flex;
-
-    height: 100%;
 }
 /* 사이드바 */
 .chat-admin-page-container .side-nav{
@@ -118,6 +116,7 @@
 .chat-layout-container{
     display: flex;
     flex-direction: column;
+    gap: 50px;
 }
 
 td a {
@@ -131,3 +130,6 @@ td a:hover {
     color: #17CFAA;
 }
 
+.connection-status {
+    margin-left: auto;
+}

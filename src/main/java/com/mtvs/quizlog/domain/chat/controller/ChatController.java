@@ -69,10 +69,14 @@ public class ChatController {
                                       @AuthenticationPrincipal AuthDetails userDetails,
                                       ModelAndView model) {
         List<ChatMessageDTO> messages = chatService.getMessagesByChatRoomId(roomId);
+        ChatRoom chatRoom = chatService.findChatRoomById(roomId);
+        String sender = chatRoom.getUser().getNickname();
         String myNickname = userDetails.getLogInDTO().getNickname();
 
         model.addObject("chatRoomId", roomId);
         model.addObject("messages", messages);
+        model.addObject("sender", sender);
+
         model.addObject("myNickname", myNickname);
         model.setViewName("user/chat-admin");
         return model;

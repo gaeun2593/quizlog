@@ -13,8 +13,8 @@
 
     <div class="chat-layout">
         <div class="chat-layout-container">
-            <h2>채팅방 ID: <span id="roomId" th:text="${chatRoomId}"></span></h2>
-            <div id="connection-status">연결 상태: 연결 중...</div>
+            <h1>채팅 문의: "<span th:text="${sender}"></span>"님의 문의</h1>
+            <div id="connection-status" class="connection-status"><span id="roomId" th:text="${roomId}"></span>번 채팅방 - 연결 상태: 연결 중...</div>
 
             <!-- 메시지 리스트 -->
             <div id="chat-messages">
@@ -26,7 +26,6 @@
                     </p>
                 </div>
             </div>
-
 
             <!-- 메시지 입력 폼 (WebSocket 사용) -->
             <form id="message-form" class="chat-form" onsubmit="sendMessage(event)">
@@ -50,6 +49,13 @@
         // 스크롤을 가장 아래로 이동
         const chatMessages = document.getElementById('chat-messages');
         chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        document.getElementById('message-input').addEventListener('keydown', function(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();  // 줄바꿈 방지
+                sendMessage(event);     // 메시지 전송
+            }
+        });
     };
 
     // WebSocket 연결 함수
