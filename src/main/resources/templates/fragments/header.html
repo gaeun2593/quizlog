@@ -2,11 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
-<header th:fragment="headerFragment" class="header">
-  <div class="logo-menu">
-    <div class="menu-icon">
-      <img th:src="@{/images/menu-icon.svg}" alt="menu-icon">
-    </div>
+
+<!--새롭게 바꿀 헤더-->
+<header th:fragment="headerFragment">
+  <div class="header-left">
+    <svg xmlns="http://www.w3.org/2000/svg" class="bi bi-list" viewBox="0 0 16 16">
+      <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+    </svg>
     <div class="logo">
       <!-- 로그인한 경우 -->
       <div sec:authorize="isAuthenticated()">
@@ -33,16 +35,15 @@
     <!-- 로그인한 경우 -->
     <div sec:authorize="isAuthenticated()">
       <form th:action="@{/auth/logout}" method="post">
-        <button type="submit">로그아웃</button>
+        <button class="btn-primary" type="submit">로그아웃</button>
       </form>
     </div>
 
     <!-- 로그인하지 않은 경우 -->
     <div sec:authorize="isAnonymous()">
-      <a th:href="@{/auth/login}">로그인</a>
+      <a class="btn-primary" th:href="@{/auth/login}">로그인</a>
     </div>
   </div>
 </header>
 </body>
 </html>
-

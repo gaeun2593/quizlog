@@ -5,26 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>quizlog</title>
     <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/header.css">
 </head>
 <body>
-<header>
-    <div class="header-left">
-        <svg xmlns="http://www.w3.org/2000/svg" class="bi bi-list" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
-        </svg>
-        <a href="/"><img src="./images/logo.png" alt="logo"></a>
-    </div>
-    <div class="header-center">
-        <svg xmlns="http://www.w3.org/2000/svg" class="bi bi-search" viewBox="0 0 16 16">
-            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
-        </svg>
-        <input type="text" placeholder="퀴즈검색">
-    </div>
-    <div class="header-right">
-        <a href="/auth/login"><img src="./images/plus-circle.png" alt="plus-circle"></a>
-        <a class="btn-primary" href="/auth/login">로그인</a>
-    </div>
-</header>
+<div th:replace="fragments/header :: header"></div>
 <section class="intro">
     <h1>퀴즈가 공부가 되는 순간, <span>Quizlog!</span></h1>
     <h2>챕터 수강과 대결로 학습 몰입도를 높이세요!</h2>
