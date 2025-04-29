@@ -69,6 +69,7 @@ public class InquiryTeacherController {
                 //        학생 -> 자신이 쓴 문의 조회.
                 inquiry = inquiryTeacherService.findAll(userDetails.getLogInDTO().getUserId());
                 model.addAttribute("inquiryList", inquiry);
+
                 break;
         }
 //        내부리소스

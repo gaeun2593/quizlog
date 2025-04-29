@@ -1,3 +1,4 @@
+<!--
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"><head>
     <meta charset="UTF-8">
@@ -12,3 +13,50 @@
 </form>
 </body>
 </html>
+
+-->
+
+
+<!DOCTYPE html>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="fragments/head :: commonHead">
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+
+    <body>
+        <div th:replace="fragments/header :: header"></div>
+
+        <div class="main-page-container">
+            <div th:replace="fragments/aside :: asideFragment" ></div>
+            <div class="main-layout">
+                <h1>답변 작성</h1>
+                <form th:action="@{/support/createAnswer/{inquiryId}(inquiryId=${inquiryId})}" th:object="${answerDTO}" method="post">
+
+                <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">제목</label>
+                        <input type="text" class="form-control" th:field="*{title}" id="exampleFormControlInput1" placeholder="제목을 입력해주세요">
+                </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlTextarea1" class="form-label">내용</label>
+                        <textarea class="form-control" th:field="*{content}" id="exampleFormControlTextarea1" placeholder="내용을 입력해주세요" rows="20"></textarea>
+                    </div>
+
+                    <div class="rapa-board-list__btn-btn">
+                        <button type="submit" class="btn btn-primary btn-lg" onclick="goWrite()"><strong>글쓰기</strong></button>
+                    </div>
+
+</form>
+
+</div>
+</div>
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+</html>
+
+
+
