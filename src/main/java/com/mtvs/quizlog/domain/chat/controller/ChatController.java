@@ -65,11 +65,15 @@ public class ChatController {
     }
 
     @GetMapping ("/room/{roomId}")
-    public ModelAndView enterChatRoom(@PathVariable Long roomId, ModelAndView model) {
+    public ModelAndView enterChatRoom(@PathVariable Long roomId,
+                                      @AuthenticationPrincipal AuthDetails userDetails,
+                                      ModelAndView model) {
         List<ChatMessageDTO> messages = chatService.getMessagesByChatRoomId(roomId);
+        String myNickname = userDetails.getLogInDTO().getNickname();
 
         model.addObject("chatRoomId", roomId);
         model.addObject("messages", messages);
+        model.addObject("myNickname", myNickname);
         model.setViewName("user/chat-admin");
         return model;
     }

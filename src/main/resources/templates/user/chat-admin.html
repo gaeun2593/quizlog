@@ -18,10 +18,15 @@
 
             <!-- 메시지 리스트 -->
             <div id="chat-messages">
-                <div th:each="message : ${messages}" class="message">
-                    <p><span class="sender" th:text="${message.senderNickname}">닉네임</span>: <span th:text="${message.message}">메시지 내용</span></p>
+                <div th:each="message : ${messages}"
+                     th:class="'message ' + (${message.senderNickname} == ${myNickname} ? 'self' : 'other')">
+                    <p>
+                        <span class="sender" th:text="${message.senderNickname}">닉네임</span>:
+                        <span th:text="${message.message}">메시지</span>
+                    </p>
                 </div>
             </div>
+
 
             <!-- 메시지 입력 폼 (WebSocket 사용) -->
             <form id="message-form" class="chat-form" onsubmit="sendMessage(event)">
@@ -93,24 +98,25 @@
     function displayMessage(message) {
         const chatMessages = document.getElementById('chat-messages');
         const messageElement = document.createElement('div');
-        messageElement.className = 'message';
+
+        // 본인인지 확인
+        const messageClass = (message.senderNickname === nickname) ? 'self' : 'other';
+        messageElement.className = 'message ' + messageClass;
 
         const senderSpan = document.createElement('span');
         senderSpan.className = 'sender';
         senderSpan.textContent = message.senderNickname;
 
-        const messageContent = document.createTextNode(': ' + message.message);
+        const messageContent = document.createElement('span');
+        messageContent.textContent = message.message;
 
-        const paragraph = document.createElement('p');
-        paragraph.appendChild(senderSpan);
-        paragraph.appendChild(messageContent);
-
-        messageElement.appendChild(paragraph);
+        messageElement.appendChild(senderSpan);
+        messageElement.appendChild(messageContent);
         chatMessages.appendChild(messageElement);
 
-        // 스크롤을 가장 아래로 이동
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
+
 </script>
 
 <div th:replace="fragments/footer :: footer"></div>
