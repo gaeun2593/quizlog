@@ -59,8 +59,10 @@ public class InquiryTeacherController {
                 model.addAttribute("inquiryList", adminInquiryList);
                 break;
             case TEACHER:
+                log.info("user.getRole() = " + user.getRole());
                 //        선생->자신한테 쓴 문의 조회.
                 inquiry = inquiryTeacherService.findAllByTeacher(userDetails.getLogInDTO().getUserId());
+                log.info("inquiry.title() = " + inquiry.get(0).getTitle());
                 model.addAttribute("inquiryList", inquiry);
                 break;
             case STUDENT:
@@ -92,13 +94,11 @@ public class InquiryTeacherController {
     /*url /teacherId를 받아올것 .*/
     /* 선생님페이지에서 버튼만들것.
     * */
-    @GetMapping("/support/create")
-    public String addQuizPage(Model model) {
+    @GetMapping("/support/create/{teacherId}")
+    public String addQuizPage(Model model,@PathVariable Long teacherId) {
         InquiryTeacherDTO inquiryTeacherDTO = new InquiryTeacherDTO();
         model.addAttribute("inquiryTeacherDTO", inquiryTeacherDTO);
-        long teacherId = -1 ;
-//        나중에추가!!
-//        model.addAttribute("teacherId", teacherId);
+        model.addAttribute("teacherId", teacherId);
         return "inquiry/create";
     }
 

@@ -24,11 +24,22 @@
                 <ul>
                     <li>챕터 목록</li>
                     <li>레슨</li>
-                    <li><a th:href="@{/support/create/{teacherId}(teacherId=${teacher.userId})}">문의</a></li>
+                    <li name="inquiryList">문의 목록</li>
+                    <!--if문 남기기 (역할조회)-->
+                    <li><a th:href="@{/support/create/{teacherId}(teacherId=${teacher.userId})}">선생님에게 문의하기</a></li>
                 </ul>
             </div>
         </div>
     </div>
 </div>
 </body>
+<script>
+    const onClickEvent = document.getElementsByName("inquiryList");
+    function handleClick() {
+        /*행동 정의*/
+
+    }
+    onClickEvent.addEventListener("click", handleClick);
+
+</script>
 </html>

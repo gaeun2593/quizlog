@@ -42,8 +42,9 @@ public interface InquiryTeacherRepository extends JpaRepository<InquiryTeacher, 
     @Query("SELECT new com.mtvs.quizlog.domain.inquiryTeacher.dto.InquiryTeacherListDTO(" +
             "i.id, i.title,i.content, i.createdAt, i.updatedAt, i.status, u.nickname) " +
             "FROM InquiryTeacher i " +
-            "JOIN i.teacher u " +
-            "WHERE u.userId = :teacherId " +
+            "JOIN i.teacher t " +
+            "JOIN i.user u " +
+            "WHERE t.userId = :teacherId " +
             "AND i.status = 'ACTIVE'")
     List<InquiryTeacherListDTO> findAllListByTeacher(long teacherId);
 
