@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:href="http://www.w3.org/1999/xhtml">
 <head th:replace="fragments/head :: commonHead"></head>
 <body>
 <div th:replace="fragments/header :: header"></div>
@@ -10,9 +10,7 @@
 
             <div class="teacher-header">
                 <h2 th:text="${teacher.nickname}">선생님 닉네임</h2>
-                <div >
-                <a>문의 작성</a>
-                </div>
+
                 <form th:action="@{/like/teacher}" method="post" class="like-form">
                     <input type="hidden" name="teacherId" th:value="${teacher.userId}" />
                     <button type="submit" class="like-button">
@@ -26,6 +24,7 @@
                 <ul>
                     <li>챕터 목록</li>
                     <li>레슨</li>
+                    <li><a th:href="@{/support/create/{teacherId}(teacherId=${teacher.userId})}">문의</a></li>
                 </ul>
             </div>
         </div>
