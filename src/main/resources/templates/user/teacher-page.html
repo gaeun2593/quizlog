@@ -10,6 +10,9 @@
 
             <div class="teacher-header">
                 <h2 th:text="${teacher.nickname}">선생님 닉네임</h2>
+                <div >
+                <a>문의 작성</a>
+                </div>
                 <form th:action="@{/like/teacher}" method="post" class="like-form">
                     <input type="hidden" name="teacherId" th:value="${teacher.userId}" />
                     <button type="submit" class="like-button">
