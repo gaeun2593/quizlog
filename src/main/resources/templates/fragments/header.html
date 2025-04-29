@@ -23,8 +23,10 @@
       </div>
     </div>  </div>
   <div class="search">
-    <span class="search-icon"><img th:src="@{/images/search.svg}" alt="search-icon"></span>
-    <input type="text" placeholder="문제검색">
+    <form method="get" th:action="@{/main/search}">
+      <button type="submit" class="search-icon"><img th:src="@{/images/search.svg}" alt="search-icon"></button>
+      <input type="text" name="search" placeholder="문제검색">
+    </form>
   </div>
   <div class="contentright">
     <a th:href="@{/main/create-chap}"><img th:src="@{/images/plus-circle.png}" alt="plus-circle" class="plus-circle"></a>
@@ -43,3 +45,4 @@
 </header>
 </body>
 </html>
+

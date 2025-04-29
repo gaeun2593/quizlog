@@ -43,9 +43,7 @@ public class QuizChapterController {
     public String chapterView(Model model) {
 
         RequestCreateChapterDTO dto = new RequestCreateChapterDTO();
-/*
-* commit
-* */
+
         dto.getQuizForm().add(new QuizForm());
         dto.getQuizForm().add(new QuizForm());
 
@@ -97,7 +95,6 @@ public class QuizChapterController {
         Long userId = userDetails.getLogInDTO().getUserId();
         RequestCreateChapterDTO dto = new RequestCreateChapterDTO();
 
-
         List<Chapter> chapter = chapterService.findchpaterAndQuizs(chapterId, userId);
 
         for (Chapter c : chapter) {
@@ -110,7 +107,6 @@ public class QuizChapterController {
             }
 
         }
-
 
         model.addAttribute("requestCreateChapterDTO", dto);
         return "chapter/editForm";
@@ -137,42 +133,37 @@ public class QuizChapterController {
 
 
     @GetMapping("/recentChapters/{chapterId}")
-    public String recentChapter(@PathVariable Long chapterId , @ModelAttribute("userChapter") UserChapter userChapter) {
-        log.info("UserChapters: {}", userChapter.getTitle());
+    public String recentChapter(@PathVariable Long chapterId , Model model) {
+        log.info("chapterId = {}", chapterId);
+        List<QuizForm> quizForm  = quizService.findAll(chapterId);
+        model.addAttribute("quizForm", quizForm);
 
-        return "redirect:/main";
+        return "quiz/recentQuizList" ;
     }
 
+    @GetMapping("/search") // 검색 요청
+    public String search(@RequestParam("search") String search, Model model) {
+        log.info("search = {}", search);
+        List<ChapterDto> chapterDto  = chapterService.findTitle(search);
+        model.addAttribute("chapterDto", chapterDto);
+        return "chapter/searchPage" ;
+    }
+
+    @GetMapping("/chapters/{chapterId}/{title}") // 퀴즈 진도 페이지 요청
+    public String solvedQuiz(@PathVariable Long chapterId , @PathVariable String title , Model model) {
+
+        List<QuizForm> quizSet = quizService.findQuiz(chapterId);
+
+        model.addAttribute("title", title);
+        model.addAttribute("quizSet" ,quizSet) ;
+
+        log.info("quizSet = {}", quizSet);
+
+        return "quiz/solvedForm" ;
+
+        //  quizService.findQui
+    }
 
 
 }
-/*
-* 챕터뷰구현!!!!!
-*
-* */
-/*
-
-    public String updateRole(@AuthenticationPrincipal AuthDetails userDetails,
-                             @Validated UpdateRoleRequestDTO updateRoleRequestDTO,
-                             Model model) {
-        Long userId = userDetails.getLogInDTO().getUserId();
-        log.info("updateRole : {}", userId);
-
-        UpdateRoleResponseDTO updateRole = userService.updateRole(userId, updateRoleRequestDTO);
-        model.addAttribute("updatedRole", updateRole);
-
-        return "/user/my-page";
-    }
-
-*/
-    /*
-
-     @GetMapping("createChapter")
-     public ModelAndView expression(ModelAndView mv) {
-        *//* view 이름부터 설정 *//*
-        mv.setViewName("Chapter");
-        mv.addObject("createChapterDTO", new RequestCreateChapterDTO());
-        return mv;
-    }
-*/
 
