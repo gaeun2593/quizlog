@@ -61,9 +61,30 @@
     transition: .2s;
 }
 
-.btn btn-success btn-sm {
+.manage-menu ul li:hover a{
     color: #17CFAA;
+    transition: .2s;
 }
+
+.custom-btn {
+    all: unset;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    padding: 6px 12px;
+    border-radius: 4px;
+    transition: color 0.3s;
+
+    display: flex;
+    align-items: center;   /* 수직 정렬 */
+    justify-content: center; /* 수평 정렬 */
+}
+
+.custom-btn:hover {
+    color: #17CFAA; /* 마우스 오버시 글자색만 변경 */
+}
+
 
 /* Simple DataTables 기본 스타일 */
 .datatable-wrapper .datatable-container {
@@ -163,7 +184,22 @@
 .datatable-table {
     width: 100%;
     border-collapse: collapse;
+    text-align: center;
+    vertical-align: middle;
 }
+
+/* 테이블 내에서 '계정 복구' 버튼을 가운데 정렬 */
+.datatable-table td {
+    text-align: center;  /* 수평 가운데 정렬 */
+}
+
+.datatable-table td form {
+    display: flex;
+    justify-content: center;  /* 수평 가운데 정렬 */
+    align-items: center;      /* 수직 가운데 정렬 */
+    margin: 0;                /* 여백 없애기 */
+}
+
 
 .datatable-table > tbody > tr > td,
 .datatable-table > tbody > tr > th,
@@ -171,13 +207,13 @@
 .datatable-table > tfoot > tr > th,
 .datatable-table > thead > tr > td,
 .datatable-table > thead > tr > th {
-    vertical-align: top;
-    padding: 0.75rem 1rem;
+    vertical-align: center;
+    padding: 0.5rem 0.5rem;
 }
 
 .datatable-table > thead > tr > th {
-    vertical-align: bottom;
-    text-align: left;
+    vertical-align: center;
+    text-align: center;
     border-bottom: none;
 }
 

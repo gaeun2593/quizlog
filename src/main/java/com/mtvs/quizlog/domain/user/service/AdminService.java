@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Service
 public class AdminService {
@@ -70,6 +71,19 @@ public class AdminService {
                 user.getStatus(),
                 user.getCreatedAt()
         ));
+    }
+
+    // 회원 계정 탈퇴
+    @Transactional
+    public void deleteUser(Long userId) {
+        log.info("Delete user - Admin : {}", userId);
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User does not exist"));
+
+        if (user.getStatus() == Status.DELETED) {
+            user.changeStatus(Status.DELETED);
+        } else {
+            user.changeStatus(Status.ACTIVE);
+        }
     }
 
     // 회원 계정 복구
