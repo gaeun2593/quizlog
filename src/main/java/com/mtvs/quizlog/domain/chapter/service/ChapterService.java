@@ -58,4 +58,8 @@ public class ChapterService{
     public List<UserChapter> findAll(){
        return chapterRepository.findAll();
     }
+
+    public List<ChapterDto> findTitle(String search) {
+        return chapterRepository.findTitle(search) ;
+    }
 }

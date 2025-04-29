@@ -3,8 +3,6 @@ package com.mtvs.quizlog.domain.chapter.dto.request;
 import lombok.*;
 
 @Data
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class QuizForm {
@@ -14,4 +12,8 @@ public class QuizForm {
     private String word ;
     private String answer ;
 
+    public QuizForm(String word, String answer) {
+        this.word = word;
+        this.answer = answer;
+    }
 }
