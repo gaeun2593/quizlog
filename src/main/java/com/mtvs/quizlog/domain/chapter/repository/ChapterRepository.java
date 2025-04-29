@@ -53,4 +53,16 @@ public class ChapterRepository {
         TypedQuery<UserChapter> query = em.createQuery("select new com.mtvs.quizlog.domain.chapter.dto.request.UserChapter(c.id , c.title , u.nickname) from Chapter c join c.user u order by c.createdAt DESC", UserChapter.class);
         return query.getResultList();
     }
+
+    public List<ChapterDto> findTitle(String search) {
+        TypedQuery<ChapterDto> query = em.createQuery(
+                "select new com.mtvs.quizlog.domain.chapter.dto.request.ChapterDto(c.id, c.title, u.nickname) " +
+                        "from Chapter c " +
+                        "join c.user u " +
+                        "where c.title like :search",
+                ChapterDto.class
+        );
+        query.setParameter("search" , search + "%");
+        return query.getResultList();
+    }
 }
