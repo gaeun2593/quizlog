@@ -61,3 +61,15 @@ textarea {
     display: flex;
     flex-direction: column;
 }
+
+td a {
+    color: #333;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+td a:hover {
+    color: #17CFAA;
+}
+

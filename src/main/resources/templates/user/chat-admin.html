@@ -2,10 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/head :: commonHead">
     <title>채팅방</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 </head>
 <body>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
 <div th:replace="fragments/header :: header"></div>
 
 <div class="chat-admin-page-container">
@@ -29,6 +29,9 @@
                 <textarea id="message-input" placeholder="메시지를 입력하세요"></textarea>
                 <button type="submit">보내기</button>
             </form>
+        </div>
+    </div>
+</div>
 
 <script th:inline="javascript">
     const nickname = /*[[${#authentication.principal.logInDTO.nickname}]]*/ 'Anonymous';
@@ -109,6 +112,7 @@
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 </script>
+
 <div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>

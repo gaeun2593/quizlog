@@ -28,7 +28,7 @@ public class ChatController {
         this.simpMessagingTemplate = simpMessagingTemplate;
     }
 
-    // 메세지 보내기 -> /app/chat/message
+    // 메세지 보내기 -> /app/message
     @MessageMapping("/message")
     public void sendMessage(ChatMessageDTO chatMessageDTO) {
         // 메세지 저장
@@ -70,7 +70,7 @@ public class ChatController {
 
         model.addObject("chatRoomId", roomId);
         model.addObject("messages", messages);
-        model.setViewName("user/chat-admin"); // 나중에 메인페이지 헤더에 넣기
+        model.setViewName("user/chat-admin");
         return model;
     }
 }

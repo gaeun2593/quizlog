@@ -20,36 +20,68 @@
                 </ul>
             </div>
 
-            <table>
-                <thead>
-                <tr>
-                    <th>채팅방 ID</th>
-                    <th>보낸 사람</th>
-                    <th>내용 미리보기</th>
-                    <th>생성일</th>
-                    <th>상태</th>
-                    <th>입장</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="chatRoom: ${chatRooms}">
-                    <td th:text="${chatRoom.chatRoomId}"></td>
-                    <td th:text="${chatRoom.senderNickname}"></td>
-                    <td>
-                <span th:text="${#strings.length(chatRoom.latestMessage) > 10} ?
-                                ${#strings.substring(chatRoom.latestMessage, 0, 10) + '...'} :
-                                ${chatRoom.latestMessage}">
-                </span>
-                    </td>
-                    <td th:text="${#temporals.format(chatRoom.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
-                    <td th:text="${chatRoom.status}"></td>
-                    <td>
-                        <a th:href="@{|/chat/room/${chatRoom.chatRoomId}|}">입장</a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+            <!-- 🔍 검색창 추가 -->
+            <div class="datatable-top">
+                <form th:action="@{/admin/chat/rooms}" method="get" style="display: flex; gap: 10px; justify-content: flex-end;">
+                    <input type="text" name="keyword" th:value="${keyword}" class="form-control datatable-input" placeholder="닉네임 검색">
+                    <button type="submit" class="btn btn-success btn-sm">검색</button>
+                </form>
+            </div>
 
+            <div class="datatable-wrapper">
+                <div class="datatable-container">
+                    <table class="datatable-table table table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th>채팅방 ID</th>
+                            <th>닉네임</th>
+                            <th>내용 미리보기</th>
+                            <th>생성일</th>
+                            <th>상태</th>
+                            <th>입장</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="chatRoom: ${chatRooms}">
+                            <td th:text="${chatRoom.chatRoomId}"></td>
+                            <td th:text="${chatRoom.senderNickname}"></td>
+                            <td>
+                        <span th:text="${#strings.length(chatRoom.latestMessage) > 10} ?
+                                        ${#strings.substring(chatRoom.latestMessage, 0, 10) + '...'} :
+                                        ${chatRoom.latestMessage}">
+                        </span>
+                            </td>
+                            <td th:text="${#temporals.format(chatRoom.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
+                            <td th:text="${chatRoom.status}"></td>
+                            <td>
+                                <a th:href="@{|/chat/room/${chatRoom.chatRoomId}|}">입장</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 📄 페이지네이션 -->
+                <div class="datatable-bottom">
+                    <div class="datatable-pagination">
+                        <ul>
+                            <li th:if="${currentPage > 0}">
+                                <a th:href="@{/admin/chat/rooms(page=${currentPage - 1}, keyword=${keyword})}">이전</a>
+                            </li>
+
+                            <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                                th:classappend="${i == currentPage} ? 'active' : ''">
+                                <a th:href="@{/admin/chat/rooms(page=${i}, keyword=${keyword})}" th:text="${i + 1}"></a>
+                            </li>
+
+                            <li th:if="${currentPage < totalPages - 1}">
+                                <a th:href="@{/admin/chat/rooms(page=${currentPage + 1}, keyword=${keyword})}">다음</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
 </div>
