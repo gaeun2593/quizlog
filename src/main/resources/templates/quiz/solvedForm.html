@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>단어 카드</title>
+  <style>
+    /* 기존 스타일 그대로 */
+    .card {
+      width: 400px;
+      height: 250px;
+      background-color: #2d2d4d;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      margin: auto;
+      margin-top: 50px;
+      border-radius: 15px;
+      position: relative;
+      cursor: pointer;
+    }
+    .buttons {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+      gap: 10px;
+    }
+    .buttons button {
+      width: 50px;
+      height: 50px;
+      font-size: 1.5rem;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<!-- 카드 표시 부분 -->
+
+  <div class="card" id="card" onclick="flipCard()">
+    <span id="card-text" th:text="${quizSet[0].word}">동조하다</span>
+  </div>
+
+  <!-- 정답/오답 제출 버튼 -->
+  <div class="buttons">
+    <button onclick="flipCard()" type="submit" name="answer" value="correct" id="correct" style="background-color: #4caf50;">✓</button>
+    <button type="submit" name="answer" value="wrong" id="incorrect" style="background-color: #ff4d4d;">✕</button>
+  </div>
+
+<script th:inline="javascript">
+  let flipped = false;
+  let quizSet = /*[[${quizSet}]]*/ [];
+  let count = 0 ;
+  let w , a;
+  function flipCard() {
+    console.log("실행");
+    const cardText = document.getElementById('card-text');
+    let {word , answer} = quizSet[count];
+    w = word ;
+    a = answer ;
+    if (!flipped) {
+      cardText.textContent = word ; // 뜻 보여주기
+      flipped = true;
+    } else {
+      cardText.textContent = answer ; // 원래 단어로
+      flipped = false;
+    }
+  }
+
+  function submitAnswer(event) {
+    event.preventDefault(); // 폼 기본 제출 막기
+    const form = document.getElementById('answerForm');
+    const formData = new FormData(form);
+    console.log(event.target.id);
+
+    fetch(form.action, {
+      method: 'POST',
+      body: formData
+    }).then(response => {
+      if (response.ok) {
+
+        alert('제출 완료!');
+        window.location.reload(); // 다음 카드 보여주기 위해 새로고침 (더 좋은 방법도 가능)
+      } ///
+      else {
+
+        flipCard();
+
+      }
+    }).catch(error => {
+
+    });
+  }
+</script>
+
+</body>
+</html>

@@ -5,15 +5,12 @@ import com.mtvs.quizlog.domain.chapter.dto.request.QuizForm;
 
 import com.mtvs.quizlog.domain.chapter.entity.Chapter;
 import com.mtvs.quizlog.domain.chapter.repository.ChapterRepository;
-import com.mtvs.quizlog.domain.quiz.dto.CreateQuizDTO;
-import com.mtvs.quizlog.domain.quiz.dto.UpdateQuizDTO;
 import com.mtvs.quizlog.domain.quiz.entity.Quiz;
 import com.mtvs.quizlog.domain.quiz.repository.QuizRepository;
 import com.mtvs.quizlog.domain.user.entity.User;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -66,4 +63,15 @@ public class QuizService {
        return quizRepository.findbyQuizes(userId , chapterId) ;
 
     }
+
+    public List<QuizForm>  findAll(Long chapterId) {
+       return quizRepository.findAll(chapterId);
+    }
+
+
+    public List<QuizForm> findQuiz(Long chapterId) {
+        return quizRepository.findAll(chapterId);
+    }
+
+
 }
