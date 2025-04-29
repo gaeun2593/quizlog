@@ -56,6 +56,8 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<FolderBookmark> folderBookmarks;
 
+
+
     public User(String nickname, String email, String password, Role role, Status status, LocalDateTime createdAt, LocalDateTime updatedAt, LocalDateTime deletedAt) {
         this.nickname = nickname;
         this.email = email;
