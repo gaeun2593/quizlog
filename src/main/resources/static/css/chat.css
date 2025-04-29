@@ -86,25 +86,49 @@
 .chat-admin-page-container .side-nav{
     flex: 1;
     padding: 20px 10px;
-
 }
+
 .chat-admin-page-container .side-nav>div{
     display: flex;
     flex-direction: column;
     gap: 10px;
-
 }
-.chat-admin-page-container .side-nav>div a{
+
+.chat-admin-page-container .side-nav>div a,
+.chat-admin-page-container .side-nav > div form button{
     padding: 10px 10px;
     display: flex;
+    align-items: center;
     gap: 15px;
     font-size: 14px;
     font-weight: 600;
     transition: 0.3s;
+    border: none;
+    background: none;
+    margin: 0;
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
 }
-.chat-admin-page-container .side-nav>div a:hover{
+
+.chat-admin-page-container .side-nav > div form {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+.chat-admin-page-container .side-nav>div a:hover,
+.chat-admin-page-container .side-nav > div form button:hover{
     background-color: rgb(238, 249, 249);
     transition: 0.3s;
+}
+
+.chat-admin-page-container .side-nav > div form button:focus {
+    outline: none;
+}
+
+.chat-admin-page-container .side-nav > div form button img {
+    box-shadow: none;
 }
 
 

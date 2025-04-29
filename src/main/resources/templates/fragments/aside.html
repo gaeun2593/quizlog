@@ -17,7 +17,7 @@
     <!-- 학생, 선생님일 때 관리자 채팅 문의 페이지 -->
     <form th:action="@{/chat/room}" method="post" sec:authorize="hasAnyAuthority('STUDENT', 'TEACHER')">
       <button type="submit">
-        <img th:src="@{/images/message-circle.svg}" alt="chat">채팅 문의
+        <img th:src="@{/images/Vector-2.svg}" alt="chat">채팅 문의
       </button>
     </form>
   </div>
