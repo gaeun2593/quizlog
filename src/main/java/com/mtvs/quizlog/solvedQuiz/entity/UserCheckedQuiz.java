@@ -1,12 +1,10 @@
 package com.mtvs.quizlog.solvedQuiz.entity;
 
 
-import com.mtvs.quizlog.domain.chapter.entity.Chapter;
 import com.mtvs.quizlog.domain.quiz.entity.Quiz;
 import com.mtvs.quizlog.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -16,7 +14,7 @@ import static jakarta.persistence.GenerationType.*;
 @Table(name = "user_solved_quiz")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class UserSolvedQuiz {
+public class UserCheckedQuiz {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -31,16 +29,11 @@ public class UserSolvedQuiz {
     @JoinColumn(name = "quiz_id")
     private Quiz quiz;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "chapter_id")
-    private Chapter chapter;
-
     
-    public UserSolvedQuiz(User user, Quiz quiz, Chapter chapter) {
+    public UserCheckedQuiz(User user, Quiz quiz) {
         this.user = user;
         this.quiz = quiz;
 
-        this.chapter = chapter;
     }
 
 

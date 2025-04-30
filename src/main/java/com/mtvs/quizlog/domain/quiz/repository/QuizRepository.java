@@ -42,7 +42,7 @@ public class QuizRepository  {
 
     public List<QuizForm> findAll(Long chapterId) {
 
-        TypedQuery<QuizForm> query = em.createQuery("select new com.mtvs.quizlog.domain.chapter.dto.request.QuizForm(q.title , q.answer) from Quiz q where q.chapter.id = :chapterId", QuizForm.class);
+        TypedQuery<QuizForm> query = em.createQuery("select new com.mtvs.quizlog.domain.chapter.dto.request.QuizForm(q.id ,q.title , q.answer) from Quiz q where q.chapter.id = :chapterId", QuizForm.class);
         query.setParameter("chapterId", chapterId);
 
         return query.getResultList() ;
