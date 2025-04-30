@@ -78,7 +78,7 @@ public class QuizService {
 
     // 폴더북마크의 퀴즈조회
     public List<QuizDTO> findQuizByFolderBookmarkId(Long userId, int folderBookmarkId) {
-        List<QuizDTO> Quizzes = quizRepository.findQuizzesByUserIdAndFolderBookmarkId(userId,folderBookmarkId);
+        List<Quiz> Quizzes = quizRepository.findQuizzesByUserIdAndFolderBookmarkId(userId,folderBookmarkId);
 
         // 가져온 챕터들을 챕터 DTO로 바꿈, 리스트로!
         List<QuizDTO> quizDTOList = new ArrayList<>();
