@@ -2,6 +2,7 @@ package com.mtvs.quizlog.domain.folder.folderchapter.controller;
 
 
 import com.mtvs.quizlog.domain.auth.model.AuthDetails;
+import com.mtvs.quizlog.domain.chapter.dto.request.ChapterDto;
 import com.mtvs.quizlog.domain.chapter.entity.Chapter;
 import com.mtvs.quizlog.domain.chapter.service.ChapterService;
 import com.mtvs.quizlog.domain.folder.folderchapter.dto.FolderChapterDTO;
@@ -140,10 +141,13 @@ public class FolderChapterController {
         // 로그인한 유저객체 가져와서
         Long userId = userDetails.getLogInDTO().getUserId();
 
-        List<Chapter> chapters = chapterService.findChapterByFolderChapterId(userId, folderId);
+        List<ChapterDto> chapters = chapterService.findChapterByFolderChapterId(userId, folderId);
+        System.out.println("챕터가아아앖" + chapters);
+
+
         model.addAttribute("chapters", chapters);
 
-        System.out.println(chapters);
+
 
         return "folder/folder-chapter-detail";
     }

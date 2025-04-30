@@ -12,4 +12,10 @@ public class ChapterDto {
 
 
     // getters/setters
+
+
+    @Override
+    public String toString() {
+        return title;
+    }
 }

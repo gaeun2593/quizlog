@@ -5,6 +5,8 @@ import com.mtvs.quizlog.domain.chapter.dto.request.UserChapter;
 import com.mtvs.quizlog.domain.chapter.dto.request.*;
 import com.mtvs.quizlog.domain.chapter.repository.ChapterRepository;
 import com.mtvs.quizlog.domain.chapter.entity.Chapter;
+import com.mtvs.quizlog.domain.folder.folderchapter.dto.FolderChapterDTO;
+import com.mtvs.quizlog.domain.folder.folderchapter.entity.FolderChapter;
 import com.mtvs.quizlog.domain.user.entity.User;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,7 +70,16 @@ public class ChapterService{
         return chapterRepository.findChapterById(chapterId);
     }
 
-    public List<Chapter> findChapterByFolderChapterId(Long userId, int folderChapterId) {
-        return chapterRepository.findChapterByFolderChapterId(userId,folderChapterId);
+    public List<ChapterDto> findChapterByFolderChapterId(Long userId, int folderChapterId) {
+        List<Chapter> Chapters = chapterRepository.findChaptersByUserIdAndFolderChapterId(userId,folderChapterId);
+
+
+        List<ChapterDto> chapterDTOList = new ArrayList<>();
+        for (Chapter chapter : Chapters) {
+            ChapterDto dto = new ChapterDto(chapter.getId(),chapter.getTitle(),chapter.getDescription());
+            chapterDTOList.add(dto);
+        }
+
+        return chapterDTOList;
     }
 }

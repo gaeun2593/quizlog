@@ -92,15 +92,20 @@ public class ChapterRepository {
         }
     }
 
-    public List<Chapter> findChapterByFolderChapterId(Long userId, int folderChapterId) {
+    // 챕터폴더를 만든 유저의 폴더의 챕터를 가져옴
+    public List<Chapter> findChaptersByUserIdAndFolderChapterId(Long userId, int folderChapterId) {
         TypedQuery<Chapter> query = em.createQuery(
-                "select c from Chapter c where c.folderChapter.id = :folderChapterId and c.user.id = :userId", Chapter.class
+                "select c from Chapter c " +
+                        "join fetch c.folderChapter fc " +
+                        "join fetch fc.user u " +
+                        "where u.userId = :userId and fc.folderChapterId = :folderChapterId", Chapter.class
         );
-        query.setParameter("folderChapterId", folderChapterId);
         query.setParameter("userId", userId);
+        query.setParameter("folderChapterId", folderChapterId);
 
-        List<Chapter> result = query.getResultList();
-        return result.isEmpty() ? null : result;
+        return query.getResultList();
     }
+
+
 
 }
