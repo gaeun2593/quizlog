@@ -6,6 +6,7 @@ import com.mtvs.quizlog.domain.chapter.dto.request.QuizForm;
 import com.mtvs.quizlog.domain.chapter.entity.Chapter;
 import com.mtvs.quizlog.domain.chapter.repository.ChapterRepository;
 
+import com.mtvs.quizlog.domain.quiz.entity.Quiz;
 import com.mtvs.quizlog.domain.quiz.repository.QuizRepository;
 import com.mtvs.quizlog.domain.user.entity.User;
 import jakarta.transaction.Transactional;
