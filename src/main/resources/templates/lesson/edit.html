@@ -1,10 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: commonHead">
+    <meta charset="UTF-8">
+    <title>레슨 수정</title>
 </head>
 <body>
-$END$
+<div th:replace="fragments/header :: header"></div>
+
+<div class="main-page-container">
+    <div th:replace="fragments/aside :: asideFragment"></div>
+    <div class="main-layout container py-4">
+        <h2>✏️ 레슨 수정</h2>
+
+        <form th:action="@{/lesson/edit/{id}(id=${lesson.id})}" method="post" th:object="${lesson}">
+            <div class="mb-3">
+                <label class="form-label">제목</label>
+                <input type="text" th:field="*{title}" class="form-control" required />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">설명</label>
+                <textarea th:field="*{description}" class="form-control" rows="6"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-success">수정 완료</button>
+            <a th:href="@{/lesson/{id}(id=${lesson.id})}" class="btn btn-secondary">돌아가기</a>
+        </form>
+    </div>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>

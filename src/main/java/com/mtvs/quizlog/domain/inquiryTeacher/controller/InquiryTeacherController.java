@@ -83,9 +83,6 @@ public class InquiryTeacherController {
     public String inquiryView(@AuthenticationPrincipal AuthDetails userDetails , @PathVariable Long inquiryId, Model model) {
         InquiryTeacherDTO inquiry = inquiryTeacherService.findById(inquiryId);
 
-        /*long writerId = inquiry.getUser().getUserId();
-        long teacherId = inquiry.getTeacher().getUserId();
-*/
         model.addAttribute("userId", userDetails.getLogInDTO().getUserId());
         model.addAttribute("inquiry", inquiry);
         log.info("inquiry: {}", inquiry.getId());

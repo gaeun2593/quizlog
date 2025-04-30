@@ -1,10 +1,63 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: commonHead">
+    <meta charset="UTF-8">
+    <title>레슨 상세</title>
 </head>
 <body>
-$END$
+<div th:replace="fragments/header :: header"></div>
+
+<div class="main-page-container">
+    <div th:replace="fragments/aside :: asideFragment"></div>
+    <div class="main-layout container py-4">
+        <h2 th:text="${lesson.title}">레슨 제목</h2>
+        <p class="lead" th:text="${lesson.description}">레슨 설명</p>
+        <p><strong>상태:</strong> <span th:text="${lesson.status}"></span></p>
+        <p><strong>등록일:</strong> <span th:text="${#temporals.format(lesson.createdAt, 'yyyy-MM-dd')}"></span></p>
+
+        <div class="mt-4">
+            <a th:href="@{/lesson/edit/{id}(id=${lesson.id})}" class="btn btn-warning">✏️ 수정하기</a>
+
+            <form th:action="@{/lesson/delete/{id}(id=${lesson.id})}" method="post" class="d-inline"
+                  onsubmit="return confirm('정말 삭제하시겠습니까?')">
+                <button type="submit" class="btn btn-outline-danger">🗑️ 삭제</button>
+            </form>
+            <a href="/lesson/list" class="btn btn-secondary">목록으로</a>
+        </div>
+
+        <hr class="my-4" />
+
+        <h4>📑 포함된 챕터 목록</h4>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>챕터 제목</th>
+                <th>액션</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="chapter : ${lesson.chapterList}">
+                <td th:text="${chapter.title}">챕터 제목</td>
+                <td>
+                    <form th:action="@{'/lesson/' + ${lesson.id} + '/removeChapter/' + ${chapter.id}}" method="post" class="d-inline"
+                          onsubmit="return confirm('정말 이 챕터를 제거하시겠습니까?')">
+                        <button type="submit" class="btn btn-sm btn-outline-danger">➖ 제거</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <h5 class="mt-4">➕ 챕터 추가</h5>
+        <form th:action="@{'/lesson/' + ${lesson.id} + '/addChapter/' + ${chapterIdToAdd}}" method="post">
+            <div class="input-group">
+                <input type="number" name="chapterIdToAdd" class="form-control" placeholder="챕터 ID 입력" required />
+                <button type="submit" class="btn btn-primary">추가</button>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>
