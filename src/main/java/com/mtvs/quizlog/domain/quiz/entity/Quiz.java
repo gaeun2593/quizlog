@@ -20,7 +20,7 @@ import static jakarta.persistence.FetchType.*;
 @Getter
 @Setter
 public class Quiz {
-
+//f
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "quiz_id")
