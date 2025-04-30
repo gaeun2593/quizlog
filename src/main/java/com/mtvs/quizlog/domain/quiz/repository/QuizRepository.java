@@ -64,4 +64,18 @@ public class QuizRepository  {
 
         return query.getSingleResult();
     }
+
+    // 폴더를 만든 유저의 폴더의 퀴즈를 가져옴
+    public List<Quiz> findQuizzesByUserIdAndFolderBookmarkId(Long userId, int folderBookmarkId) {
+        TypedQuery<Quiz> query = em.createQuery(
+                "select q from Quiz q " +
+                        "join fetch q.folderBookmark fc " +
+                        "join fetch fc.user u " +
+                        "where u.userId = :userId and fc.folderBookmarkId = :folderBookmarkId", Quiz.class
+        );
+        query.setParameter("userId", userId);
+        query.setParameter("folderBookmarkId", folderBookmarkId);
+
+        return query.getResultList();
+    }
 }

@@ -1,10 +1,12 @@
 package com.mtvs.quizlog.domain.quiz.service;
 
+import com.mtvs.quizlog.domain.chapter.dto.request.ChapterDto;
 import com.mtvs.quizlog.domain.chapter.dto.request.QuizDto;
 import com.mtvs.quizlog.domain.chapter.dto.request.QuizForm;
 
 import com.mtvs.quizlog.domain.chapter.entity.Chapter;
 import com.mtvs.quizlog.domain.chapter.repository.ChapterRepository;
+import com.mtvs.quizlog.domain.quiz.dto.QuizDTO;
 import com.mtvs.quizlog.domain.quiz.entity.Quiz;
 import com.mtvs.quizlog.domain.quiz.repository.QuizRepository;
 import com.mtvs.quizlog.domain.user.entity.User;
@@ -14,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -73,7 +76,19 @@ public class QuizService {
         return quizRepository.findAll(chapterId);
     }
 
+    // 폴더북마크의 퀴즈조회
+    public List<QuizDTO> findQuizByFolderBookmarkId(Long userId, int folderBookmarkId) {
+        List<QuizDTO> Quizzes = quizRepository.findQuizzesByUserIdAndFolderBookmarkId(userId,folderBookmarkId);
 
+        // 가져온 챕터들을 챕터 DTO로 바꿈, 리스트로!
+        List<QuizDTO> quizDTOList = new ArrayList<>();
+        for (Quiz quiz : Quizzes) {
+            QuizDTO dto = new QuizDTO(quiz.getTitle());
+            quizDTOList.add(dto);
+        }
+
+        return quizDTOList;
+    }
 
 
 

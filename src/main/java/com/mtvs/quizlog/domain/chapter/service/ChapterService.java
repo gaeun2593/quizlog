@@ -70,10 +70,11 @@ public class ChapterService{
         return chapterRepository.findChapterById(chapterId);
     }
 
+    // 폴더챕터에 속한 챕터 조회
     public List<ChapterDto> findChapterByFolderChapterId(Long userId, int folderChapterId) {
         List<Chapter> Chapters = chapterRepository.findChaptersByUserIdAndFolderChapterId(userId,folderChapterId);
 
-
+        // 가져온 챕터들을 챕터 DTO로 바꿈, 리스트로!
         List<ChapterDto> chapterDTOList = new ArrayList<>();
         for (Chapter chapter : Chapters) {
             ChapterDto dto = new ChapterDto(chapter.getId(),chapter.getTitle(),chapter.getDescription());
