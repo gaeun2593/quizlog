@@ -23,7 +23,7 @@ public class IndexController {
     // 선생님 좋아요 top5 조회
     @GetMapping("/main")
     public ModelAndView mainPage(ModelAndView model) {
-        List<TeacherLikeRankingDto> topTeachers = likeService.getTop5TeachersByLikes();
+        List<TeacherLikeRankingDto> topTeachers = likeService.getTop7TeachersByLikes();
         System.out.println("Top Teachers: " + topTeachers);
         model.addObject("topTeachers", topTeachers);
         model.setViewName("main");

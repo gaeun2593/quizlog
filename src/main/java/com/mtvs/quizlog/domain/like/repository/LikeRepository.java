@@ -23,11 +23,11 @@ public interface LikeRepository extends JpaRepository<Like, Long> {
 
 
     @Query("""
-        SELECT new com.mtvs.quizlog.domain.like.dto.TeacherLikeRankingDto(l.teacher.nickname, COUNT(l))
-        FROM Like l
-        WHERE l.teacher.role = 'TEACHER'
-        GROUP BY l.teacher.nickname
-        ORDER BY COUNT(l) DESC
-    """)
-    List<TeacherLikeRankingDto> findTop5TeachersByLikes(Pageable pageable);
+    SELECT new com.mtvs.quizlog.domain.like.dto.TeacherLikeRankingDto(l.teacher.userId, l.teacher.nickname, COUNT(l))
+    FROM Like l
+    WHERE l.teacher.role = 'TEACHER'
+    GROUP BY l.teacher.userId, l.teacher.nickname
+    ORDER BY COUNT(l) DESC
+""")
+    List<TeacherLikeRankingDto> findTop7TeachersByLikes(Pageable pageable);
 }
