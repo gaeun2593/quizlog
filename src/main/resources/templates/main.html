@@ -20,10 +20,86 @@
             <div></div>
         </div>
         <div class="main-content">
-            <h3>선생님 랭킹 (좋아요 순)</h3>
-            <div></div>
+            <h3>인기 선생님</h3>
+            <div class="teacher-ranking-container">
+                <div class="teacher-ranking-slider">
+                    <div class="teachers-wrapper" id="teachersWrapper">
+                        <div class="teacher-card" th:each="teacher : ${topTeachers}">
+                            <a th:href="@{'/like/teacher-detail/' + ${teacher.userId}}" class="teacher-card-link">
+                                <div class="teacher-info">
+                                    <h4 th:text="${teacher.nickname}">선생님 이름</h4>
+                                    <div class="teacher-likes">
+                                        <span class="heart-icon">❤️</span>
+                                        <span th:text="${teacher.likeCount}">0</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <button class="slide-btn prev-btn" id="prevBtn">&#10094;</button>
+                <button class="slide-btn next-btn" id="nextBtn">&#10095;</button>
+            </div>
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const teachersWrapper = document.getElementById('teachersWrapper');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+
+            let position = 0;
+            const cardWidth = 215; // 카드 너비 + 마진
+            const visibleCards = Math.floor(teachersWrapper.parentElement.offsetWidth / cardWidth);
+            const maxPosition = teachersWrapper.children.length - visibleCards;
+
+            // 초기 상태 확인 (뒤로 가기 버튼 비활성화)
+            updateButtonStates();
+
+            // 다음 버튼 클릭 이벤트
+            nextBtn.addEventListener('click', function() {
+                if (position < maxPosition) {
+                    position++;
+                    updateSliderPosition();
+                }
+            });
+
+            // 이전 버튼 클릭 이벤트
+            prevBtn.addEventListener('click', function() {
+                if (position > 0) {
+                    position--;
+                    updateSliderPosition();
+                }
+            });
+
+            // 슬라이더 위치 업데이트
+            function updateSliderPosition() {
+                teachersWrapper.style.transform = `translateX(-${position * cardWidth}px)`;
+                updateButtonStates();
+            }
+
+            // 버튼 상태 업데이트
+            function updateButtonStates() {
+                prevBtn.style.opacity = position <= 0 ? '0.5' : '1';
+                prevBtn.style.cursor = position <= 0 ? 'default' : 'pointer';
+
+                nextBtn.style.opacity = position >= maxPosition ? '0.5' : '1';
+                nextBtn.style.cursor = position >= maxPosition ? 'default' : 'pointer';
+            }
+
+            // 화면 크기 변경 시 재계산
+            window.addEventListener('resize', function() {
+                const newVisibleCards = Math.floor(teachersWrapper.parentElement.offsetWidth / cardWidth);
+                const newMaxPosition = teachersWrapper.children.length - newVisibleCards;
+
+                // 위치 조정
+                if (position > newMaxPosition) {
+                    position = Math.max(0, newMaxPosition);
+                    updateSliderPosition();
+                }
+            });
+        });
+    </script>
 </div>
 <div th:replace="fragments/footer :: footer"></div>
 </body>
