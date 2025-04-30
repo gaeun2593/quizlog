@@ -153,7 +153,6 @@ public class QuizChapterController {
     public String solvedQuiz(@PathVariable Long chapterId , @PathVariable String title , Model model) {
 
         List<QuizForm> quizSet = quizService.findQuiz(chapterId);
-
         model.addAttribute("title", title);
         model.addAttribute("quizSet" ,quizSet) ;
 
