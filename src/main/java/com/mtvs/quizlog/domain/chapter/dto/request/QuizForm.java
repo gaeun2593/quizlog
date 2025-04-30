@@ -12,8 +12,11 @@ public class QuizForm {
     private String word ;
     private String answer ;
 
-    public QuizForm(String word, String answer) {
+    
+    // 퀴즈아이디 받아와야해서 필요
+    public QuizForm(String word, String answer, Long id) {
         this.word = word;
         this.answer = answer;
+        this.id = id;
     }
 }

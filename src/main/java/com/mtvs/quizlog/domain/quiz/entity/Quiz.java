@@ -2,6 +2,8 @@ package com.mtvs.quizlog.domain.quiz.entity;
 
 
 import com.mtvs.quizlog.domain.chapter.entity.Chapter;
+import com.mtvs.quizlog.domain.folder.folderbookmarks.entity.FolderBookmark;
+import com.mtvs.quizlog.domain.folder.folderchapter.entity.FolderChapter;
 import com.mtvs.quizlog.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -41,6 +43,11 @@ public class Quiz {
 
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
+
+    // 폴더 북마크랑 다대일 맵핑
+    @ManyToOne
+    @JoinColumn(name = "folder_bookmark_id", nullable = true)
+    private FolderBookmark folderBookmark;
 
    // @ManyToOne(fetch = FetchType.LAZY)
   //  @JoinColumn(name = "bookmark_id")

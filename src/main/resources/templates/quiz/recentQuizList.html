@@ -8,7 +8,6 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
-      width: 400px;
       margin: 0 auto;
     }
     .chapter-header, .chapter-item {
@@ -41,6 +40,24 @@
 
 <!-- 퀴즈 리스트 -->
 <div class="chapter-list">
+  <div>
+    챕터
+    <span>폴더생성해서 넣기</span>
+    <form action="/folder-chapters/create-folder-chapter" method="POST">
+      <input type="text" name="title" pattern=".*\S.*" required>
+      <input type="hidden" name="chapterId" th:value="${chapter.id}"/>
+      <input type="submit" value="폴더생성" class="btn-green-custom">
+    </form>
+    <span><a>기존 폴더에 넣기</a></span>
+    <div th:each="folderChapter : ${folderChapters}">
+      <form action="/folder-chapters/add-chapter-to-folder" method="POST">
+        <span th:text="${folderChapter.title}" ></span>
+        <input type="hidden" name="folderChapterId" th:value="${folderChapter.id}" readonly>
+        <input type="hidden" name="chapterId" th:value="${chapter.id}"/>
+        <input type="submit" value="챕터담기" class="btn-green-custom">
+      </form>
+    </div>
+  </div>
   <div class="chapter-header">
     <span>단어</span>
     <span>정답</span>
@@ -50,7 +67,22 @@
   <div class="chapter-item" th:each="quiz : ${quizForm}">
     <span th:text="${quiz.word}">Title</span>
     <span th:text="${quiz.answer}">Answer</span>
-
+    <span>퀴즈 폴더생성해서 넣기</span>
+    <form action="/folder-bookmarks/create-folder-bookmark2" method="POST">
+      <input type="text" name="title" pattern=".*\S.*" required>
+      <input type="hidden" name="quizId" th:value="${quiz.id}"/>
+      <input type="submit" value="폴더생성" class="btn-green-custom">
+    </form>
+    <span><a>기존 퀴즈 폴더에 넣기</a></span>
+    <div th:each="folderBookmark : ${folderBookmarks}">
+      <form action="/folder-bookmarks/add-quiz-to-folder" method="POST">
+        <span th:text="${folderBookmark.title}" ></span>
+        <input type="hidden" name="folderBookmarkId" th:value="${folderBookmark.id}" readonly>
+        <input type="hidden" name="quizId" th:value="${quiz.id}"/>
+        <input type="hidden" name="chapterId" th:value="${chapter.id}"/>
+        <input type="submit" value="퀴즈담기" class="btn-green-custom">
+      </form>
+    </div>
   </div>
 </div>
 <div th:replace="fragments/footer :: footer"></div>
