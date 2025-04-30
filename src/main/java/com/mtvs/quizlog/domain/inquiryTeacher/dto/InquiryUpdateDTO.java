@@ -1,4 +1,1 @@
 package com.mtvs.quizlog.domain.inquiryTeacher.dto;
-
-public class InquiryUpdateContentDTO {
-}

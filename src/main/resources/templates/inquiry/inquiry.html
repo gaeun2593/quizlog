@@ -5,6 +5,26 @@
     <title>InquiryPage</title>
 </head>
 <body>
+
+<form id="inquiryForm" th:action="@{'/support/update/' + ${inquiry.id}}" method="post" th:object="${inquiry}">
+    <input type="hidden" name="_method" value="patch" />
+
+    <div class="mb-3">
+        <label class="form-label">제목</label>
+        <input type="text" th:field="*{title}" class="form-control" readonly />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">내용</label>
+        <textarea th:field="*{content}" class="form-control" rows="10" readonly></textarea>
+    </div>
+
+    <div class="text-end d-flex justify-content-end gap-2">
+        <button type="button" id="editBtn" class="btn btn-warning" onclick="enableEdit()">✏️ 수정하기</button>
+        <button type="submit" id="submitBtn" class="btn btn-primary d-none">✅ 수정 완료</button>
+        <button type="button" class="btn btn-secondary" onclick="history.back()">뒤로가기</button>
+    </div>
+</form>
     <div class="inquiry-item" >
         <p th:text="${inquiry.title}"></p>
         <p th:text="${inquiry.content}"></p>

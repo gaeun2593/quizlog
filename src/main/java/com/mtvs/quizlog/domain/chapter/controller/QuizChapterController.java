@@ -9,7 +9,7 @@ import com.mtvs.quizlog.domain.chapter.dto.response.ResponseCreateChapterDTO;
 import com.mtvs.quizlog.domain.chapter.entity.Chapter;
 import com.mtvs.quizlog.domain.chapter.service.ChapterService;
 import com.mtvs.quizlog.domain.quiz.dto.CreateQuizDTO;
-import com.mtvs.quizlog.domain.quiz.entity.Quiz;
+
 import com.mtvs.quizlog.domain.quiz.service.QuizService;
 import com.mtvs.quizlog.domain.user.dto.LogInDTO;
 import com.mtvs.quizlog.domain.user.entity.User;
