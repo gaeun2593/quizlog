@@ -3,6 +3,7 @@ package com.mtvs.quizlog.domain.chapter.repository;
 import com.mtvs.quizlog.domain.chapter.dto.request.UserChapter;
 import com.mtvs.quizlog.domain.chapter.dto.request.ChapterDto;
 import com.mtvs.quizlog.domain.chapter.entity.Chapter;
+import com.mtvs.quizlog.domain.folder.folderchapter.entity.FolderChapter;
 import com.mtvs.quizlog.domain.user.entity.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -22,6 +23,7 @@ public class ChapterRepository {
     private final EntityManager em;
 
     public void save(Chapter chapter) {
+
         em.persist(chapter);
     }
 
@@ -65,4 +67,40 @@ public class ChapterRepository {
         query.setParameter("search" , search + "%");
         return query.getResultList();
     }
+
+
+    public Chapter findChapterById(Long chapterId) {
+        TypedQuery<Chapter> query = em.createQuery( "select c from Chapter c where c.id = :chapterId", Chapter.class);
+        query.setParameter("chapterId", chapterId);
+
+        return query.getSingleResult();
+    }
+
+// 챕터에서 폴더챕터 찾아서 리스트로 반환
+    public List<Chapter> findByFolderChapter(FolderChapter folderChapter) {
+        TypedQuery<Chapter> query = em.createQuery(
+                "select c from Chapter c where c.folderChapter = :folderChapter", Chapter.class
+        );
+        query.setParameter("folderChapter", folderChapter);
+        return query.getResultList();
+    }
+
+    // 수정된 챕터들 저장 (폴더와의 연결을 끊은것을 저장)
+    public void saveAll(List<Chapter> chapters) {
+        for (Chapter chapter : chapters) {
+            em.merge(chapter); // 수정된 엔티티 반영
+        }
+    }
+
+    public List<Chapter> findChapterByFolderChapterId(Long userId, int folderChapterId) {
+        TypedQuery<Chapter> query = em.createQuery(
+                "select c from Chapter c where c.folderChapter.id = :folderChapterId and c.user.id = :userId", Chapter.class
+        );
+        query.setParameter("folderChapterId", folderChapterId);
+        query.setParameter("userId", userId);
+
+        List<Chapter> result = query.getResultList();
+        return result.isEmpty() ? null : result;
+    }
+
 }

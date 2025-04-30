@@ -2,25 +2,28 @@ package com.mtvs.quizlog.domain.inquiryTeacher.dto;
 
 import com.mtvs.quizlog.domain.chapter.entity.Chapter;
 import com.mtvs.quizlog.domain.inquiryTeacher.entity.Status;
-import com.mtvs.quizlog.domain.user.entity.Role;
 import com.mtvs.quizlog.domain.user.entity.User;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 
-@Getter
-@NoArgsConstructor
+
+@Data
 @AllArgsConstructor
 @Builder
-@Setter
-public class InquiryTeacherDTO {
+public class InquiryTeacherAllDTO {
     private Long id;
     private String title;
     private String content;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private LocalDateTime deletedAt;
     private Status status;
-    private User user;
-    private User teacher;
+    private long user;
+    private long teacher;
+
+
 }
