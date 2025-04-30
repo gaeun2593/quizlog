@@ -401,3 +401,26 @@ footer .container{
     display: flex;
     gap: 20px;
 }
+
+.rounded-button {
+    background-color: #17CFAA;
+    color: white;
+    border: none;
+    border-radius: 999px;
+    padding: 8px 20px;
+    font-weight: bold;
+}
+
+.rounded-button:hover {
+    background-color: #15b8a8;
+}
+
+.quiz-card {
+    border-radius: 1rem;
+    transition: transform 0.2s;
+}
+
+.quiz-card:hover {
+    transform: translateY(-5px);
+}
+
