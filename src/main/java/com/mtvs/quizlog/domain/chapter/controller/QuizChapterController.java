@@ -8,6 +8,11 @@ import com.mtvs.quizlog.domain.chapter.dto.request.*;
 import com.mtvs.quizlog.domain.chapter.dto.response.ResponseCreateChapterDTO;
 import com.mtvs.quizlog.domain.chapter.entity.Chapter;
 import com.mtvs.quizlog.domain.chapter.service.ChapterService;
+import com.mtvs.quizlog.domain.folder.folderbookmarks.dto.FolderBookmarkDTO;
+import com.mtvs.quizlog.domain.folder.folderbookmarks.entity.FolderBookmark;
+import com.mtvs.quizlog.domain.folder.folderbookmarks.service.FolderBookmarkService;
+import com.mtvs.quizlog.domain.folder.folderchapter.dto.FolderChapterDTO;
+import com.mtvs.quizlog.domain.folder.folderchapter.service.FolderChapterService;
 import com.mtvs.quizlog.domain.quiz.dto.CreateQuizDTO;
 import com.mtvs.quizlog.domain.quiz.entity.Quiz;
 import com.mtvs.quizlog.domain.quiz.service.QuizService;
@@ -39,6 +44,8 @@ public class QuizChapterController {
     private final ChapterService chapterService;
     private final QuizService quizService;
     private final UserService userService;
+    private final FolderChapterService folderChapterService;
+    private final FolderBookmarkService folderBookmarkService;
     private final CheckedQuizService checkedQuizService;
 
     @GetMapping("/create-chap")
@@ -125,6 +132,7 @@ public class QuizChapterController {
         return "redirect:/main";
     }
 
+    /* 최신순으로 모든 유저의 챕터조회 /main/recentChapters */
     @GetMapping("/recentChapters")
     public String recentChapters(Model model) {
         List<UserChapter> UserChapters = chapterService.findAll();
@@ -134,11 +142,30 @@ public class QuizChapterController {
     }
 
 
+    /* 챕터의 상세페이지 */
     @GetMapping("/recentChapters/{chapterId}")
-    public String recentChapter(@PathVariable Long chapterId , Model model) {
+    public String recentChapter(@PathVariable Long chapterId , Model model, @AuthenticationPrincipal AuthDetails userDetails) {
         log.info("chapterId = {}", chapterId);
         List<QuizForm> quizForm  = quizService.findAll(chapterId);
         model.addAttribute("quizForm", quizForm);
+
+        /* 챕터 Id로 객체찾아서 퀴즈 페이지로 전달 */
+        Chapter chapter = chapterService.findId(chapterId);
+        model.addAttribute("chapter", chapter);
+
+        // 로그인한 유저객체 가져와서
+        Long userId = userDetails.getLogInDTO().getUserId();
+        User user = userService.findUser(userId);
+
+        // 유저의 챕터폴더 가져옴
+        List<FolderChapterDTO> folderChapters = folderChapterService.getAllFolderChapters(user);
+        model.addAttribute("folderChapters", folderChapters);
+
+        // 유저의 퀴즈폴더 가져옴
+        List<FolderBookmarkDTO> folderBookmarks = folderBookmarkService.getAllfolderBookmarks(user);
+        model.addAttribute("folderBookmarks", folderBookmarks);
+
+
 
         return "quiz/recentQuizList" ;
     }
@@ -186,6 +213,9 @@ public class QuizChapterController {
 
         model.addAttribute("chapterId" , chapterId) ;
         model.addAttribute("title", title);
+        model.addAttribute("quizSet" ,quizSet) ;
+
+        log.info("quizSet = {}", quizSet);
 
         return "quiz/solvedForm" ;
     }

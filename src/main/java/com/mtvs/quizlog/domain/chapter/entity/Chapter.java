@@ -1,6 +1,7 @@
 package com.mtvs.quizlog.domain.chapter.entity;
 
 
+import com.mtvs.quizlog.domain.folder.folderchapter.entity.FolderChapter;
 import com.mtvs.quizlog.domain.lesson.entity.Lesson;
 import com.mtvs.quizlog.domain.quiz.entity.Quiz;
 import com.mtvs.quizlog.domain.user.entity.User;
@@ -62,6 +63,12 @@ public class Chapter {
     @ManyToOne(fetch = FetchType.LAZY , cascade = CascadeType.ALL)
     @JoinColumn(name="user_id")
     private User user;
+    
+    // chapter folder와 다대일 맵핑
+    @ManyToOne
+    @JoinColumn(name = "folder_chapter_id", nullable = true)
+    private FolderChapter folderChapter;
+
 
     public static Chapter createChapter(User user , String title, String description, LocalDateTime createdAt, LocalDateTime updatedAt) {
         Chapter chapter = new Chapter();

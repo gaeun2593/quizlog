@@ -13,4 +13,5 @@ public interface FolderChapterRepository extends JpaRepository<FolderChapter, In
     List<FolderChapter> findByUser(User user);
     Optional<FolderChapter> findByFolderChapterTitleAndUserAndFolderChapterIdNot(String title, User user, int id);
     Optional<FolderChapter> findByFolderChapterTitleAndUser(String folderTitle, User user);
+    Optional<FolderChapter> findByUserAndFolderChapterId(User user, int folderChapterId);
 }
