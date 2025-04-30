@@ -3,6 +3,7 @@ package com.mtvs.quizlog.domain.quiz.repository;
 import com.mtvs.quizlog.domain.chapter.dto.request.QuizDto;
 
 import com.mtvs.quizlog.domain.chapter.dto.request.QuizForm;
+import com.mtvs.quizlog.domain.chapter.entity.Chapter;
 import com.mtvs.quizlog.domain.quiz.entity.Quiz;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -42,7 +43,7 @@ public class QuizRepository  {
 
     public List<QuizForm> findAll(Long chapterId) {
 
-        TypedQuery<QuizForm> query = em.createQuery("select new com.mtvs.quizlog.domain.chapter.dto.request.QuizForm(q.title , q.answer) from Quiz q where q.chapter.id = :chapterId", QuizForm.class);
+        TypedQuery<QuizForm> query = em.createQuery("select new com.mtvs.quizlog.domain.chapter.dto.request.QuizForm(q.title , q.answer, q.id) from Quiz q where q.chapter.id = :chapterId", QuizForm.class);
         query.setParameter("chapterId", chapterId);
 
         return query.getResultList() ;
@@ -54,5 +55,13 @@ public class QuizRepository  {
         query.setParameter("chapterId", chapterId);
 
         return query.getResultList() ;
+    }
+
+
+    public Quiz findQuizById(Long quizId) {
+        TypedQuery<Quiz> query = em.createQuery( "select q from Quiz q where q.id = :quizId", Quiz.class);
+        query.setParameter("quizId", quizId);
+
+        return query.getSingleResult();
     }
 }

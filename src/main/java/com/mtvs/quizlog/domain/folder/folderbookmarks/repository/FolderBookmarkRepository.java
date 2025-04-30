@@ -12,5 +12,6 @@ public interface FolderBookmarkRepository extends JpaRepository<FolderBookmark, 
     List<FolderBookmark> findByUser(User user);
     Optional<FolderBookmark> findByFolderBookmarkTitleAndUser(String folderTitle, User user);
     Optional<FolderBookmark> findByFolderBookmarkTitleAndUserAndFolderBookmarkIdNot(String title, User user, int id);
-    Optional<FolderBookmark> findByFolderBookmarkTitle(String folderChapterTitle);
+    Optional<FolderBookmark> findByFolderBookmarkTitle(String folderBookmarkTitle);
+    Optional<FolderBookmark> findByUserAndFolderBookmarkId(User user, int folderBookmarkId);
 }

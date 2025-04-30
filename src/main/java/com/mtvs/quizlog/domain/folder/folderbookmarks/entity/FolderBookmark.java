@@ -1,9 +1,12 @@
 package com.mtvs.quizlog.domain.folder.folderbookmarks.entity;
 
 
+import com.mtvs.quizlog.domain.chapter.entity.Chapter;
+import com.mtvs.quizlog.domain.quiz.entity.Quiz;
 import com.mtvs.quizlog.domain.user.entity.User;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -27,8 +30,18 @@ public class FolderBookmark {
     @JoinColumn(name = "user_id") // 외래키 이름
     private User user;
 
-    public FolderBookmark() {
+    @OneToMany(mappedBy = "folderBookmark")
+    private List<Quiz> quizzes = new ArrayList<>();
 
+    public FolderBookmark() {
+    }
+
+    public List<Quiz> getQuizzes() {
+        return quizzes;
+    }
+
+    public void setQuizzes(List<Quiz> quizzes) {
+        this.quizzes = quizzes;
     }
 
     public User getUser() {

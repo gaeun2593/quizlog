@@ -43,7 +43,7 @@ public class FolderChapterService {
     @Transactional
     //  컨트롤러에서 받은 게시글 입력값이 담긴 DTO
 
-    // 폴더 생성
+    // 폴더 생성 (챕터를 담으면서 폴더 생성)
     public FolderChapterDTO createFolderChapter(FolderChapterDTO folderChapterDTO, User user, Long chapterId) {
         logger.info("폴더 추가하기 제목 : "+ folderChapterDTO.getTitle());
 
@@ -60,7 +60,8 @@ public class FolderChapterService {
         folderChapter.setUser(user); // 유저 연관관계 맵핑
 
         FolderChapter savedFolderChapter = folderChapterRepository.save(folderChapter);
-
+        
+        //챕터 id로 챕터 찾음
         Chapter chapter = chapterRepository.findChapterById(chapterId);
 
         chapter.setFolderChapter(savedFolderChapter);
@@ -72,7 +73,7 @@ public class FolderChapterService {
         return new FolderChapterDTO(savedFolderChapter.getFolderChapterId(), savedFolderChapter.getFolderChapterTitle());
     }
 
-    // 폴더 생성
+    // 폴더 생성2 (빈 폴더 생성)
     public FolderChapterDTO createFolderChapter2(FolderChapterDTO folderChapterDTO, User user) {
         logger.info("폴더 추가하기 제목 : "+ folderChapterDTO.getTitle());
 
@@ -95,9 +96,20 @@ public class FolderChapterService {
         return new FolderChapterDTO(savedFolderChapter.getFolderChapterId(), savedFolderChapter.getFolderChapterTitle());
     }
 
+    // 해당챕터 폴더에 추가
+    @Transactional
+    public void addChapterToFolder(int folderChapterId,Long chapterId,User user) {
+
+        FolderChapter folderChapter = folderChapterRepository.findByUserAndFolderChapterId(user, folderChapterId)
+                .orElseThrow(() -> new RuntimeException("해당 유저의 폴더를 찾을 수 없습니다"));
+
+        //챕터 id로 챕터 찾아서 폴더 저장
+        Chapter chapter = chapterRepository.findChapterById(chapterId);
+        chapter.setFolderChapter(folderChapter);
+        chapterRepository.save(chapter);
+    }
 
 
-    
     // 폴더명 수정
     @Transactional
     public FolderChapterDTO updateFolderChapter(String folderUpdateTitle,String folderTitle,User user) {

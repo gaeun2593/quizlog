@@ -74,7 +74,6 @@ public class ChapterRepository {
         query.setParameter("chapterId", chapterId);
 
         return query.getSingleResult();
-
     }
 
 // 챕터에서 폴더챕터 찾아서 리스트로 반환

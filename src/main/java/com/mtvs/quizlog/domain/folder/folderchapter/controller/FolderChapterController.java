@@ -35,7 +35,7 @@ public class FolderChapterController {
         this.userService = userService;
     }
 
-    // 폴더생성(챕터 페이지에서 폴더 생성)
+    // 폴더생성(챕터 페이지에서 챕터를 담은 폴더 생성)
     @PostMapping("/create-folder-chapter")
     // ResponseEntity -> 클라이언트(브라우저, Postman 등)에 응답을 보낼 때, 직접 설정해서 보내고 싶을 때 사용하는 클래스
     public String createFolderChapter(@ModelAttribute FolderChapterDTO folderChapterDTO, @AuthenticationPrincipal AuthDetails userDetails, @RequestParam("chapterId") Long chapterId) {
@@ -50,7 +50,7 @@ public class FolderChapterController {
         return "redirect:/folder-chapters/folder-chapters-view";
     }
 
-    // 폴더생성2 (폴더페이지에서 빈폴더 생성)
+    // 폴더생성2 (폴더 페이지에서 빈폴더 생성)
     @PostMapping("/create-folder-chapter2")
     // ResponseEntity -> 클라이언트(브라우저, Postman 등)에 응답을 보낼 때, 직접 설정해서 보내고 싶을 때 사용하는 클래스
     public String createFolderChapter(@ModelAttribute FolderChapterDTO folderChapterDTO,@AuthenticationPrincipal AuthDetails userDetails) {
@@ -63,6 +63,25 @@ public class FolderChapterController {
         folderChapterService.createFolderChapter2(folderChapterDTO,user);
 
         return "redirect:/folder-chapters/folder-chapters-view";
+    }
+
+    // 해당 챕터를 기존 폴더에 추가
+    @PostMapping("/add-chapter-to-folder")
+    public String addChapterToFolder(@RequestParam("folderChapterId") int folderChapterId, @AuthenticationPrincipal AuthDetails userDetails, @RequestParam("chapterId") Long chapterId){
+
+        // 로그인한 유저의 userId로 User 객체를 가져옴
+        Long userId = userDetails.getLogInDTO().getUserId();
+        User user = userService.findUser(userId);
+
+        folderChapterService.addChapterToFolder(folderChapterId,chapterId,user);
+
+        System.out.println("📌 폴더 제목(title): " + folderChapterId);
+        System.out.println("📌 챕터 ID(chapterId): " + chapterId);
+        System.out.println("📌 유저 ID(user): " + user);
+
+
+
+        return String.format("redirect:/main/recentChapters/%d", chapterId);
     }
 
 
@@ -94,7 +113,6 @@ public class FolderChapterController {
         model.addAttribute("folderChapters", folderChapters);
         return "folder/folder-chapters";
     }
-
 
     // 삭제
     @PostMapping("/delete-folder-chapter")
