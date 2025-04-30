@@ -40,7 +40,7 @@
                             <th>권한</th>
                             <th>상태</th>
                             <th>가입일</th>
-                            <th>복구</th>
+                            <th>계정 복구</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -54,7 +54,7 @@
                             <td>
                                 <form th:action="@{/admin/restore-user}" method="post">
                                     <input type="hidden" name="userId" th:value="${deletedUser.userId}"/>
-                                    <button type="submit" class="btn btn-success btn-sm">계정 복구</button>
+                                    <button type="submit" class="custom-btn">복구</button>
                                 </form>
                             </td>
                         </tr>
@@ -94,6 +94,6 @@
         // Simple-DataTables 기본 스크립트 (추가 필요 시)
     });
 </script>
-
+<div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>

@@ -10,6 +10,12 @@ import com.mtvs.quizlog.domain.chat.repository.ChatRoomRepository;
 import com.mtvs.quizlog.domain.user.entity.User;
 import com.mtvs.quizlog.domain.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -19,6 +25,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class ChatService {
+
+    private final Logger log = LoggerFactory.getLogger(ChatService.class);
 
     private final ChatRoomRepository chatRoomRepository;
     private final ChatMessageRepository chatMessageRepository;
@@ -45,6 +53,8 @@ public class ChatService {
         );
 
         ChatMessage savedMessage = chatMessageRepository.save(message);
+        log.info(">>> 메시지 저장됨: {}", savedMessage);
+
 
         // 채팅방의 마지막 메세지 시간 업데이트
         chatRoom.setLastMessageTime(savedMessage.getCreatedAt());
@@ -77,24 +87,30 @@ public class ChatService {
 
     // 채팅방 목록 조회
     @Transactional
-    public List<ChatRoomPreviewDTO> getAllChatRooms() {
-        List<ChatRoom> chatRooms = chatRoomRepository.findAll();
+    public Page<ChatRoomPreviewDTO> getAllChatRooms(String keyword, int page) {
+        Pageable pageable = PageRequest.of(page, 10, Sort.by(Sort.Direction.ASC, "id"));
 
-        return chatRooms.stream()
-                .map(chatRoom -> {
-                    String latestMessage = chatMessageRepository
-                            .findTopByChatRoomOrderByCreatedAtDesc(chatRoom)
-                            .map(ChatMessage::getMessage) // 메시지 전체 내용 가져오기
-                            .orElse("메시지가 없습니다.");
-                    return new ChatRoomPreviewDTO(
-                            chatRoom.getId(),
-                            chatRoom.getUser().getNickname(),
-                            latestMessage,
-                            chatRoom.getCreatedAt(),
-                            chatRoom.getStatus()
-                    );
-                })
-                .toList();
+        Page<ChatRoom> chatRooms;
+
+        chatRooms =
+                (keyword == null || keyword.isBlank()) ?
+                        chatRoomRepository.findAll(pageable) :
+                        chatRoomRepository.findByKeyword(keyword, pageable);
+
+        return chatRooms.map(chatRoom -> {
+            String latestMessage = chatMessageRepository
+                    .findTopByChatRoomOrderByCreatedAtDesc(chatRoom)
+                    .map(ChatMessage::getMessage)
+                    .orElse("메시지가 없습니다.");
+
+            return new ChatRoomPreviewDTO(
+                    chatRoom.getId(),
+                    chatRoom.getUser().getNickname(),
+                    latestMessage,
+                    chatRoom.getCreatedAt(),
+                    chatRoom.getStatus()
+            );
+        });
     }
 
     // 특정 채팅 방 메세지 내용 조회

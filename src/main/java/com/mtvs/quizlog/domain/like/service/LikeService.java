@@ -1,7 +1,5 @@
 package com.mtvs.quizlog.domain.like.service;
 
-import com.mtvs.quizlog.domain.like.dto.LikeDTO;
-
 import com.mtvs.quizlog.domain.like.dto.TeacherLikeRankingDto;
 import com.mtvs.quizlog.domain.like.entity.Like;
 import com.mtvs.quizlog.domain.like.repository.LikeRepository;
@@ -87,7 +85,7 @@ public class LikeService {
 
     // 선생님 좋아요 top5
     @Transactional
-    public List<TeacherLikeRankingDto> getTop5TeachersByLikes() {
-        return likeRepository.findTop5TeachersByLikes(PageRequest.of(0, 5));
+    public List<TeacherLikeRankingDto> getTop7TeachersByLikes() {
+        return likeRepository.findTop7TeachersByLikes(PageRequest.of(0, 7));
     }
 }
