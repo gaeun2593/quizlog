@@ -55,15 +55,4 @@ public class LikeController {
         model.setViewName("redirect:/like/teacher-detail/" + teacherId);
         return model;
     }
-
-
-//    // 선생님 좋아요 top5 조회
-//    @GetMapping("/test")
-//    public ModelAndView mainPage(ModelAndView model) {
-//        List<TeacherLikeRankingDto> topTeachers = likeService.getTop5TeachersByLikes();
-//        System.out.println("Top Teachers: " + topTeachers);
-//        model.addObject("topTeachers", topTeachers);
-//        model.setViewName("main");
-//        return model;
-//    }
 }

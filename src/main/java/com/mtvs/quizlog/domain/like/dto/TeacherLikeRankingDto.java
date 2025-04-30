@@ -1,3 +1,3 @@
 package com.mtvs.quizlog.domain.like.dto;
 
-public record TeacherLikeRankingDto(String nickname, Long likeCount) { }
+public record TeacherLikeRankingDto(Long userId, String nickname, Long likeCount) { }

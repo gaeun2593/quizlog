@@ -45,6 +45,6 @@
         <a th:href="@{'/main/chapters/'+ ${chapter.id}}" th:text="${chapter.title}">Chapter Title</a>
     </div>
 </div>
-
+<div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>

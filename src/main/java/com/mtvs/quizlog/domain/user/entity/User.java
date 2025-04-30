@@ -69,6 +69,15 @@ public class User {
         this.deletedAt = deletedAt;
     }
 
+    // 상태 바꾸기
+    public void changeStatus(Status status) {
+        if (status == Status.ACTIVE) {
+            this.status = Status.DELETED;
+        } else if (status == Status.DELETED) {
+            this.status = Status.ACTIVE;
+        }
+    }
+
     public void updateStatus(Status status) {
         this.status = Status.ACTIVE;
     }

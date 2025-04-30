@@ -9,8 +9,15 @@
         <p th:text="${inquiry.title}"></p>
         <p th:text="${inquiry.content}"></p>
     </div>
+    <div class="answer">
+        <th:block th:if="${answer != null}">
+            <p th:text="${answer.title}"></p>
+            <p th:text="${answer.content}"></p>
+        </th:block>
+    </div>
     <button >
-        <a href:></a>
     </button>
+
+    <div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>

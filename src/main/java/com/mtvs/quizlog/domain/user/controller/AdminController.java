@@ -64,6 +64,18 @@ public class AdminController {
         return model;
     }
 
+    // 회원 계정 정지
+    @PostMapping("/delete-user")
+    public ModelAndView deleteUser(@RequestParam Long userId, ModelAndView model) {
+        log.info("Delete user - Admin");
+
+        adminService.deleteUser(userId);
+        model.setViewName("redirect:/admin/list-users");
+
+        return model;
+    }
+
+
     // 회원 계정 복구
     @PostMapping("/restore-user")
     public ModelAndView restoreUserStatus(@RequestParam Long userId, ModelAndView model) {
