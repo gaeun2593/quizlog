@@ -122,8 +122,9 @@
   padding: 15px;
   border-radius: 10px;
   border: 2px solid #ececec;
-
+  margin-bottom: 20px;
 }
+
 .folder-content ul li:hover{
   box-shadow: 0 3px 0 #15c7a369;
 }
@@ -154,7 +155,6 @@
   border: 2px solid #ececec;
   padding: 5px;
   margin-left: 10px;
-  width: 100%;
 }
 
 .modal-body span{

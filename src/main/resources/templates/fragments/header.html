@@ -34,7 +34,7 @@
     </form>
   </div>
   <div class="header-right">
-    <a href="/auth/login"><img src="/images/plus-circle.png" alt="plus-circle"></a>
+    <a th:href="@{/main/create-chap}"><img th:src="@{/images/plus-circle.png}" alt="plus-circle" class="plus-circle"></a>
     <div sec:authorize="isAuthenticated()">
       <form th:action="@{/auth/logout}" method="post">
         <button class="btn-primary" type="submit">로그아웃</button>

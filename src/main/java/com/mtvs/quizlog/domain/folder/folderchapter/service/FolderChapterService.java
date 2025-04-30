@@ -1,12 +1,15 @@
 package com.mtvs.quizlog.domain.folder.folderchapter.service;
 
 import com.mtvs.quizlog.domain.auth.model.AuthDetails;
+import com.mtvs.quizlog.domain.chapter.entity.Chapter;
+import com.mtvs.quizlog.domain.chapter.repository.ChapterRepository;
 import com.mtvs.quizlog.domain.folder.folderchapter.dto.FolderChapterDTO;
 import com.mtvs.quizlog.domain.folder.folderchapter.entity.FolderChapter;
 import com.mtvs.quizlog.domain.folder.folderchapter.repository.FolderChapterRepository;
 import com.mtvs.quizlog.domain.user.dto.LogInDTO;
 import com.mtvs.quizlog.domain.user.entity.User;
 import jakarta.transaction.Transactional;
+import org.antlr.v4.runtime.misc.LogManager;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
@@ -26,11 +29,13 @@ public class FolderChapterService {
 
     //Repository 인터페이스 가져옴
     private final FolderChapterRepository folderChapterRepository;
+    private final ChapterRepository chapterRepository;
 
     // 생성자 주입
     @Autowired
-    public FolderChapterService(FolderChapterRepository folderChapterRepository) {
+    public FolderChapterService(FolderChapterRepository folderChapterRepository, ChapterRepository chapterRepository) {
         this.folderChapterRepository = folderChapterRepository;
+        this.chapterRepository = chapterRepository;
     }
 
     //이 메서드 전체가 하나의 트랜잭션으로 실행된다는 뜻
@@ -38,8 +43,38 @@ public class FolderChapterService {
     @Transactional
     //  컨트롤러에서 받은 게시글 입력값이 담긴 DTO
 
-    // 폴더 생성
-    public FolderChapterDTO createFolderChapter(FolderChapterDTO folderChapterDTO, User user) {
+    // 폴더 생성 (챕터를 담으면서 폴더 생성)
+    public FolderChapterDTO createFolderChapter(FolderChapterDTO folderChapterDTO, User user, Long chapterId) {
+        logger.info("폴더 추가하기 제목 : "+ folderChapterDTO.getTitle());
+
+        // 로그인한 user의 폴더중에서만 폴더명 중복검사
+        Optional<FolderChapter> findFolderChapter = folderChapterRepository.findByFolderChapterTitleAndUser(folderChapterDTO.getTitle(), user);
+
+        //같은 제목이 있으면 예외처리
+        if(findFolderChapter.isPresent()) {
+            throw new IllegalArgumentException("이미 존재하는 제목입니다. : " + folderChapterDTO.getTitle());
+        }
+
+        //같은 제목이 아니면 새 FolderChapter객체를 만들어 저장
+        FolderChapter folderChapter = new FolderChapter(folderChapterDTO.getTitle());
+        folderChapter.setUser(user); // 유저 연관관계 맵핑
+
+        FolderChapter savedFolderChapter = folderChapterRepository.save(folderChapter);
+        
+        //챕터 id로 챕터 찾음
+        Chapter chapter = chapterRepository.findChapterById(chapterId);
+
+        chapter.setFolderChapter(savedFolderChapter);
+
+        chapterRepository.save(chapter);
+
+        logger.info("챕터의 폴더 등록 성공 : "+ savedFolderChapter.getFolderChapterId());
+
+        return new FolderChapterDTO(savedFolderChapter.getFolderChapterId(), savedFolderChapter.getFolderChapterTitle());
+    }
+
+    // 폴더 생성2 (빈 폴더 생성)
+    public FolderChapterDTO createFolderChapter2(FolderChapterDTO folderChapterDTO, User user) {
         logger.info("폴더 추가하기 제목 : "+ folderChapterDTO.getTitle());
 
         // 로그인한 user의 폴더중에서만 폴더명 중복검사
@@ -61,7 +96,20 @@ public class FolderChapterService {
         return new FolderChapterDTO(savedFolderChapter.getFolderChapterId(), savedFolderChapter.getFolderChapterTitle());
     }
 
-    
+    // 해당챕터 폴더에 추가
+    @Transactional
+    public void addChapterToFolder(int folderChapterId,Long chapterId,User user) {
+
+        FolderChapter folderChapter = folderChapterRepository.findByUserAndFolderChapterId(user, folderChapterId)
+                .orElseThrow(() -> new RuntimeException("해당 유저의 폴더를 찾을 수 없습니다"));
+
+        //챕터 id로 챕터 찾아서 폴더 저장
+        Chapter chapter = chapterRepository.findChapterById(chapterId);
+        chapter.setFolderChapter(folderChapter);
+        chapterRepository.save(chapter);
+    }
+
+
     // 폴더명 수정
     @Transactional
     public FolderChapterDTO updateFolderChapter(String folderUpdateTitle,String folderTitle,User user) {
@@ -122,8 +170,17 @@ public class FolderChapterService {
             throw new SecurityException("이 폴더를 삭제할 권한이 없습니다.");
         }
 
+        // 🔥 연결된 챕터들의 외래 키 끊기
+        List<Chapter> chapters = chapterRepository.findByFolderChapter(folderChapter);
+        for (Chapter chapter : chapters) {
+            chapter.setFolderChapter(null); // 외래 키를 null로
+        }
+
+        chapterRepository.saveAll(chapters); // DB 반영
+
         // 폴더 삭제
         folderChapterRepository.delete(folderChapter);
         logger.info("folder deleted : " + folderTitle);
     }
+
 }

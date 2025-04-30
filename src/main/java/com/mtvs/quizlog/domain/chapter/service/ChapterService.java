@@ -62,4 +62,12 @@ public class ChapterService{
     public List<ChapterDto> findTitle(String search) {
         return chapterRepository.findTitle(search) ;
     }
+
+    public Chapter findId(Long chapterId) {
+        return chapterRepository.findChapterById(chapterId);
+    }
+
+    public List<Chapter> findChapterByFolderChapterId(Long userId, int folderChapterId) {
+        return chapterRepository.findChapterByFolderChapterId(userId,folderChapterId);
+    }
 }

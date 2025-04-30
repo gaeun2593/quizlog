@@ -1,5 +1,7 @@
 package com.mtvs.quizlog.domain.folder.folderbookmarks.service;
 
+import com.mtvs.quizlog.domain.chapter.entity.Chapter;
+import com.mtvs.quizlog.domain.chapter.repository.ChapterRepository;
 import com.mtvs.quizlog.domain.folder.folderbookmarks.dto.FolderBookmarkDTO;
 import com.mtvs.quizlog.domain.folder.folderbookmarks.entity.FolderBookmark;
 import com.mtvs.quizlog.domain.folder.folderbookmarks.repository.FolderBookmarkRepository;
@@ -7,6 +9,8 @@ import com.mtvs.quizlog.domain.folder.folderchapter.dto.FolderChapterDTO;
 import com.mtvs.quizlog.domain.folder.folderchapter.entity.FolderChapter;
 import com.mtvs.quizlog.domain.folder.folderchapter.repository.FolderChapterRepository;
 import com.mtvs.quizlog.domain.folder.folderchapter.service.FolderChapterService;
+import com.mtvs.quizlog.domain.quiz.entity.Quiz;
+import com.mtvs.quizlog.domain.quiz.repository.QuizRepository;
 import com.mtvs.quizlog.domain.user.entity.User;
 import jakarta.transaction.Transactional;
 import org.slf4j.LoggerFactory;
@@ -27,11 +31,13 @@ public class FolderBookmarkService {
 
     //Repository 인터페이스 가져옴
     private final FolderBookmarkRepository folderBookmarkRepository;
+    private final QuizRepository quizRepository;
 
     // 생성자 주입
     @Autowired
-    public FolderBookmarkService(FolderBookmarkRepository folderBookmarkRepository) {
+    public FolderBookmarkService(FolderBookmarkRepository folderBookmarkRepository,QuizRepository quizRepository) {
         this.folderBookmarkRepository = folderBookmarkRepository;
+        this.quizRepository = quizRepository;
     }
 
     // 폴더 생성
@@ -55,6 +61,49 @@ public class FolderBookmarkService {
         logger.info("챕터의 폴더 등록 성공 : "+ savedFolderBookmark.getFolderBookmarkId());
 
         return new FolderBookmarkDTO(savedFolderBookmark.getFolderBookmarkId(), savedFolderBookmark.getFolderBookmarkTitle());
+    }
+
+    // 폴더 생성2 ( 챕터 페이지에서 퀴즈를 담은 폴더 생성)
+    public FolderBookmarkDTO createfolderBookmark2(FolderBookmarkDTO folderBookmarkDTO, User user, Long quizId) {
+        logger.info("폴더 추가하기 제목 : "+ folderBookmarkDTO.getTitle());
+
+        // 로그인한 user의 폴더중에서만 폴더명 중복검사
+        Optional<FolderBookmark> findFolderBookmark = folderBookmarkRepository.findByFolderBookmarkTitleAndUser(folderBookmarkDTO.getTitle(), user);
+
+        //같은 제목이 있으면 예외처리
+        if(findFolderBookmark.isPresent()) {
+            throw new IllegalArgumentException("이미 존재하는 제목입니다. : " + folderBookmarkDTO.getTitle());
+        }
+
+        //같은 제목이 아니면 새 FolderChapter객체를 만들어 저장
+        FolderBookmark folderBookmark = new FolderBookmark(folderBookmarkDTO.getTitle());
+        folderBookmark.setUser(user); // 유저 연관관계 맵핑
+
+        FolderBookmark savedFolderBookmark = folderBookmarkRepository.save(folderBookmark);
+
+        //챕터 id로 챕터 찾음
+        Quiz quiz = quizRepository.findQuizById(quizId);
+
+        quiz.setFolderBookmark(savedFolderBookmark);
+
+        quizRepository.save(quiz);
+
+        logger.info("챕터의 폴더 등록 성공 : "+ savedFolderBookmark.getFolderBookmarkId());
+
+        return new FolderBookmarkDTO(savedFolderBookmark.getFolderBookmarkId(), savedFolderBookmark.getFolderBookmarkTitle());
+    }
+
+    // 해당퀴즈 폴더에 추가
+    @Transactional
+    public void addQuizToFolder(int folderBookmarkId,Long quizId,User user) {
+
+        FolderBookmark folderBookmark = folderBookmarkRepository.findByUserAndFolderBookmarkId(user, folderBookmarkId)
+                .orElseThrow(() -> new RuntimeException("해당 유저의 폴더를 찾을 수 없습니다"));
+
+        //퀴즈 id로 퀴즈 찾아서 폴더 저장
+        Quiz quiz = quizRepository.findQuizById(quizId);
+        quiz.setFolderBookmark(folderBookmark);
+        quizRepository.save(quiz);
     }
 
     // 폴더명 수정
