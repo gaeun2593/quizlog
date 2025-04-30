@@ -2,6 +2,5 @@ package com.mtvs.quizlog.solvedQuiz.entity;
 
 public enum Status {
 
-    COMPLETED,
-    INCOMPLETE
+    COMPLETED , NOT_COMPLETED
 }
