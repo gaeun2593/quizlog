@@ -66,4 +66,8 @@ public class ChapterService{
     public Chapter findId(Long chapterId) {
         return chapterRepository.findChapterById(chapterId);
     }
+
+    public List<Chapter> findChapterByFolderChapterId(Long userId, int folderChapterId) {
+        return chapterRepository.findChapterByFolderChapterId(userId,folderChapterId);
+    }
 }

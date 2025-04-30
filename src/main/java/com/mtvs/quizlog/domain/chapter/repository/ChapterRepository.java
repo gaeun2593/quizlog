@@ -92,5 +92,15 @@ public class ChapterRepository {
         }
     }
 
+    public List<Chapter> findChapterByFolderChapterId(Long userId, int folderChapterId) {
+        TypedQuery<Chapter> query = em.createQuery(
+                "select c from Chapter c where c.folderChapter.id = :folderChapterId and c.user.id = :userId", Chapter.class
+        );
+        query.setParameter("folderChapterId", folderChapterId);
+        query.setParameter("userId", userId);
+
+        List<Chapter> result = query.getResultList();
+        return result.isEmpty() ? null : result;
+    }
 
 }

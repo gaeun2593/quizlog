@@ -20,7 +20,7 @@ public class FolderChapter {
     @Column(name = "folder_chapter_title")
     private String folderChapterTitle;
 
-    //users랑 다대일관계 나중에 추가!
+    //users랑 다대일관계
     @ManyToOne
     @JoinColumn(name = "user_id") // 외래키 이름
     private User user;

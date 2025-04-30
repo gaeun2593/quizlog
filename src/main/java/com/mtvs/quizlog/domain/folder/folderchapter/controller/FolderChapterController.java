@@ -3,8 +3,10 @@ package com.mtvs.quizlog.domain.folder.folderchapter.controller;
 
 import com.mtvs.quizlog.domain.auth.model.AuthDetails;
 import com.mtvs.quizlog.domain.chapter.entity.Chapter;
+import com.mtvs.quizlog.domain.chapter.service.ChapterService;
 import com.mtvs.quizlog.domain.folder.folderchapter.dto.FolderChapterDTO;
 import com.mtvs.quizlog.domain.folder.folderchapter.service.FolderChapterService;
+import com.mtvs.quizlog.domain.quiz.service.QuizService;
 import com.mtvs.quizlog.domain.user.entity.User;
 import com.mtvs.quizlog.domain.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +31,13 @@ public class FolderChapterController {
     //FolderChapterService를 Controller에서 사용하기 위한 의존성 주입
     private final FolderChapterService folderChapterService;
 
+    private final ChapterService chapterService;
+
     @Autowired
-    public FolderChapterController(FolderChapterService folderChapterService, UserService userService) {
+    public FolderChapterController(FolderChapterService folderChapterService, UserService userService,ChapterService chapterService) {
         this.folderChapterService = folderChapterService;
         this.userService = userService;
+        this.chapterService = chapterService;
     }
 
     // 폴더생성(챕터 페이지에서 챕터를 담은 폴더 생성)
@@ -130,8 +135,15 @@ public class FolderChapterController {
 
 
     // 폴더 속 챕터 조회
-    @GetMapping("/folder-chapter-detail")
-    public String folderChapterDetail(@AuthenticationPrincipal AuthDetails userDetails, Model model) {
+    @PostMapping("/folder-chapter-detail")
+    public String folderChapterDetail(@AuthenticationPrincipal AuthDetails userDetails,@RequestParam("folderChapterId") int folderId,Model model) {
+        // 로그인한 유저객체 가져와서
+        Long userId = userDetails.getLogInDTO().getUserId();
+
+        List<Chapter> chapters = chapterService.findChapterByFolderChapterId(userId, folderId);
+        model.addAttribute("chapters", chapters);
+
+        System.out.println(chapters);
 
         return "folder/folder-chapter-detail";
     }
