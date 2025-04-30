@@ -14,7 +14,7 @@
     <div class="card mb-4">
     <div class="card-header text-success fs-4 fw-bold">
         <span>문의 내용</span>
-        <button th:if="${answer == null}" type="button" id="editButton" class="btn btn-sm btn-outline-warning" onclick="toggleEdit()">✏️ 수정하기</button>
+        <button th:if="${answer == null && inquiry.user.userId==userId}" type="button" id="editButton" class="btn btn-sm btn-outline-warning" onclick="toggleEdit()">✏️ 수정하기</button>
 
     </div>
     <div class="card-body">
@@ -30,33 +30,46 @@
     </div>
     </div>
 
-   <!-- <div class="text-end d-flex justify-content-end gap-2">
-        <button type="button" id="editBtn" class="btn btn-warning" onclick="enableEdit()">✏️ 수정하기</button>
-    </div>-->
 </form>
-        <form th:action="@{/support/{inquiryId}/delete(inquiryId=${inquiry.id})}" method="post"
+        <form th:if="${inquiry.user.userId==userId}" th:action="@{/support/{inquiryId}/delete(inquiryId=${inquiry.id})}" method="post"
               onsubmit="return confirm('정말로 이 문의를 삭제하시겠습니까?')">
             <input type="hidden" name="_method" value="patch" />
-            <button type="submit" th:if="${answer == null}" class="btn btn-outline-danger">🗑️ 문의 삭제</button>
+            <button type="submit" th:if="${answer == null}" class="btn btn-sm btn-outline-danger">🗑️ 문의 삭제</button>
         </form>
-        <div class="card mb-4" th:if="${answer != null}">
-            <div class="card-header text-success fs-4 fw-bold">
-                📝 답변
-            </div>
-            <div class="card-body">
-                <div class="mb-3">
-                    <label class="form-label fw-bold">제목</label>
-                    <p class="form-control-plaintext fs-5" th:text="${answer.title}">답변 제목</p>
+
+
+        <form th:if="${answer != null}" id="answerForm" th:action="@{'/support/updateAnswer/' + ${inquiry.id}}" method="post" th:object="${answer}">
+            <input type="hidden" name="_method" value="patch" />
+            <div class="card mb-4">
+                <div class="card-header text-success fs-4 fw-bold">
+                    <span>답변 내용</span>
+                    <button th:if="${inquiry.teacher.userId==userId}" type="button" id="editAnswerButton" class="btn btn-sm btn-outline-warning" onclick="toggleAnswerEdit()">✏️ 수정하기</button>
+
                 </div>
-                <div>
-                    <label class="form-label fw-bold">내용</label>
-                    <p class="form-control-plaintext" th:text="${answer.content}">답변 내용</p>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">제목</label>
+                        <input type="text" id=Atitle th:field="*{title}" class="form-control" readonly />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">내용</label>
+                        <textarea th:field="*{content}" id=Acontent class="form-control" rows="10" readonly></textarea>
+                    </div>
                 </div>
             </div>
-        </div>
+        </form>
+        <form th:action="@{/support/{inquiryId}/delete(inquiryId=${inquiry.id})}" method="post"
+              onsubmit="return confirm('정말로 이 답변을 삭제하시겠습니까?')">
+            <input type="hidden" name="_method" value="patch" />
+            <button type="submit" th:if="${answer != null && inquiry.teacher.userId==userId}" class="btn btn-sm btn-outline-danger">🗑️ 답변 삭제</button>
+        </form>
+
+
         <div class="text-end">
         <button type="button" class="btn btn-secondary" onclick="history.back()">뒤로가기</button>
         </div>
+
     </div>
 </div>
 <div th:replace="fragments/footer :: footer"></div>
@@ -96,5 +109,31 @@ function toggleEdit() {
     }
 
 }
+
+
+function toggleAnswerEdit() {
+    const titleInput = document.getElementById("Atitle");
+    const contentTextarea = document.getElementById("Acontent");
+    const editBtn = document.getElementById("editAnswerButton");
+    const form = document.getElementById("answerForm");
+
+    if (!isEditing) {
+        // 수정 모드 진입
+        titleInput.removeAttribute("readonly");
+        contentTextarea.removeAttribute("readonly");
+        titleInput.focus();
+
+        editBtn.classList.remove("btn-outline-warning");
+        editBtn.classList.add("btn-success");
+        editBtn.innerText = "✅ 수정 완료";
+
+        isEditing = true;
+    } else {
+        // 폼 제출
+        form.submit();
+    }
+
+}
+
 
 </script>

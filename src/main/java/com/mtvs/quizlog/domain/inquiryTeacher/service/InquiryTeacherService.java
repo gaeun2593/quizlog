@@ -163,5 +163,27 @@ public class InquiryTeacherService {
     public List<InquiryTeacherAllDTO> findAllByAdmin() {
         return inquiryTeacherRepository.findAllListByAdmin();
     }
+
+    public void updateAnswer(AnswerDTO answerDTO, Long inquiryId) {
+        InquiryTeacherAnswer answer  = inquiryTeacherAnswerRepository.findById(inquiryId).orElseThrow(()->new IllegalArgumentException("존재하지 않음"+inquiryId));
+            answer.setTitle(answerDTO.getTitle());
+            answer.setContent(answerDTO.getContent());
+            answer.setUpdatedAt(LocalDateTime.now());
+    }
+
+    /*
+    * public void updateInquiry(InquiryTeacherDTO inquiryTeacherDTO,long inquiryId) {
+        InquiryTeacher inquiryTeacher  = inquiryTeacherRepository.findById(inquiryId).orElseThrow(()->new IllegalArgumentException("존재하지 않음"+inquiryId));
+        // 답변이 없을때만 수정가능
+        if(inquiryTeacherAnswerRepository.findAnswerDTOByInquiryTeacherId(inquiryId)==null){
+            inquiryTeacher.setTitle(inquiryTeacherDTO.getTitle());
+            inquiryTeacher.setContent(inquiryTeacherDTO.getContent());
+            inquiryTeacher.setUpdatedAt(LocalDateTime.now());
+        }
+        else{
+           /*팝업창 띄우기*/
 }
+
+
+
 
