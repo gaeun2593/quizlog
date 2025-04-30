@@ -3,6 +3,8 @@ package com.mtvs.quizlog.domain.inquiryTeacher.repository;
 import com.mtvs.quizlog.domain.chapter.dto.request.ChapterDto;
 import com.mtvs.quizlog.domain.chapter.dto.request.GetChapterDTO;
 import com.mtvs.quizlog.domain.chapter.entity.Chapter;
+import com.mtvs.quizlog.domain.inquiryTeacher.dto.FindInquiryTeacherDTO;
+import com.mtvs.quizlog.domain.inquiryTeacher.dto.InquiryTeacherAllDTO;
 import com.mtvs.quizlog.domain.inquiryTeacher.dto.InquiryTeacherDTO;
 import com.mtvs.quizlog.domain.inquiryTeacher.dto.InquiryTeacherListDTO;
 import com.mtvs.quizlog.domain.inquiryTeacher.entity.InquiryTeacher;
@@ -28,17 +30,27 @@ import java.util.List;
 * */
 @Repository
 public interface InquiryTeacherRepository extends JpaRepository<InquiryTeacher, Long> {
+
     @Query("SELECT new com.mtvs.quizlog.domain.inquiryTeacher.dto.InquiryTeacherListDTO(" +
             "i.id, i.title,i.content, i.createdAt, i.updatedAt, i.status, u.nickname) " +
             "FROM InquiryTeacher i " +
             "JOIN i.user u " +
-            "WHERE u.userId = :userId")
+            "WHERE u.userId = :userId " +
+            "AND i.status = 'ACTIVE'")
     List<InquiryTeacherListDTO> findAllList(long userId);
 
-    @Query("SELECT new com.mtvs.quizlog.domain.inquiryTeacher.dto.InquiryTeacherDTO(" +
-            "i.id, i.title,i.content, i.createdAt, i.updatedAt, i.status, i.user) " +
+    @Query("SELECT new com.mtvs.quizlog.domain.inquiryTeacher.dto.InquiryTeacherListDTO(" +
+            "i.id, i.title,i.content, i.createdAt, i.updatedAt, i.status, u.nickname) " +
             "FROM InquiryTeacher i " +
+            "JOIN i.teacher t " +
             "JOIN i.user u " +
-            "WHERE u.userId = :teacherId")
-    InquiryTeacherDTO findByTeacherId(long inquiryId, long teacherId);
+            "WHERE t.userId = :teacherId " +
+            "AND i.status = 'ACTIVE'")
+    List<InquiryTeacherListDTO> findAllListByTeacher(long teacherId);
+
+    @Query("SELECT new com.mtvs.quizlog.domain.inquiryTeacher.dto.InquiryTeacherAllDTO(" +
+            "i.id,i.title,i.content,i.createdAt,i.updatedAt,i.deletedAt,i.status,i.user.userId,i.teacher.userId) " +
+            "FROM InquiryTeacher i"
+           )
+    List<InquiryTeacherAllDTO> findAllListByAdmin();
 }

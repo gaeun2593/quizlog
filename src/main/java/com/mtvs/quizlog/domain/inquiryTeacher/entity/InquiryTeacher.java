@@ -42,6 +42,8 @@ public class InquiryTeacher {
     @ManyToOne(fetch = FetchType.LAZY , cascade = CascadeType.ALL)
     @JoinColumn(name="teacher_id")
     private User teacher;
+
+
     //chapter n:1, 1:1answer
 
     //    Chapter

@@ -40,6 +40,7 @@
                             <th>권한</th>
                             <th>상태</th>
                             <th>가입일</th>
+                            <th>계정 정지</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -50,10 +51,16 @@
                             <td th:text="${user.role}"></td>
                             <td th:text="${user.status}"></td>
                             <td th:text="${#temporals.format(user.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
+                            <td>
+                                <form th:action="@{/admin/delete-user}" method="post">
+                                    <input type="hidden" name="userId" th:value="${user.userId}"/>
+                                    <button type="submit" class="custom-btn">탈퇴</button>
+                                </form>
+                            </td>
                         </tr>
-                        </tbody>
-                    </table>
-                </div>
+                    </tbody>
+                </table>
+            </div>
 
                 <!-- 📄 페이지네이션 -->
                 <div class="datatable-bottom">
@@ -87,6 +94,6 @@
         // Simple-DataTables 기본 스크립트 (추가 필요 시)
     });
 </script>
-
+<div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>

@@ -1,23 +1,56 @@
-.main-page-container .side-nav{
+/* 기존 스타일 유지 */
+.main-page-container .side-nav {
     flex: 1;
     padding: 20px 10px;
-
 }
-.main-page-container .side-nav>div{
+
+.main-page-container .side-nav > div {
     display: flex;
     flex-direction: column;
     gap: 10px;
-
 }
-.main-page-container .side-nav>div a{
+
+/* a 태그와 form button에 공통 스타일 적용 */
+.main-page-container .side-nav > div a,
+.main-page-container .side-nav > div form button {
     padding: 10px 10px;
     display: flex;
+    align-items: center;
     gap: 15px;
     font-size: 14px;
     font-weight: 600;
     transition: 0.3s;
+
+    /* ✅ button 기본 스타일 초기화 및 링크처럼 보이게 하기 */
+    border: none; /* 테두리 제거 */
+    background: none; /* 배경색 제거 */
+    margin: 0; /* 기본 마진 제거 */
+    cursor: pointer; /* 마우스 오버 시 손가락 모양 커서 */
+    text-align: left; /* 텍스트 왼쪽 정렬 (flex 컨테이너에서는 justify-content 기본값이 left이므로 보통 필요 없지만, 안전을 위해) */
+    width: 100%; /* 부모 div의 너비를 채우도록 설정 (필요시) */
 }
-.main-page-container .side-nav>div a:hover{
+
+/* form 요소의 기본 마진/패딩 제거 */
+.main-page-container .side-nav > div form {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+
+/* hover 스타일 적용 */
+.main-page-container .side-nav > div a:hover,
+.main-page-container .side-nav > div form button:hover {
     background-color: rgb(238, 249, 249);
     transition: 0.3s;
+}
+
+.main-page-container .side-nav > div form button:focus {
+    outline: none;
+}
+
+
+
+.main-page-container .side-nav > div form button img {
+    box-shadow: none;
 }
