@@ -8,6 +8,7 @@ import com.mtvs.quizlog.solvedQuiz.dto.UserCheckedChapterDTO;
 import com.mtvs.quizlog.solvedQuiz.dto.UserCheckedQuizDTO;
 import com.mtvs.quizlog.solvedQuiz.entity.UserCheckedQuiz;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -100,5 +101,12 @@ public class CheckedQuizRepository {
         );
         query.setParameter("folderChapterId", folderChapterId);
         return query.getResultList() ;
+    }
+
+    public void removeCheckdQuiz(long chapterId, Long userId) {
+        Query query = em.createQuery("delete from UserCheckedQuiz q where q.chapter.id = :chapterId and q.user.id = :userId");
+        query.setParameter("chapterId", chapterId);
+        query.setParameter("userId", userId);
+        query.executeUpdate();
     }
 }

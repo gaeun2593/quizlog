@@ -219,6 +219,7 @@ public class QuizChapterController {
                 }
             }
             log.info("newQuizSet = {}", newQuizSet);
+
             model.addAttribute("checkdQuizs" , checkdQuizs) ;
             model.addAttribute("quizSet" ,newQuizSet) ;
         }
@@ -228,7 +229,7 @@ public class QuizChapterController {
 
         }
 
-        log.info("chapterId = {}", chapterId);
+
         List<QuizForm> quizForm  = quizService.findAll(chapterId);
         model.addAttribute("quizForm", quizForm);
 
@@ -253,11 +254,22 @@ public class QuizChapterController {
     }
 
     @GetMapping("/{chapterId}/check")
-    public String checkedQuiz(@PathVariable long chapterId ,@AuthenticationPrincipal AuthDetails userDetails ,  Model model) {
+    public String checkedQuiz(@PathVariable long chapterId , @AuthenticationPrincipal AuthDetails userDetails ,  Model model) {
         Long userId = userDetails.getLogInDTO().getUserId();
         UserCheckedQuizDTO checkdQuiz = checkedQuizService.findCheckdQuiz(chapterId, userId);
+        model.addAttribute("chapterId" , chapterId) ;
         model.addAttribute("checkdQuiz", checkdQuiz);
         return "quiz/QuizCompletionRate" ;
+    }
+
+    @GetMapping("/{chapterId}/resolve")
+    public String reschekcQuiz(@PathVariable long chapterId , @AuthenticationPrincipal AuthDetails userDetails , Model model) {
+        Long userId = userDetails.getLogInDTO().getUserId();
+        checkedQuizService.removeCheckdQuiz(chapterId, userId);
+        Chapter chapter = chapterService.findId(chapterId);
+
+        String title = chapter.getTitle();
+        return "redirect:/main/chapters/" + chapterId + "/" + title;
     }
 
 

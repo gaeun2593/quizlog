@@ -56,4 +56,8 @@ public class CheckedQuizService {
     public List<UserCheckedChapterDTO> findChekedFolder(long folderChapterId) {
         return checkedQuizRepository.findChekedFolder(folderChapterId);
     }
+
+    public void removeCheckdQuiz(long chapterId, Long userId) {
+        checkedQuizRepository.removeCheckdQuiz(chapterId, userId);
+    }
 }
