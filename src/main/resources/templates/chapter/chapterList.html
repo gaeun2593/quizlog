@@ -1,48 +1,22 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Chapter List</title>
-    <style>
-        .chapter-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            width: 300px;
-        }
-        .chapter-header, .chapter-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px;
-            border: 1px solid #aaa;
-            border-radius: 4px;
-            background-color: #f9f9f9;
-        }
-        .chapter-header {
-            font-weight: bold;
-            background-color: #e0e0e0;
-        }
-
-        .chapter-item a {
-            text-decoration: none;
-            color: #007bff;
-        }
-
-        .chapter-item a:hover {
-            text-decoration: underline;
-        }
-    </style>
-</head>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: commonHead"></head>
 <body>
-<h1>Chapter List</h1>
+<div th:replace="fragments/header :: header"></div>
+<div class="main-page-container">
+    <div th:replace="fragments/aside :: asideFragment"></div>
+    <div class="page-layout">
+        <div class="page-layout-container">
+            <h1>최신 퀴즈 목록</h1>
+            <div class="chapter-list">
+                <div th:each="chapter : ${chapterList}">
+                    <a th:href="@{'/main/chapters/' + ${chapter.id} + '/' + ${chapter.title}}" class="card-link">
+                        <div class="card-title" th:text="${chapter.title}">Chapter Title</div>
+                    </a>
+                </div>
+            </div>
 
-<div class="chapter-list">
-    <div class="chapter-header">
-        <span>Title</span>
-    </div>
-
-    <div class="chapter-item" th:each="chapter : ${chapterList}" >
-        <a th:href="@{'/main/chapters/'+ ${chapter.id}}" th:text="${chapter.title}">Chapter Title</a>
+        </div>
     </div>
 </div>
 <div th:replace="fragments/footer :: footer"></div>
