@@ -48,7 +48,7 @@
     flex-direction: column;
     gap: 24px;
     padding: 30px;
-    background-color: #f9f9f9;
+    /*background-color: #f9f9f9;*/
     border-radius: 16px;
     flex: 5;
     margin-top: 20px;
@@ -103,4 +103,8 @@
 
 #chapter-create-form button:hover {
     background-color: #12b89b;
+}
+
+.page-form {
+    width: 1000px;
 }

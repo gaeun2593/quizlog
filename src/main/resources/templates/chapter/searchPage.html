@@ -16,7 +16,7 @@
         * 필터를 지우세요
       </div>
 
-      <div class="chapter-list">
+      <div class="chapter-list2">
         <div th:each="chapter : ${chapterDto}">
           <a th:href="@{'/main/chapters/' + ${chapter.id} + '/' + ${chapter.title}}" class="card-link">
             <div class="card-title" th:text="${chapter.title}">챕터 제목</div>
