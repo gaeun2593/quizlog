@@ -48,6 +48,7 @@ button {
 
 .main-layout {
     flex: 5;
+    width: 1200px;
     padding: 20px 40px;
     display: flex;
     flex-direction: column;
