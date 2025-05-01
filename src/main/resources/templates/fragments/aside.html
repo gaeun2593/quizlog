@@ -9,6 +9,11 @@
     <a th:href="@{/folder-chapters/folder-chapters-view}"><img th:src="@{/images/folder-plus.svg}" alt="folder-plus">폴더</a>
     <a href="/user/my-page"><img th:src="@{/images/settings.svg}" alt="settings">마이페이지</a>
 
+    <!-- 본인 문의 목록 페이지 -->
+    <a href="/support">
+      <img th:src="@{/images/help-circle.svg}" alt="admin">문의 목록
+    </a>
+
     <!-- 관리자일때 관리자 페이지 -->
     <a href="/admin/list-users" sec:authorize="hasAuthority('ADMIN')">
       <img th:src="@{/images/Vector.svg}" alt="admin">관리자 페이지
