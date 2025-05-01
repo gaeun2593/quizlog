@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div th:fragment="inquiryTable">
+    <div class="rapa-table">
+        <table class="table">
+            <colgroup>
+                <col style="width: 7%">
+                <col style="width: 60%">
+                <col style="width: 7%">
+                <col style="width: 7%">
+                <col style="width: 10%">
+            </colgroup>
+
+            <thead>
+            <tr>
+                <th scope="col" class="text-center">번호</th>
+                <th scope="col">제목</th>
+                <th scope="col" class="text-center">작성자</th>
+                <th scope="col" class="text-center">작성일</th>
+                <th scope="col" class="text-center"></th>
+            </tr>
+            </thead>
+            <tbody class="inquiry-item" th:each="inquiry : ${inquiryList}">
+            <tr>
+                <td class= "text-center" th:text="${inquiry.id}"></td>
+                <td>
+                    <a th:href="@{/support/{inquiryId}(inquiryId=${inquiry.id})}" th:text="${inquiry.title}"></a>
+                </td>
+                <td class="text-center" th:text="${inquiry.userNickname}"></td>
+                <td class="text-center" th:text="${#temporals.format(inquiry.createdAt, 'yyyy-MM-dd')}"></td>
+                <td th:if="inquiry.id==user.id" class="text-center">
+                    <a th:href="@{/support/createAnswer/{inquiryId}(inquiryId=${inquiry.id})}" class="btn btn-primary btn-sm w-80" >답변 작성</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

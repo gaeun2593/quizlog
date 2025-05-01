@@ -1,24 +1,31 @@
 package com.mtvs.quizlog.domain.lesson.entity;
 
 
+import com.mtvs.quizlog.domain.chapter.entity.Chapter;
 import com.mtvs.quizlog.domain.user.entity.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "lessons")
-@SQLDelete(sql = "UPDATE lessons SET status = DELETED WHERE id = ?")
-@SQLRestriction("status <> 'DELETED'")
+@Data
+@Builder
+@AllArgsConstructor
 public class Lesson {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "lesson_id")
-    private Long lessonId;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id") // 외래키 매핑
@@ -30,13 +37,18 @@ public class Lesson {
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
-
     @Enumerated(EnumType.STRING)
-    @NotNull
     private Status status;
 
-    @NotNull
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "chapter_id")
+    private List<Chapter> chapterList;
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private LocalDateTime deletedAt;
+
+    public Lesson() {
+
+    }
 }

@@ -1,4 +1,4 @@
-package com.mtvs.quizlog.domain.chapter.dto.request;
+package com.mtvs.quizlog.domain.chapter.controller.dto.request;
 
 import lombok.*;
 

@@ -2,7 +2,9 @@ package com.mtvs.quizlog.domain.folder.folderchapter.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
 
+@Data
 public class FolderChapterDTO {
     private Integer id;
     //Controller에서 유효성 검사 시 실행
@@ -15,6 +17,10 @@ public class FolderChapterDTO {
 
     public FolderChapterDTO(Integer id, String title) {
         this.id = id;
+        this.title = title;
+    }
+
+    public FolderChapterDTO(String title) {
         this.title = title;
     }
 

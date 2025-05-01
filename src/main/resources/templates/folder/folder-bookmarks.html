@@ -26,8 +26,13 @@
                 </div>
                 <ul>
                     <li th:each="name : ${folderBookmarks}">
-                        <div><img th:src="@{/images/folder-icon-2.svg}" alt="folder-icon"><span
-                                th:text="${name}"></span></div>
+                        <div>
+                            <form id="bookmark-folder" th:action="@{/folder-bookmarks/folder-bookmark-detail}" method="post">
+                                <input type="hidden" name="folderBookmarkId" th:value="${name.id}"/>
+                            </form>
+                            <button type="submit" form="bookmark-folder"><img th:src="@{/images/folder-icon-2.svg}" alt="folder-icon"><span
+                                    th:text="${name}"></span></button>
+                        </div>
                         <div> <!--타임리프는 보안상의 이유로 onclick으로 직접 문자열을 받을 수 없음-->
                             <button type="button" class="btn-hover-text-green" data-bs-toggle="modal"
                                     data-bs-target="#exampleModal" th:data-folder-name="${name}"

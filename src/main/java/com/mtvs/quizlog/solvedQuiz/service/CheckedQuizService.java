@@ -1,9 +1,10 @@
 package com.mtvs.quizlog.solvedQuiz.service;
 import java.util.List;
-import com.mtvs.quizlog.domain.chapter.dto.request.QuizForm;
+import com.mtvs.quizlog.domain.chapter.controller.dto.request.QuizForm;
 import com.mtvs.quizlog.domain.chapter.entity.Chapter;
 import com.mtvs.quizlog.domain.quiz.entity.Quiz;
 import com.mtvs.quizlog.domain.user.entity.User;
+import com.mtvs.quizlog.solvedQuiz.dto.UserCheckedChapterDTO;
 import com.mtvs.quizlog.solvedQuiz.dto.UserCheckedQuizDTO;
 import com.mtvs.quizlog.solvedQuiz.entity.UserCheckedQuiz;
 import com.mtvs.quizlog.solvedQuiz.repository.CheckedQuizRepository;
@@ -37,8 +38,6 @@ public class CheckedQuizService {
             checkedQuizRepository.save(userCheckedQuiz);
         }
 
-
-
 //
     }
 
@@ -48,5 +47,13 @@ public class CheckedQuizService {
 
     public List<QuizForm> findCheckdQuizs(long chapterId, long userId) {
         return checkedQuizRepository.findCheckdQuizs(chapterId , userId);
+    }
+
+    public List<UserCheckedChapterDTO> findCheckedChapters(long userId) {
+        return checkedQuizRepository.findCheckedChapters(userId);
+    }
+
+    public List<UserCheckedChapterDTO> findChekedFolder(long folderChapterId) {
+        return checkedQuizRepository.findChekedFolder(folderChapterId);
     }
 }

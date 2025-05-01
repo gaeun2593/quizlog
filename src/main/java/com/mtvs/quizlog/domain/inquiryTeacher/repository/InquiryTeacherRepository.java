@@ -1,23 +1,12 @@
 package com.mtvs.quizlog.domain.inquiryTeacher.repository;
 
-import com.mtvs.quizlog.domain.chapter.dto.request.ChapterDto;
-import com.mtvs.quizlog.domain.chapter.dto.request.GetChapterDTO;
-import com.mtvs.quizlog.domain.chapter.entity.Chapter;
-import com.mtvs.quizlog.domain.inquiryTeacher.dto.FindInquiryTeacherDTO;
 import com.mtvs.quizlog.domain.inquiryTeacher.dto.InquiryTeacherAllDTO;
-import com.mtvs.quizlog.domain.inquiryTeacher.dto.InquiryTeacherDTO;
 import com.mtvs.quizlog.domain.inquiryTeacher.dto.InquiryTeacherListDTO;
 import com.mtvs.quizlog.domain.inquiryTeacher.entity.InquiryTeacher;
-import com.mtvs.quizlog.domain.user.dto.UserListDTO;
-import com.mtvs.quizlog.domain.user.entity.User;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.TypedQuery;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.net.InterfaceAddress;
 import java.util.List;
 /*  InquiryTeacherList DTO
 *   private Long inquiryTeacherId; //PK

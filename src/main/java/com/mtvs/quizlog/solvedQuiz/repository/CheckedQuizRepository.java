@@ -1,13 +1,13 @@
 package com.mtvs.quizlog.solvedQuiz.repository;
 
-import com.mtvs.quizlog.domain.chapter.dto.request.QuizForm;
+import com.mtvs.quizlog.domain.chapter.controller.dto.request.QuizForm;
 import com.mtvs.quizlog.domain.chapter.entity.Chapter;
 import com.mtvs.quizlog.domain.quiz.entity.Quiz;
 import com.mtvs.quizlog.domain.user.entity.User;
+import com.mtvs.quizlog.solvedQuiz.dto.UserCheckedChapterDTO;
 import com.mtvs.quizlog.solvedQuiz.dto.UserCheckedQuizDTO;
 import com.mtvs.quizlog.solvedQuiz.entity.UserCheckedQuiz;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -64,11 +64,36 @@ public class CheckedQuizRepository {
     }
 
     public List<QuizForm> findCheckdQuizs(long chapterId, long userId) {
-        TypedQuery<QuizForm> query = em.createQuery("select new com.mtvs.quizlog.domain.chapter.dto.request.QuizForm(q.quiz.id, q.quiz.title, q.quiz.answer) " +
+        TypedQuery<QuizForm> query = em.createQuery("select new com.mtvs.quizlog.domain.chapter.controller.dto.request.QuizForm(q.quiz.id, q.quiz.title, q.quiz.answer) " +
                 "from UserCheckedQuiz q where q.chapter.id = :chapterId and q.user.id = :userId", QuizForm.class);
         query.setParameter("chapterId" , chapterId);
         query.setParameter("userId" , userId);
 
+        return query.getResultList() ;
+    }
+
+    public List<UserCheckedChapterDTO> findCheckedChapters(long userId) {
+        TypedQuery<UserCheckedChapterDTO> query = em.createQuery(
+                "select DISTINCT new com.mtvs.quizlog.solvedQuiz.dto.UserCheckedChapterDTO(c.chapter.id, c.chapter.title, c.user.nickname) " +
+                        "from UserCheckedQuiz c " +
+                        "where c.user.id = :userId",
+                UserCheckedChapterDTO.class
+        );
+        query.setParameter("userId", userId);
+
+        return query.getResultList() ;
+    }
+
+
+
+    public List<UserCheckedChapterDTO> findChekedFolder(long folderChapterId) {
+        TypedQuery<UserCheckedChapterDTO> query = em.createQuery(
+                "select DISTINCT new com.mtvs.quizlog.solvedQuiz.dto.UserCheckedChapterDTO(c.id, c.title, c.user.nickname) " +
+                        "from Chapter c " +
+                        "where c.folderChapter.id = :folderChapterId",
+                UserCheckedChapterDTO.class
+        );
+        query.setParameter("folderChapterId", folderChapterId);
         return query.getResultList() ;
     }
 }

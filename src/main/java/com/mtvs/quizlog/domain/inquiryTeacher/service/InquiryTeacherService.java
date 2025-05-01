@@ -1,18 +1,13 @@
 package com.mtvs.quizlog.domain.inquiryTeacher.service;
 
 
-import com.mtvs.quizlog.domain.chapter.dto.request.GetChapterDTO;
-import com.mtvs.quizlog.domain.chapter.entity.Chapter;
 import com.mtvs.quizlog.domain.inquiryTeacher.dto.*;
 import com.mtvs.quizlog.domain.inquiryTeacher.entity.InquiryTeacher;
 import com.mtvs.quizlog.domain.inquiryTeacher.entity.InquiryTeacherAnswer;
 import com.mtvs.quizlog.domain.inquiryTeacher.entity.Status;
 import com.mtvs.quizlog.domain.inquiryTeacher.repository.InquiryTeacherAnswerRepository;
 import com.mtvs.quizlog.domain.inquiryTeacher.repository.InquiryTeacherRepository;
-import com.mtvs.quizlog.domain.user.dto.request.SignUpRequestDTO;
-import com.mtvs.quizlog.domain.user.dto.response.SignUpResponseDTO;
 import com.mtvs.quizlog.domain.user.entity.User;
-import com.mtvs.quizlog.domain.user.service.UserService;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,9 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
 @Transactional
 @Service
 public class InquiryTeacherService {
@@ -101,7 +95,7 @@ public class InquiryTeacherService {
 
     public void deleteInquiry(long inquiryId) {
         InquiryTeacher inquiryTeacher  = inquiryTeacherRepository.findById(inquiryId).orElseThrow(()->new IllegalArgumentException("존재하지 않음"+inquiryId));
-
+        log.info("value"+inquiryTeacherAnswerRepository.findAnswerDTOByInquiryTeacherId(inquiryId));
         // 답변이 없을때만 삭제가능
         if(inquiryTeacherAnswerRepository.findAnswerDTOByInquiryTeacherId(inquiryId)==null){
             inquiryTeacher.setStatus(Status.DELETED);
@@ -163,5 +157,27 @@ public class InquiryTeacherService {
     public List<InquiryTeacherAllDTO> findAllByAdmin() {
         return inquiryTeacherRepository.findAllListByAdmin();
     }
+
+    public void updateAnswer(AnswerDTO answerDTO, Long inquiryId) {
+        InquiryTeacherAnswer answer  = inquiryTeacherAnswerRepository.findById(inquiryId).orElseThrow(()->new IllegalArgumentException("존재하지 않음"+inquiryId));
+            answer.setTitle(answerDTO.getTitle());
+            answer.setContent(answerDTO.getContent());
+            answer.setUpdatedAt(LocalDateTime.now());
+    }
+
+    /*
+    * public void updateInquiry(InquiryTeacherDTO inquiryTeacherDTO,long inquiryId) {
+        InquiryTeacher inquiryTeacher  = inquiryTeacherRepository.findById(inquiryId).orElseThrow(()->new IllegalArgumentException("존재하지 않음"+inquiryId));
+        // 답변이 없을때만 수정가능
+        if(inquiryTeacherAnswerRepository.findAnswerDTOByInquiryTeacherId(inquiryId)==null){
+            inquiryTeacher.setTitle(inquiryTeacherDTO.getTitle());
+            inquiryTeacher.setContent(inquiryTeacherDTO.getContent());
+            inquiryTeacher.setUpdatedAt(LocalDateTime.now());
+        }
+        else{
+           /*팝업창 띄우기*/
 }
+
+
+
 
