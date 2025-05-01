@@ -77,10 +77,6 @@ public class Chapter {
     @JoinColumn(name = "folder_chapter_id", nullable = true)
     private FolderChapter folderChapter;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Lesson lesson;
-
-
     public static Chapter createChapter(User user , String title, String description, LocalDateTime createdAt, LocalDateTime updatedAt) {
         Chapter chapter = new Chapter();
         chapter.setUser(user);
@@ -91,6 +87,20 @@ public class Chapter {
         return chapter;
 
     }
+
+    /*
+    @ManyToOne()
+    @JoinColumn(name="folder_quizset_id",referencedColumnName = "folder_quizset_id")
+    private FolderChapter folderChapter;
+
+*/
+
+/*
+    @ManyToOne()
+    @JoinColumn(name="lesson_id", referencedColumnName = "user_id")
+    private Lesson lesson;
+
+*/
 
 
 
