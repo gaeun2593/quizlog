@@ -42,10 +42,6 @@ public class Chapter {
     @Column(name ="criteria" ,columnDefinition = "INT")
     private int criteria;
 
-    @ManyToOne
-    @JoinColumn(name = "lesson_id")
-    private Lesson lesson;
-
 
     @Enumerated(EnumType.STRING)
     private Status status;
@@ -66,6 +62,10 @@ public class Chapter {
 
     @OneToMany(mappedBy = "chapter")
     private List<UserCheckedQuiz> userCheckedQuizs = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="lesson_id")
+    private Lesson lesson;
 
     //    User
     @ManyToOne(fetch = FetchType.LAZY , cascade = CascadeType.ALL)

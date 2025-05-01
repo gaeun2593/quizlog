@@ -41,7 +41,7 @@ public class Lesson {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "lesson")
     private List<Chapter> chapterList = new ArrayList<>();
 
     private LocalDateTime createdAt;

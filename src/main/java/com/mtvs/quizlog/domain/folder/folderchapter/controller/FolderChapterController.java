@@ -20,7 +20,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriUtils;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 
@@ -54,7 +56,12 @@ public class FolderChapterController {
         // FolderChapterService에 폴더를 생성하는 메서드에 DTO를 전달한뒤 saveFolderChapter로 받음
        folderChapterService.createFolderChapter(folderChapterDTO,user,chapterId);
 
-        return "redirect:/folder-chapters/folder-chapters-view";
+        Chapter chapter = chapterService.findId(chapterId);
+        String chapterTitle = chapter.getTitle();
+
+        String title = UriUtils.encodePathSegment(chapterTitle, StandardCharsets.UTF_8);
+
+        return String.format("redirect:/main/chapters/%d/%s", chapterId, title);
     }
 
     // 폴더생성2 (폴더 페이지에서 빈폴더 생성)
@@ -82,13 +89,21 @@ public class FolderChapterController {
 
         folderChapterService.addChapterToFolder(folderChapterId,chapterId,user);
 
+        Chapter chapter = chapterService.findId(chapterId);
+        String chapterTitle = chapter.getTitle();
+
+        String title = UriUtils.encodePathSegment(chapterTitle, StandardCharsets.UTF_8);
+
+
+
+
         System.out.println("📌 폴더 제목(title): " + folderChapterId);
         System.out.println("📌 챕터 ID(chapterId): " + chapterId);
         System.out.println("📌 유저 ID(user): " + user);
 
 
 
-        return String.format("redirect:/main/recentChapters/%d", chapterId);
+        return String.format("redirect:/main/chapters/%d/%s", chapterId, title);
     }
 
 // fsf
