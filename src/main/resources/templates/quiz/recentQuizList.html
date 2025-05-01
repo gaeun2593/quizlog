@@ -16,78 +16,79 @@
 <div class="main-page-container">
   <div th:replace="fragments/aside :: asideFragment"></div>
 
-<!-- 퀴즈 리스트 -->
-<div class="main-layout">
-  <div class="chapter-title">
-    <h1>퀴즈 풀기</h1>
-    <div class="folder-chapter-buttons">
-      <span class="btn-green-color">폴더생성해서 넣기</span>
-      <form action="/folder-chapters/create-folder-chapter" method="POST" class="hidden">
+  <!-- 퀴즈 리스트 -->
+  <div class="main-layout">
+    <div class="chapter-title">
+      <h1>퀴즈 풀기</h1>
+      <div class="folder-chapter-buttons">
+        <span class="btn-green-color" onclick="popup(this)">폴더생성해서 넣기</span>
+        <form action="/folder-chapters/create-folder-chapter" method="POST" class="popup">
+          <input type="text" name="title" pattern=".*\S.*" required>
+          <input type="hidden" name="chapterId" th:value="${chapter.id}"/>
+          <input type="submit" value="폴더생성" class="btn-green-custom">
+        </form>
+        <span class="btn-green-color" onclick="popup(this)">기존 폴더에 넣기</span>
+        <div th:each="folderChapter : ${folderChapters}">
+          <form action="/folder-chapters/add-chapter-to-folder" method="POST" class="popup">
+            <span th:text="${folderChapter.title}" ></span>
+            <input type="hidden" name="folderChapterId" th:value="${folderChapter.id}" readonly>
+            <input type="hidden" name="chapterId" th:value="${chapter.id}"/>
+            <input type="submit" value="챕터담기" class="btn-green-custom">
+          </form>
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="chapter-item" th:each="quiz : ${quizForm}">
+      <span class="btn-green-color" onclick="popup(this)">퀴즈 폴더생성해서 넣기</span>
+      <form action="/folder-bookmarks/create-folder-bookmark2" method="POST" class="popup">
         <input type="text" name="title" pattern=".*\S.*" required>
+        <input type="hidden" name="quizId" th:value="${quiz.id}"/>
         <input type="hidden" name="chapterId" th:value="${chapter.id}"/>
         <input type="submit" value="폴더생성" class="btn-green-custom">
       </form>
-      <span class="btn-green-color">기존 폴더에 넣기</span>
-      <div th:each="folderChapter : ${folderChapters}">
-        <form action="/folder-chapters/add-chapter-to-folder" method="POST" class="hidden">
-          <span th:text="${folderChapter.title}" ></span>
-          <input type="hidden" name="folderChapterId" th:value="${folderChapter.id}" readonly>
+      <span class="btn-green-color" onclick="popup(this)">기존 퀴즈 폴더에 넣기</span>
+      <div th:each="folderBookmark : ${folderBookmarks}">
+        <form action="/folder-bookmarks/add-quiz-to-folder" method="POST" class="popup">
+          <span th:text="${folderBookmark.title}" ></span>
+          <input type="hidden" name="folderBookmarkId" th:value="${folderBookmark.id}" readonly>
+          <input type="hidden" name="quizId" th:value="${quiz.id}"/>
           <input type="hidden" name="chapterId" th:value="${chapter.id}"/>
-          <input type="submit" value="챕터담기" class="btn-green-custom">
+          <input type="submit" value="퀴즈담기" class="btn-green-custom">
         </form>
       </div>
-    </div>
 
-  </div>
+      <div class="card-box">
+        <div class="card" id="card" onclick="flipCard(this)">
+          <div class="card-inner">
+            <span class="card-front" th:text="${quizSet[0].word}">동조하다</span>
+            <span class="card-back" th:text="${quizSet[0].answer}" style="display:none">to agree</span>
+          </div>
+        </div>
+      </div>
 
 
-  <div class="chapter-item" th:each="quiz : ${quizForm}">
-    <span th:text="${quiz.word}">Title</span>
-    <span th:text="${quiz.answer}">Answer</span>
-    <span>퀴즈 폴더생성해서 넣기</span>
-    <form action="/folder-bookmarks/create-folder-bookmark2" method="POST" class="hidden">
-      <input type="text" name="title" pattern=".*\S.*" required>
-      <input type="hidden" name="quizId" th:value="${quiz.id}"/>
-      <input type="hidden" name="chapterId" th:value="${chapter.id}"/>
-      <input type="submit" value="폴더생성" class="btn-green-custom">
-    </form>
-    <span><a>기존 퀴즈 폴더에 넣기</a></span>
-    <div th:each="folderBookmark : ${folderBookmarks}">
-      <form action="/folder-bookmarks/add-quiz-to-folder" method="POST" class="hidden">
-        <span th:text="${folderBookmark.title}" ></span>
-        <input type="hidden" name="folderBookmarkId" th:value="${folderBookmark.id}" readonly>
-        <input type="hidden" name="quizId" th:value="${quiz.id}"/>
-        <input type="hidden" name="chapterId" th:value="${chapter.id}"/>
-        <input type="submit" value="퀴즈담기" class="btn-green-custom">
-      </form>
-    </div>
+      <div class="buttons">
+        <button onclick="correctClick()" type="button" id="correct">✓</button>
+        <button onclick="incorrectClick()" type="button" id="incorrect">✕</button>
+      </div>
 
-    <div class="card-box">
-      <div class="card" id="card" onclick="flipCard(this)">
-        <span id="card-text" th:text="${quizSet[0].word}">동조하다</span>
+      <div class="chapter-item" th:each="quiz : ${quizSet}">
+        <span class="in-progress">현재 학습중인 단어</span>
+        <span th:text="${quiz.word}">단어</span>
+        <span th:text="${quiz.answer}">뜻</span>
+      </div>
+
+      <div class="chapter-item" th:each="checkquiz : ${checkdQuizs}">
+        <span class="completed">학습완료 단어</span>
+        <span th:text="${checkquiz.word}">단어</span>
+        <span th:text="${checkquiz.answer}">뜻</span>
       </div>
     </div>
 
-
-  <div class="buttons">
-    <button onclick="correctClick()" type="button" id="correct">✓</button>
-    <button onclick="incorrectClick()" type="button" id="incorrect">✕</button>
   </div>
-
-  <div class="chapter-item" th:each="quiz : ${quizSet}">
-    <span class="in-progress">현재 학습중인 단어</span>
-    <span th:text="${quiz.word}">단어</span>
-    <span th:text="${quiz.answer}">뜻</span>
-  </div>
-
-  <div class="chapter-item" th:each="checkquiz : ${checkdQuizs}">
-    <span class="completed">학습완료 단어</span>
-    <span th:text="${checkquiz.word}">단어</span>
-    <span th:text="${checkquiz.answer}">뜻</span>
-  </div>
-</div>
-
-</div>
 </div>
 <div th:replace="fragments/footer :: footer"></div>
 
@@ -127,13 +128,43 @@
   }
 
   function flipCard(cardElement) {
+    const front = cardElement.querySelector('.card-front');
+    const back = cardElement.querySelector('.card-back');
+
     cardElement.classList.toggle('flipped');
+    if (flipped) {
+      front.style.display = 'flex';
+      back.style.display = 'none';
+    } else {
+      front.style.display = 'none';
+      back.style.display = 'flex';
+    }
+    flipped = !flipped;
     const {word, answer} = quizSet[count];
     cardText.textContent = flipped ? word : answer;
     flipped = !flipped;
 
 
   }
+
+  function popup(clickedElement) {
+    let popup = clickedElement.nextElementSibling;
+
+    // 다음 요소가 감싸는 div일 수도 있으니 안에 popup이 있는지 확인
+    if (popup && popup.querySelector) {
+      const nestedPopup = popup.querySelector('.popup');
+      if (nestedPopup) {
+        nestedPopup.classList.toggle('active');
+        return;
+      }
+    }
+
+    // 아니면 바로 popup일 수도 있음 (첫 번째 버튼 케이스)
+    if (popup && popup.classList.contains('popup')) {
+      popup.classList.toggle('active');
+    }
+  }
+
 </script>
 
 
