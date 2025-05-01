@@ -1,16 +1,12 @@
 package com.mtvs.quizlog.domain.quiz.repository;
 
-import com.mtvs.quizlog.domain.chapter.dto.request.QuizDto;
+import com.mtvs.quizlog.domain.chapter.controller.dto.request.QuizDto;
 
-import com.mtvs.quizlog.domain.chapter.dto.request.QuizForm;
-import com.mtvs.quizlog.domain.chapter.entity.Chapter;
+import com.mtvs.quizlog.domain.chapter.controller.dto.request.QuizForm;
 import com.mtvs.quizlog.domain.quiz.entity.Quiz;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -33,7 +29,7 @@ public class QuizRepository  {
 
     public List<QuizDto> findbyQuizes(Long userId, Long chapterId) {
 
-        TypedQuery<QuizDto> query = em.createQuery("select new com.mtvs.quizlog.domain.chapter.dto.request.QuizDto(q.title , q.answer) " +
+        TypedQuery<QuizDto> query = em.createQuery("select new  com.mtvs.quizlog.domain.chapter.controller.dto.request.QuizDto(q.title , q.answer) " +
                 "from Quiz q where q.user.id = :userId and q.chapter.id = :chapterId ", QuizDto.class);
         query.setParameter("userId", userId);
         query.setParameter("chapterId", chapterId);
@@ -43,7 +39,7 @@ public class QuizRepository  {
 
     public List<QuizForm> findAll(Long chapterId) {
 
-        TypedQuery<QuizForm> query = em.createQuery("select new com.mtvs.quizlog.domain.chapter.dto.request.QuizForm(q.title , q.answer, q.id) from Quiz q where q.chapter.id = :chapterId", QuizForm.class);
+        TypedQuery<QuizForm> query = em.createQuery("select new  com.mtvs.quizlog.domain.chapter.controller.dto.request.QuizForm(q.title , q.answer, q.id) from Quiz q where q.chapter.id = :chapterId", QuizForm.class);
         query.setParameter("chapterId", chapterId);
 
         return query.getResultList() ;

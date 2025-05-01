@@ -1,6 +1,5 @@
 package com.mtvs.quizlog.domain.quiz.service;
 
-import com.mtvs.quizlog.domain.chapter.dto.request.ChapterDto;
 import com.mtvs.quizlog.domain.chapter.dto.request.QuizDto;
 import com.mtvs.quizlog.domain.chapter.dto.request.QuizForm;
 
