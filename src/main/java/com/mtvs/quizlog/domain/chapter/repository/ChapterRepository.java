@@ -59,7 +59,7 @@ public class ChapterRepository {
 
     public List<ChapterDto> findTitle(String search) {
         TypedQuery<ChapterDto> query = em.createQuery(
-                "select new com.mtvs.quizlog.domain.chapter.dto.request.ChapterDto(c.id, c.title, u.nickname) " +
+                "select new com.mtvs.quizlog.domain.chapter.controller.dto.request.ChapterDto(c.id, c.title, u.nickname) " +
                         "from Chapter c " +
                         "join c.user u " +
                         "where c.title like :search",

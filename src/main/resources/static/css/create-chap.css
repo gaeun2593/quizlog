@@ -1,0 +1,106 @@
+.main-page-container {
+    display: flex;
+    height: 100%;
+}
+
+/* 사이드바 */
+.main-page-container .side-nav {
+    flex: 1;
+    padding: 20px 10px;
+}
+
+.main-page-container .side-nav > div {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.main-page-container .side-nav > div a {
+    padding: 10px 10px;
+    display: flex;
+    gap: 15px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.main-page-container .side-nav > div a:hover {
+    background-color: rgb(238, 249, 249);
+    transition: 0.3s;
+}
+
+/* 메인페이지 */
+.page-layout {
+    flex: 5;
+    padding: 40px;
+    height: 100%;
+}
+
+.page-layout-container {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+/* 챕터 생성 폼 전체 컨테이너 */
+#chapter-create-form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 30px;
+    background-color: #f9f9f9;
+    border-radius: 16px;
+    flex: 5;
+    margin-top: 20px;
+}
+
+/* 제목, 설명 입력 필드 그룹 */
+#chapter-create-form .chapter-input-group {
+    display: flex;
+    gap: 16px;
+}
+
+/* 각 입력 필드 */
+#chapter-create-form input[type="text"] {
+    flex: 1;
+    padding: 12px 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: 'Noto Sans KR', sans-serif;
+    transition: border-color 0.3s;
+}
+
+#chapter-create-form input[type="text"]:focus {
+    border-color: #17cfaa;
+    outline: none;
+}
+
+/* 퀴즈 입력 필드 */
+#chapter-create-form .quiz-entry {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+/* 버튼 그룹 */
+#chapter-create-form .button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+#chapter-create-form button {
+    padding: 10px 18px;
+    background-color: #17cfaa;
+    color: white;
+    border: none;
+    border-radius: 999px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#chapter-create-form button:hover {
+    background-color: #12b89b;
+}

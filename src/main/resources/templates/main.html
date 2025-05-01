@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/head :: commonHead">
-</head>
+<head th:replace="fragments/head :: commonHead"></head>
 <body>
 <div th:replace="fragments/header :: header"></div>
 
@@ -11,43 +10,24 @@
 
     <!-- 메인 콘텐츠 영역 -->
     <div class="main-layout container-fluid">
+
         <!-- 최신 퀴즈 풀기 섹션 -->
-        <div class="section-header d-flex justify-content-between align-items-center my-4">
-            <h3 class="fw-bold section-title">최신 퀴즈 풀기</h3>
-        </div>
-
-        <div class="row row-cols-1 row-cols-md-3 g-4 mb-5">
-            <div class="col" th:each="quiz : ${latestQuizzes}">
-                <div class="card h-100 shadow quiz-card">
-                    <div class="card-body d-flex flex-column">
-                        <div class="card-tag">최신</div>
-                        <h5 class="card-title mt-2" th:text="${quiz.title}">퀴즈 제목</h5>
-                        <p class="card-text text-muted author-text" th:text="'by ' + ${quiz.nickname}">by 선생님</p>
-                        <div class="mt-auto">
-                            <a th:href="@{/main/chapters/{chapterId}/{title}(chapterId=${quiz.id}, title=${quiz.title})}"
-                               class="btn btn-quiz rounded-pill">
-                                퀴즈 풀러가기
-                                <i class="arrow-icon">→</i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
+        <div class="container-fluid mb-5">
+            <div class="section-header d-flex justify-content-between align-items-center my-4">
+                <a href="/main/chapterList" class="fw-bold section-title">
+                    최신 퀴즈 풀기
+                </a>
             </div>
-        </div>
-
-        <!-- 챕터 목록 -->
-        <div class="main-content mb-5">
-            <div class="section-header mb-3">
-                <h3 class="fw-bold section-title" th:text="${nickname} + '님의 챕터 목록'">사용자님의 챕터 목록</h3>
-            </div>
-            <div class="row row-cols-1 row-cols-md-2 g-4 mt-2">
-                <div class="col" th:each="chapter : ${chapterList}">
-                    <div class="card chapter-card shadow h-100">
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                <div class="col" th:each="quiz, iterStat : ${latestQuizzes}">
+                    <div class="card h-100 shadow quiz-card" th:if="${iterStat.index < 4}">
                         <div class="card-body d-flex flex-column">
-                            <h5 class="card-title mb-3" th:text="${chapter.title}">챕터명</h5>
-                            <div class="mt-auto text-end">
-                                <a th:href="@{/main/chapters/{chapterId}/{title}(chapterId=${chapter.id}, title=${chapter.title})}" class="btn btn-chapter rounded-pill">
-                                    퀴즈 보러가기
+                            <h5 class="card-title mt-2" th:text="${quiz.title}">퀴즈 제목</h5>
+                            <p class="card-text text-muted author-text" th:text="'by ' + ${quiz.nickname}">by 선생님</p>
+                            <div class="mt-auto">
+                                <a th:href="@{/main/chapters/{chapterId}/{title}(chapterId=${quiz.id}, title=${quiz.title})}"
+                                   class="btn btn-quiz rounded-pill">
+                                    퀴즈 풀러가기
                                     <i class="arrow-icon">→</i>
                                 </a>
                             </div>
@@ -57,15 +37,43 @@
             </div>
         </div>
 
+        <!-- 챕터 목록 (슬라이더 적용) -->
+        <div class="container-fluid mb-5">
+            <div class="section-header mb-3">
+                <h3 class="fw-bold section-title" th:text="${nickname} + '님의 챕터 목록'">사용자님의 챕터 목록</h3>
+            </div>
+            <div class="chapter-slider-container position-relative">
+                <div class="chapter-slider overflow-hidden">
+                    <div class="chapters-wrapper d-flex transition" id="chaptersWrapper">
+                        <div class="chapter-card me-3" th:each="chapter : ${chapterList}">
+                            <div class="card h-100 shadow chapter-card-inner">
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="card-title mb-3" th:text="${chapter.title}">챕터명</h5>
+                                    <div class="mt-auto text-end">
+                                        <a th:href="@{/main/chapters/{chapterId}/{title}(chapterId=${chapter.id}, title=${chapter.title})}" class="btn btn-chapter rounded-pill">
+                                            퀴즈 보러가기
+                                            <i class="arrow-icon">→</i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="slide-btn prev-btn position-absolute top-50 start-0 translate-middle-y" id="chapterPrevBtn">&#10094;</button>
+                <button class="slide-btn next-btn position-absolute top-50 end-0 translate-middle-y" id="chapterNextBtn">&#10095;</button>
+            </div>
+        </div>
+
         <!-- 인기 선생님 섹션 -->
-        <div class="main-content mb-5">
+        <div class="container-fluid mb-5">
             <div class="section-header mb-3">
                 <h3 class="fw-bold section-title">인기 선생님</h3>
             </div>
             <div class="teacher-ranking-container position-relative">
                 <div class="teacher-ranking-slider overflow-hidden">
-                    <div class="teachers-wrapper d-flex transition" id="teachersWrapper">
-                        <div class="teacher-card me-3" th:each="teacher : ${topTeachers}">
+                    <div class="teachers-wrapper d-flex flex-nowrap" id="teachersWrapper">
+                        <div class="teacher-card flex-shrink-0 me-3" th:each="teacher : ${topTeachers}">
                             <a th:href="@{'/like/teacher-detail/' + ${teacher.userId}}" class="teacher-card-link text-decoration-none">
                                 <div class="teacher-info p-3 border rounded shadow bg-white">
                                     <div class="teacher-header d-flex align-items-center mb-2">
@@ -87,61 +95,113 @@
                 <button class="slide-btn next-btn position-absolute top-50 end-0 translate-middle-y" id="nextBtn">&#10095;</button>
             </div>
         </div>
+
     </div>
 </div>
 
 <div th:replace="fragments/footer :: footer"></div>
 
-<!-- 슬라이드 스크립트 -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        const chaptersWrapper = document.getElementById('chaptersWrapper');
+        const chapterPrevBtn = document.getElementById('chapterPrevBtn');
+        const chapterNextBtn = document.getElementById('chapterNextBtn');
         const teachersWrapper = document.getElementById('teachersWrapper');
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
 
-        let position = 0;
-        const cardWidth = 240; // 카드 너비 + 마진 (업데이트됨)
-        const visibleCards = Math.floor(teachersWrapper.parentElement.offsetWidth / cardWidth);
-        const maxPosition = teachersWrapper.children.length - visibleCards;
+        // 챕터 슬라이더 관련 변수
+        let chapterPosition = 0;
+        const chapterCardWidth = 240;  // 카드 넓이
+        const chapterVisibleCards = Math.floor(chaptersWrapper.parentElement.offsetWidth / chapterCardWidth);  // 화면에 보이는 카드 수
+        const chapterMaxPosition = Math.max(0, chaptersWrapper.children.length - chapterVisibleCards);  // 최대 슬라이딩 위치
 
-        updateButtonStates();
+        // 인기 선생님 슬라이더 관련 변수
+        let teacherPosition = 0;
+        const teacherCardWidth = 240;  // 카드 넓이
+        const teacherVisibleCards = Math.floor(teachersWrapper.parentElement.offsetWidth / teacherCardWidth);  // 화면에 보이는 카드 수
+        const teacherMaxPosition = Math.max(0, teachersWrapper.children.length - teacherVisibleCards);  // 최대 슬라이딩 위치
 
+        updateChapterButtonStates();
+        updateTeacherButtonStates();
+
+        // 챕터 슬라이드
+        chapterNextBtn.addEventListener('click', function() {
+            if (chapterPosition < chapterMaxPosition) {
+                chapterPosition++;
+                updateChapterSliderPosition();
+            }
+        });
+
+        chapterPrevBtn.addEventListener('click', function() {
+            if (chapterPosition > 0) {
+                chapterPosition--;
+                updateChapterSliderPosition();
+            }
+        });
+
+        // 인기 선생님 슬라이드
         nextBtn.addEventListener('click', function() {
-            if (position < maxPosition) {
-                position++;
-                updateSliderPosition();
+            if (teacherPosition < teacherMaxPosition) {
+                teacherPosition++;
+                updateTeacherSliderPosition();
             }
         });
 
         prevBtn.addEventListener('click', function() {
-            if (position > 0) {
-                position--;
-                updateSliderPosition();
+            if (teacherPosition > 0) {
+                teacherPosition--;
+                updateTeacherSliderPosition();
             }
         });
 
-        function updateSliderPosition() {
-            teachersWrapper.style.transform = `translateX(-${position * cardWidth}px)`;
-            updateButtonStates();
+        // 챕터 슬라이드 위치 업데이트 함수
+        function updateChapterSliderPosition() {
+            chaptersWrapper.style.transform = `translateX(-${chapterPosition * chapterCardWidth}px)`;
+            updateChapterButtonStates();
         }
 
-        function updateButtonStates() {
-            prevBtn.style.opacity = position <= 0 ? '0.5' : '1';
-            prevBtn.style.cursor = position <= 0 ? 'default' : 'pointer';
+        // 인기 선생님 슬라이드 위치 업데이트 함수
+        function updateTeacherSliderPosition() {
+            teachersWrapper.style.transform = `translateX(-${teacherPosition * teacherCardWidth}px)`;
+            updateTeacherButtonStates();
+        }
 
-            nextBtn.style.opacity = position >= maxPosition ? '0.5' : '1';
-            nextBtn.style.cursor = position >= maxPosition ? 'default' : 'pointer';
+        // 챕터 버튼 상태 업데이트 함수
+        function updateChapterButtonStates() {
+            chapterPrevBtn.style.opacity = chapterPosition <= 0 ? '0.5' : '1';
+            chapterPrevBtn.style.cursor = chapterPosition <= 0 ? 'default' : 'pointer';
+            chapterNextBtn.style.opacity = chapterPosition >= chapterMaxPosition ? '0.5' : '1';
+            chapterNextBtn.style.cursor = chapterPosition >= chapterMaxPosition ? 'default' : 'pointer';
+        }
+
+        // 인기 선생님 버튼 상태 업데이트 함수
+        function updateTeacherButtonStates() {
+            prevBtn.style.opacity = teacherPosition <= 0 ? '0.5' : '1';
+            prevBtn.style.cursor = teacherPosition <= 0 ? 'default' : 'pointer';
+            nextBtn.style.opacity = teacherPosition >= teacherMaxPosition ? '0.5' : '1';
+            nextBtn.style.cursor = teacherPosition >= teacherMaxPosition ? 'default' : 'pointer';
         }
 
         window.addEventListener('resize', function() {
-            const newVisibleCards = Math.floor(teachersWrapper.parentElement.offsetWidth / cardWidth);
-            const newMaxPosition = teachersWrapper.children.length - newVisibleCards;
-            if (position > newMaxPosition) {
-                position = Math.max(0, newMaxPosition);
-                updateSliderPosition();
+            // 챕터 슬라이더 리사이징 대응
+            const newChapterVisibleCards = Math.floor(chaptersWrapper.parentElement.offsetWidth / chapterCardWidth);
+            const newChapterMaxPosition = Math.max(0, chaptersWrapper.children.length - newChapterVisibleCards);
+            if (chapterPosition > newChapterMaxPosition) {
+                chapterPosition = Math.max(0, newChapterMaxPosition);
+                updateChapterSliderPosition();
+            }
+            
+            // 인기 선생님 슬라이더 리사이징 대응
+            const newTeacherVisibleCards = Math.floor(teachersWrapper.parentElement.offsetWidth / teacherCardWidth);
+            const newTeacherMaxPosition = Math.max(0, teachersWrapper.children.length - newTeacherVisibleCards);
+            if (teacherPosition > newTeacherMaxPosition) {
+                teacherPosition = Math.max(0, newTeacherMaxPosition);
+                updateTeacherSliderPosition();
             }
         });
     });
 </script>
+
 </body>
 </html>
