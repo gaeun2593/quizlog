@@ -18,7 +18,7 @@ import org.hibernate.annotations.SQLRestriction;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
+//feature
 @Entity
 @Table(name ="chapters")
 @Getter
@@ -78,6 +78,7 @@ public class Chapter {
     private FolderChapter folderChapter;
 
 
+
     public static Chapter createChapter(User user , String title, String description, LocalDateTime createdAt, LocalDateTime updatedAt) {
         Chapter chapter = new Chapter();
         chapter.setUser(user);
@@ -88,20 +89,6 @@ public class Chapter {
         return chapter;
 
     }
-
-    /*
-    @ManyToOne()
-    @JoinColumn(name="folder_quizset_id",referencedColumnName = "folder_quizset_id")
-    private FolderChapter folderChapter;
-
-*/
-
-/*
-    @ManyToOne()
-    @JoinColumn(name="lesson_id", referencedColumnName = "user_id")
-    private Lesson lesson;
-
-*/
 
 
 

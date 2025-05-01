@@ -164,7 +164,7 @@ public class QuizChapterController {
                     newQuizSet = Arrays.asList(quizSet.subList(i+1, quizSet.size()).toArray(new QuizForm[0]));
                     break;
                 }
-            }
+            } //`
             log.info("newQuizSet = {}", newQuizSet);
             model.addAttribute("checkdQuizs" , checkdQuizs) ;
             model.addAttribute("quizSet" ,newQuizSet) ;
@@ -219,6 +219,7 @@ public class QuizChapterController {
                 }
             }
             log.info("newQuizSet = {}", newQuizSet);
+
             model.addAttribute("checkdQuizs" , checkdQuizs) ;
             model.addAttribute("quizSet" ,newQuizSet) ;
         }
@@ -228,7 +229,7 @@ public class QuizChapterController {
 
         }
 
-        log.info("chapterId = {}", chapterId);
+
         List<QuizForm> quizForm  = quizService.findAll(chapterId);
         model.addAttribute("quizForm", quizForm);
 
@@ -236,7 +237,7 @@ public class QuizChapterController {
         Chapter chapter = chapterService.findId(chapterId);
         model.addAttribute("chapter", chapter);
 
-        // 로그인한 유저객체 가져와서
+        // 로그인한 유저객체 가져와서 //
         User user = userService.findUser(userId);
 
         // 유저의 챕터폴더 가져옴
@@ -253,11 +254,22 @@ public class QuizChapterController {
     }
 
     @GetMapping("/{chapterId}/check")
-    public String checkedQuiz(@PathVariable long chapterId ,@AuthenticationPrincipal AuthDetails userDetails ,  Model model) {
+    public String checkedQuiz(@PathVariable long chapterId , @AuthenticationPrincipal AuthDetails userDetails ,  Model model) {
         Long userId = userDetails.getLogInDTO().getUserId();
         UserCheckedQuizDTO checkdQuiz = checkedQuizService.findCheckdQuiz(chapterId, userId);
+        model.addAttribute("chapterId" , chapterId) ;
         model.addAttribute("checkdQuiz", checkdQuiz);
         return "quiz/QuizCompletionRate" ;
+    }
+
+    @GetMapping("/{chapterId}/resolve")
+    public String reschekcQuiz(@PathVariable long chapterId , @AuthenticationPrincipal AuthDetails userDetails , Model model) {
+        Long userId = userDetails.getLogInDTO().getUserId();
+        checkedQuizService.removeCheckdQuiz(chapterId, userId);
+        Chapter chapter = chapterService.findId(chapterId);
+
+        String title = chapter.getTitle();
+        return "redirect:/main/chapters/" + chapterId + "/" + title;
     }
 
 
