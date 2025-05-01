@@ -63,6 +63,9 @@ public class Chapter {
     @OneToMany(mappedBy = "chapter")
     private List<UserCheckedQuiz> userCheckedQuizs = new ArrayList<>();
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Lesson lesson;
+
     //    User
     @ManyToOne(fetch = FetchType.LAZY , cascade = CascadeType.ALL)
     @JoinColumn(name="user_id")
