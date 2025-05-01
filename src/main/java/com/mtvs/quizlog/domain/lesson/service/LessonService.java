@@ -68,6 +68,8 @@ public class LessonService {
         Lesson lesson = lessonRepository.findById(lessonId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 레슨이 존재하지 않습니다: " + lessonId));
         Chapter chapter = chapterRepository.findChapterById(chapterId);
+        log.info("Chapter: {}", chapter.getId());
+        chapter.setLesson(lesson);
         lesson.getChapterList().add(chapter);
         lessonRepository.save(lesson); // 변경 감지로 저장됨
     }
@@ -79,14 +81,15 @@ public class LessonService {
         Lesson lesson = lessonRepository.findById(lessonId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 레슨이 존재하지 않습니다: " + lessonId));
         Chapter chapter = chapterRepository.findChapterById(chapterId);
+        chapter.setLesson(null);
         lesson.getChapterList().remove(chapter);
         lessonRepository.save(lesson); // 변경 감지로 저장됨
     }
 
 
     /** 🔍 전체 레슨 목록 조회 */
-    public List<Lesson> findAllLessons() {
-        return lessonRepository.findAllLessons();
+    public List<Lesson> findAllLessons(long teacherId) {
+        return lessonRepository.findAllLessons(teacherId);
     }
 
     /** 🔍 단일 레슨 조회 */

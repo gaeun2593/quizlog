@@ -1,8 +1,12 @@
 package com.mtvs.quizlog.domain.lesson.controller;
 
+import com.mtvs.quizlog.domain.chapter.controller.dto.request.ChapterDto;
+import com.mtvs.quizlog.domain.chapter.controller.dto.request.UserChapter;
+import com.mtvs.quizlog.domain.chapter.service.ChapterService;
 import com.mtvs.quizlog.domain.lesson.dto.LessonDTO;
 import com.mtvs.quizlog.domain.lesson.entity.Lesson;
 import com.mtvs.quizlog.domain.lesson.service.LessonService;
+import com.mtvs.quizlog.domain.like.service.LikeService;
 import com.mtvs.quizlog.domain.user.entity.User;
 import com.mtvs.quizlog.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -25,12 +29,24 @@ public class LessonController {
 
     private final LessonService lessonService;
     private final UserService userService;
-
+    private final ChapterService chapterService;
+    private final LikeService likeService;
     /** 🔍 레슨 목록 */
-    @GetMapping("/list")
-    public String list(Model model) {
-        List<Lesson> lessons = lessonService.findAllLessons();
+    @GetMapping("/list/{teacherId}")
+    public String list(@AuthenticationPrincipal AuthDetails userDetails,Model model,@PathVariable Long teacherId) {
+        List<Lesson> lessons = lessonService.findAllLessons(teacherId);
+        User teacher =userService.findUser(teacherId);
+        model.addAttribute("teacher", teacher);
         model.addAttribute("lessons", lessons);
+        Long userId = userDetails.getLogInDTO().getUserId();
+        // 현재 사용자가 이 선생님을 좋아요 눌렀는지
+        boolean liked = likeService.hasLiked(userId, teacherId);
+        // 선생님 총 좋아요 수
+        int likeCount = likeService.getLikeCount(teacherId);
+
+        model.addAttribute("liked", liked);
+        model.addAttribute("likeCount", likeCount);
+
         return "lesson/list";
     }
 
@@ -38,8 +54,17 @@ public class LessonController {
     @GetMapping("/{lessonId}")
     public String detail(@AuthenticationPrincipal AuthDetails userDetails ,@PathVariable Long lessonId, Model model) {
         Lesson lesson = lessonService.findLessonById(lessonId);
+        User user = userService.findUser(userDetails.getLogInDTO().getUserId());
         model.addAttribute("userId",userDetails.getLogInDTO().getUserId());
         model.addAttribute("lesson", lesson);
+        log.info("Lesson: {} ", lesson.getId());
+        lesson.getChapterList().forEach(chapter -> {log.info("chapter: {}", chapter);});
+        List<ChapterDto> chapterLists =chapterService.findChapter(user);
+        for (ChapterDto chapterDto : chapterLists) {
+            log.info("chapterLists: {}", chapterDto);
+        }
+
+        model.addAttribute("chapterLists", chapterLists);
         return "lesson/detail";
     }
 
@@ -56,7 +81,9 @@ public class LessonController {
                          @ModelAttribute @Validated LessonDTO lessonDTO) {
         User user = userService.findUser(userDetails.getLogInDTO().getUserId());
         lessonService.createLesson(lessonDTO, user);
-        return "redirect:/lesson/list";
+        Long teacherId = user.getUserId(); // 또는 lessonDTO.getTeacherId()
+
+        return "redirect:/lesson/list/" + teacherId;
     }
 
     /** 📝 레슨 수정 폼 */

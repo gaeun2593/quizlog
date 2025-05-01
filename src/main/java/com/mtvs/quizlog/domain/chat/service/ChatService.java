@@ -111,9 +111,10 @@ public class ChatService {
                     chatRoom.getStatus()
             );
         });
-    } //fe
+    }
 
     // 특정 채팅 방 메세지 내용 조회
+    @Transactional
     public List<ChatMessageDTO> getMessagesByChatRoomId(Long chatRoomId) {
         List<ChatMessage> chatMessages = chatMessageRepository.findByChatRoom_IdOrderByCreatedAtAsc(chatRoomId);
 
@@ -127,17 +128,17 @@ public class ChatService {
                 .collect(Collectors.toList());
     }
 
-
     // 채팅방 id로 채팅방 찾기
+    @Transactional
     public ChatRoom findChatRoomById(Long chatRoomId) {
         return chatRoomRepository.findById(chatRoomId)
                 .orElseThrow(() -> new IllegalArgumentException("채팅방을 찾을 수 없습니다. id = " + chatRoomId));
     }
 
     // 닉네임으로 유저 찾기
+    @Transactional
     public User findUserByNickname(String name) {
         return userRepository.findByNickname(name)
                 .orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다. nickname = " + name));
     }
-
 }
