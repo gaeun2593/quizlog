@@ -42,6 +42,10 @@ public class Chapter {
     @Column(name ="criteria" ,columnDefinition = "INT")
     private int criteria;
 
+    @ManyToOne
+    @JoinColumn(name = "lesson_id")
+    private Lesson lesson;
+
 
     @Enumerated(EnumType.STRING)
     private Status status;

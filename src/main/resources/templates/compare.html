@@ -1,53 +1,93 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head>
-    <title>Hello WebSocket</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
-    <script src="/app.js"></script>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: commonHead">
+    <title>채팅방</title>
 </head>
 <body>
-<noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being
-    enabled. Please enable
-    Javascript and reload this page!</h2></noscript>
-<div id="main-content" class="container">
-    <div class="row">
-        <div class="col-md-6">
-            <form class="form-inline">
-                <div class="form-group">
-                    <label for="connect">WebSocket connection:</label>
-                    <button id="connect" class="btn btn-default" type="submit">Connect</button>
-                    <button id="disconnect" class="btn btn-default" type="submit" disabled="disabled">Disconnect
-                    </button>
-                </div>
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+<div th:replace="fragments/header :: header"></div>
+
+<div class="chat-admin-page-container">
+    <div th:replace="fragments/aside :: asideFragment"></div>
+
+    <div class="chat-layout">
+        <div class="chat-layout-container">
+
+
+            <!-- 메시지 입력 폼 (WebSocket 사용) -->
+            <form id="message-form" class="chat-form" onsubmit="sendMessage(event)">
+                <input type="hidden" id="chatRoomId" value="fdsf">
+                <textarea id="message-input" placeholder="메시지를 입력하세요"></textarea>
+                <button type="submit">참여하기</button>
             </form>
-        </div>
-        <div class="col-md-6">
-            <form class="form-inline">
-                <div class="form-group">
-                    <label for="name">What is your name?</label>
-                    <input type="text" id="name" class="form-control" placeholder="Your name here...">
-                </div>
-                <button id="send" class="btn btn-default" type="submit">Send</button>
-            </form>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <table id="conversation" class="table table-striped">
-                <thead>
-                <tr>
-                    <th>Greetings</th>
-                </tr>
-                </thead>
-                <tbody id="greetings">
-                </tbody>
-            </table>
         </div>
     </div>
 </div>
+
+<script th:inline="javascript">
+    const {userId ,nickname} = /*[[${logInDTO}]]*/ [];'Anonymous';
+    let stompClient = null;
+
+    function sendMessage(event) {
+        event.preventDefault();
+        connect();
+        fetch('http://localhost:8080/comapre', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                userId : userId ,
+                nickname : nickname,
+           })
+        });
+    };
+
+
+    // WebSocket 연결 함수
+    function connect() {
+        const socket = new SockJS('/ws');
+        stompClient = Stomp.over(socket);
+
+        stompClient.connect({}, function(frame) {
+
+           // document.getElementById('connection-status').textContent = '연결 상태: 연결됨';
+
+            // 특정 채팅방 구독
+            stompClient.subscribe('/topic/room/' + chatRoomId, function(response) {
+                const message = JSON.parse(response.body);
+                displayMessage(message);
+            });
+        }, function(error) {
+            console.error('STOMP error: ' + error);
+           // document.getElementById('connection-status').textContent = '연결 상태: 연결 실패';
+            // 3초 후 재연결 시도
+            setTimeout(connect, 3000);
+        });
+    }
+
+/*    // 메시지 전송 함수
+    function sendMessage(event) {
+        event.preventDefault();
+
+        const messageInput = document.getElementById('message-input');
+        const message = messageInput.value.trim();
+
+        if (message && stompClient) {
+            const chatMessage = {
+                chatRoomId: chatRoomId,
+                senderNickname: nickname,
+                message: message,
+                messageType: 'TALK'
+            };
+
+            stompClient.send("/app/message", {}, JSON.stringify(chatMessage));
+            messageInput.value = '';
+        }
+    }*/
+
+
+</script>
+
+<div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>

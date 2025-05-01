@@ -13,6 +13,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -40,9 +41,8 @@ public class Lesson {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "chapter_id")
-    private List<Chapter> chapterList;
+    @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL)
+    private List<Chapter> chapterList = new ArrayList<>();
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

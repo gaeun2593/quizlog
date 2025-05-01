@@ -127,7 +127,6 @@ public class ChatService {
                 .collect(Collectors.toList());
     }
 
-
     // 채팅방 id로 채팅방 찾기
     public ChatRoom findChatRoomById(Long chatRoomId) {
         return chatRoomRepository.findById(chatRoomId)
