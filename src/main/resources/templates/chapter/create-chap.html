@@ -12,13 +12,14 @@
     <div th:replace="fragments/aside :: asideFragment"></div>
     <div class="page-layout">
         <div class="page-layout-container">
+            <div class="page-form">
             <form th:action="@{/main/create-chap}" th:object="${requestCreateChapterDTO}" method="post" id="chapter-create-form">
             <h2>새로운 챕터 생성</h2>
                 <div class="chapter-input-group">
                     <input type="text" th:field="*{title}" placeholder="챕터 제목" />
                     <input type="text" th:field="*{description}" placeholder="챕터 설명" />
                 </div>
-
+                <br>
 
                 <h2>퀴즈 목록</h2>
                 <div id="quiz-container">
@@ -34,6 +35,7 @@
                 </div>
 
             </form>
+            </div>
         </div>
     </div>
 </div>

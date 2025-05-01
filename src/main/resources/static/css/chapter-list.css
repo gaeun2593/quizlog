@@ -42,11 +42,11 @@
     gap: 50px;
 }
 
-.chapter-list {
+.chapter-list2 {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    width: 300px;
+    /*gap: 10px;*/
+    width: 800px;
 }
 .chapter-header, .chapter-item {
     display: flex;
