@@ -8,6 +8,8 @@ import com.mtvs.quizlog.domain.like.dto.TeacherLikeRankingDto;
 import com.mtvs.quizlog.domain.like.service.LikeService;
 import com.mtvs.quizlog.domain.user.entity.User;
 import com.mtvs.quizlog.domain.user.service.UserService;
+import com.mtvs.quizlog.solvedQuiz.dto.UserCheckedChapterDTO;
+import com.mtvs.quizlog.solvedQuiz.service.CheckedQuizService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,11 +23,13 @@ public class IndexController {
     private final LikeService likeService;
     private final UserService userService;
     private final ChapterService chapterService;
+    private final CheckedQuizService checkedQuizService ;
 
-    public IndexController(LikeService likeService, UserService userService, ChapterService chapterService) {
+    public IndexController(LikeService likeService, UserService userService, ChapterService chapterService , CheckedQuizService checkedQuizService) {
         this.likeService = likeService;
         this.userService = userService;
         this.chapterService = chapterService;
+        this.checkedQuizService = checkedQuizService ;
     }
 
     @GetMapping("/")
@@ -52,7 +56,8 @@ public class IndexController {
         model.addObject("nickname", user.getNickname());
 
         // 사용자 챕터 리스트 전달
-        List<ChapterDto> chapterList = chapterService.findChapter(user);
+        List<UserCheckedChapterDTO>  chapterList = checkedQuizService.findCheckedChapters(userId);
+        //List<ChapterDto> chapterList = chapterService.findChapter(user);
         model.addObject("chapterList", chapterList);
 
         List<UserChapter> latestQuizzes = chapterService.findAll(); // 서비스 구현 필요

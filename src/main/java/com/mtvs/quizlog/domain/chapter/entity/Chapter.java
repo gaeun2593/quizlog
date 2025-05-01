@@ -77,9 +77,6 @@ public class Chapter {
     @JoinColumn(name = "folder_chapter_id", nullable = true)
     private FolderChapter folderChapter;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Lesson lesson;
-
 
     public static Chapter createChapter(User user , String title, String description, LocalDateTime createdAt, LocalDateTime updatedAt) {
         Chapter chapter = new Chapter();
