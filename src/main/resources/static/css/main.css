@@ -49,13 +49,40 @@ button {
 }
 
 .main-layout {
-    flex: 5;
+    max-width: 1024px;  /* 레이아웃의 넓이 고정 */
+
+    /*flex: 5;*/
     padding: 20px 40px;
     display: flex;
     flex-direction: column;
     gap: 20px;
     height: 100%;
-    margin: 0 auto;
+    /*margin: 0 auto;*/
+}
+
+/* 사이드바 */
+.main-page-container .side-nav{
+    flex: 1;
+    padding: 20px 10px;
+
+}
+.main-page-container .side-nav>div{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+}
+.main-page-container .side-nav>div a{
+    padding: 10px 10px;
+    display: flex;
+    gap: 15px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+.main-page-container .side-nav>div a:hover{
+    background-color: rgb(238, 249, 249);
+    transition: 0.3s;
 }
 
 .section-header {
@@ -194,6 +221,8 @@ button {
     overflow: hidden;
     margin-top: 15px;
     padding: 0 20px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .teacher-ranking-slider {
@@ -206,10 +235,12 @@ button {
     display: flex;
     transition: transform 0.5s ease;
     gap: 15px;
+    flex-wrap: nowrap;
 }
 
 .teacher-card {
     width: 240px;
+    flex: 0 0 auto;
     cursor: pointer;
     transition: transform 0.3s ease;
 }
@@ -308,6 +339,7 @@ button {
     color: white;
     border-color: #17CFAA;
 }
+
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
