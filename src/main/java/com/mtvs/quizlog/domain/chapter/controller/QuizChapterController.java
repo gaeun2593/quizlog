@@ -237,7 +237,7 @@ public class QuizChapterController {
         Chapter chapter = chapterService.findId(chapterId);
         model.addAttribute("chapter", chapter);
 
-        // 로그인한 유저객체 가져와서
+        // 로그인한 유저객체 가져와서 //
         User user = userService.findUser(userId);
 
         // 유저의 챕터폴더 가져옴
