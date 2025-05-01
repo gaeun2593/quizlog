@@ -77,6 +77,7 @@ public class Chapter {
     @JoinColumn(name = "folder_chapter_id", nullable = true)
     private FolderChapter folderChapter;
 
+
     public static Chapter createChapter(User user , String title, String description, LocalDateTime createdAt, LocalDateTime updatedAt) {
         Chapter chapter = new Chapter();
         chapter.setUser(user);

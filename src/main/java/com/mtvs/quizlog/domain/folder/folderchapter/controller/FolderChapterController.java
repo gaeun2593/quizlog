@@ -24,7 +24,7 @@ import org.springframework.web.util.UriUtils;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.logging.Logger;
+
 
 @Controller
 @RequestMapping("/folder-chapters")
@@ -54,7 +54,7 @@ public class FolderChapterController {
         Long userId = userDetails.getLogInDTO().getUserId();
         User user = userService.findUser(userId);
         // FolderChapterService에 폴더를 생성하는 메서드에 DTO를 전달한뒤 saveFolderChapter로 받음
-        folderChapterService.createFolderChapter(folderChapterDTO,user,chapterId);
+       folderChapterService.createFolderChapter(folderChapterDTO,user,chapterId);
 
         Chapter chapter = chapterService.findId(chapterId);
         String chapterTitle = chapter.getTitle();
@@ -106,7 +106,7 @@ public class FolderChapterController {
         return String.format("redirect:/main/chapters/%d/%s", chapterId, title);
     }
 
-    // fsf
+// fsf
     // 폴더명 수정
     @PostMapping("/update-folder-chapter")
     public String updateFolderChapter(@RequestParam("folderUpdateTitle") String folderUpdateTitle, @RequestParam("folderTitle") String folderTitle,@AuthenticationPrincipal AuthDetails userDetails) {
@@ -117,7 +117,7 @@ public class FolderChapterController {
         User user = userService.findUser(userId);
 
         // updateFolderChapte로 넘김
-        folderChapterService.updateFolderChapter(folderUpdateTitle, folderTitle, user);
+       folderChapterService.updateFolderChapter(folderUpdateTitle, folderTitle, user);
 
         return "redirect:/folder-chapters/folder-chapters-view";
     }
@@ -143,7 +143,7 @@ public class FolderChapterController {
     public String folderChapterDetail(@AuthenticationPrincipal AuthDetails userDetails, @RequestParam("folderChapterId") long folderChapterId , Model model) {
         // 로그인한 유저객체 가져와서
         Long userId = userDetails.getLogInDTO().getUserId();
-        // log.info("folderChapterId ={} " , folderChapterId);
+       // log.info("folderChapterId ={} " , folderChapterId);
         //List<Chapter> chapters = chapterService.findChapterByFolderChapterId(userId, folderChapterId);
         List<UserCheckedChapterDTO> checkedChapters = checkedQuizService.findCheckedChapters(userId);
         List<UserCheckedChapterDTO> chekedFolder = checkedQuizService.findChekedFolder(folderChapterId);

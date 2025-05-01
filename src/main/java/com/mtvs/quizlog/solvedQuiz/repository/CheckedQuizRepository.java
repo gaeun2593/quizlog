@@ -42,21 +42,26 @@ public class CheckedQuizRepository {
 
 
     public UserCheckedQuizDTO findCheckdQuiz(long chapterId, long userId) {
-        TypedQuery<Long> query = em.createQuery("select count(q) from UserCheckedQuiz q where q.chapter.id = :chapterId and q.user.id = :userId and q.status =: status", long.class);
-        query.setParameter("chapterId" , chapterId);
-        query.setParameter("userId" , userId) ;
-        query.setParameter("status" , COMPLETED) ;
-        TypedQuery<Long> totalQuery = em.createQuery(
-                "select count(q) from Chapter c join c.quizzes q where c.id = :chapterId", Long.class);
-        totalQuery.setParameter("chapterId", chapterId);
-        Long quizCount = totalQuery.getSingleResult();
+        TypedQuery<Object[]> query = em.createQuery(
+                "SELECT " +
+                        "SUM(CASE WHEN q.status = 'COMPLETED' THEN 1 ELSE 0 END), " +
+                        "SUM(CASE WHEN q.status = 'INCOMPLETE' THEN 1 ELSE 0 END), " +
+                        "COUNT(q) " +
+                        "FROM UserCheckedQuiz q " +
+                        "WHERE q.chapter.id = :chapterId AND q.user.id = :userId", Object[].class);
 
-        query.setParameter("chapterId" , chapterId);
-        query.setParameter("userId" , userId);
-        totalQuery.setParameter("chapterId", chapterId);
+        query.setParameter("chapterId", chapterId);
+        query.setParameter("userId", userId);
+
+        Object[] result = query.getSingleResult();
+
+        Long completeCount = (Long) result[0];
+        log.info("completeCount = {}", completeCount);
+        Long uncompletedCount = (Long) result[1];
+        Long totalCount = (Long) result[2] ;
 
 
-        return new UserCheckedQuizDTO(query.getSingleResult(),  totalQuery.getSingleResult()) ;
+        return new UserCheckedQuizDTO(completeCount, uncompletedCount, totalCount);
 
 
 
