@@ -129,7 +129,7 @@ public class FolderChapterController {
         // 로그인한 유저객체 가져와서
         Long userId = userDetails.getLogInDTO().getUserId();
        // log.info("folderChapterId ={} " , folderChapterId);
-        List<Chapter> chapters = chapterService.findChapterByFolderChapterId(userId, folderChapterId);
+        //List<Chapter> chapters = chapterService.findChapterByFolderChapterId(userId, folderChapterId);
         List<UserCheckedChapterDTO> checkedChapters = checkedQuizService.findCheckedChapters(userId);
         List<UserCheckedChapterDTO> chekedFolder = checkedQuizService.findChekedFolder(folderChapterId);
         model.addAttribute("folderChapterId", folderChapterId);
