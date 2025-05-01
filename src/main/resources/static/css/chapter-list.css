@@ -1,0 +1,100 @@
+.main-page-container {
+    display: flex;
+    height: 100%;
+}
+
+/* 사이드바 */
+.main-page-container .side-nav {
+    flex: 1;
+    padding: 20px 10px;
+}
+
+.main-page-container .side-nav > div {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.main-page-container .side-nav > div a {
+    padding: 10px 10px;
+    display: flex;
+    gap: 15px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.main-page-container .side-nav > div a:hover {
+    background-color: rgb(238, 249, 249);
+    transition: 0.3s;
+}
+
+/* 메인페이지 */
+.page-layout {
+    flex: 5;
+    padding: 40px;
+    height: 100%;
+}
+
+.page-layout-container {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+.chapter-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 300px;
+}
+.chapter-header, .chapter-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+}
+.chapter-header {
+    font-weight: bold;
+    background-color: #e0e0e0;
+}
+
+.chapter-item a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+.chapter-item a:hover {
+    text-decoration: underline;
+}
+
+.card-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 10px 0;
+    transition: box-shadow 0.3s, transform 0.3s, background 0.3s;
+    background-color: #fff;
+}
+
+.card-link:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    transform: translateY(-8px);
+    background: linear-gradient(135deg, #f0f0f0, #e0eaff);
+}
+
+.card-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.card-desc {
+    font-size: 14px;
+    color: #555;
+}

@@ -36,11 +36,11 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     @NotNull
-    private Role role;
+    private Role role; // STUDENT, TEACHER, ADMIN
 
     @Enumerated(EnumType.STRING)
     @NotNull
-    private Status status;
+    private Status status; // ACTIVE, DELETED
 
     @NotNull
     private LocalDateTime createdAt;
