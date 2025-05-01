@@ -23,6 +23,7 @@ import java.util.Optional;
 import java.util.logging.Logger;
 
 @Service
+@Transactional
 public class FolderBookmarkService {
 
     //로그정보
@@ -94,7 +95,7 @@ public class FolderBookmarkService {
     }
 
     // 해당퀴즈 폴더에 추가
-    @Transactional
+   // @Transactional
     public void addQuizToFolder(int folderBookmarkId,Long quizId,User user) {
 
         FolderBookmark folderBookmark = folderBookmarkRepository.findByUserAndFolderBookmarkId(user, folderBookmarkId)
@@ -107,7 +108,7 @@ public class FolderBookmarkService {
     }
 
     // 폴더명 수정
-    @Transactional
+   // @Transactional
     public FolderBookmarkDTO updateFolderBookmark(String folderUpdateTitle,String folderTitle,User user) {
         logger.info("update folder title: " + folderTitle);
 
@@ -138,7 +139,7 @@ public class FolderBookmarkService {
         return new FolderBookmarkDTO(savedFolderBookmark.getFolderBookmarkId(), savedFolderBookmark.getFolderBookmarkTitle());
     }
 
-    @Transactional
+ //   @Transactional
     //전체 조회
     public List<FolderBookmarkDTO> getAllfolderBookmarks(User user) {
         //findAll()은 Repository에 디폴트로 생성되어 있음
@@ -153,7 +154,7 @@ public class FolderBookmarkService {
         return folderBookmarkDTOList;
     }
 
-    @Transactional
+  //  @Transactional
     public void deleteFolderBookmark(String folderTitle, User user) {
         logger.info("delete folder title : " + folderTitle);
 
