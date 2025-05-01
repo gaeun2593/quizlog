@@ -111,7 +111,7 @@ public class ChatService {
                     chatRoom.getStatus()
             );
         });
-    }
+    } //fe
 
     // 특정 채팅 방 메세지 내용 조회
     public List<ChatMessageDTO> getMessagesByChatRoomId(Long chatRoomId) {
