@@ -13,6 +13,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -41,7 +42,7 @@ public class Lesson {
     private Status status;
 
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "lesson")
-    private List<Chapter> chapterList;
+    private List<Chapter> chapterList = new ArrayList<>();
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

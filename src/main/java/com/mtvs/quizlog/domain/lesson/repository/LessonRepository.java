@@ -15,8 +15,8 @@ public interface LessonRepository extends JpaRepository<Lesson, Long> {
 
 
     /** 🔍 전체 레슨 목록 조회 */
-    @Query("SELECT l from Lesson l WHERE l.status = 'ACTIVE' ")
-    public List<Lesson> findAllLessons() ;
+    @Query("SELECT l from Lesson l WHERE l.status = 'ACTIVE' AND l.user.userId= :teacherId ")
+    public List<Lesson> findAllLessons(long teacherId) ;
 
     /** 🔍 단일 레슨 조회 */
     @Query("SELECT l from Lesson l WHERE l.status = 'ACTIVE' AND l.id= :lessonId ")

@@ -175,12 +175,12 @@ public class InquiryTeacherController {
         return "redirect:/support/"+inquiryId;
     }
 
-    @GetMapping("/support/embed/{teacherId}")
+    /*@GetMapping("/support/embed/{teacherId}")
     public String inquiryListPartial(Model model, @AuthenticationPrincipal AuthDetails userDetails, @PathVariable Long teacherId) {
         // 기존 로직 유지
         Long userId = userDetails.getLogInDTO().getUserId();
         List<InquiryTeacherListDTO> inquiryList = inquiryTeacherService.findAllByTeacher(teacherId);
         model.addAttribute("inquiryList", inquiryList);
         return "inquiry/inquiryList :: inquiryTable"; // ✅ fragment만 반환
-    }
+    }*/
 }
