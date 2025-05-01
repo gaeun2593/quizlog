@@ -21,15 +21,15 @@
     <div class="chapter-title">
       <h1>퀴즈 풀기</h1>
       <div class="folder-chapter-buttons">
-        <span class="btn-green-color">폴더생성해서 넣기</span>
-        <form action="/folder-chapters/create-folder-chapter" method="POST" class="hidden">
+        <span class="btn-green-color" onclick="popup(this)">폴더생성해서 넣기</span>
+        <form action="/folder-chapters/create-folder-chapter" method="POST" class="popup">
           <input type="text" name="title" pattern=".*\S.*" required>
           <input type="hidden" name="chapterId" th:value="${chapter.id}"/>
           <input type="submit" value="폴더생성" class="btn-green-custom">
         </form>
-        <span class="btn-green-color">기존 폴더에 넣기</span>
+        <span class="btn-green-color" onclick="popup(this)">기존 폴더에 넣기</span>
         <div th:each="folderChapter : ${folderChapters}">
-          <form action="/folder-chapters/add-chapter-to-folder" method="POST" class="hidden">
+          <form action="/folder-chapters/add-chapter-to-folder" method="POST" class="popup">
             <span th:text="${folderChapter.title}" ></span>
             <input type="hidden" name="folderChapterId" th:value="${folderChapter.id}" readonly>
             <input type="hidden" name="chapterId" th:value="${chapter.id}"/>
@@ -44,16 +44,16 @@
     <div class="chapter-item" th:each="quiz : ${quizForm}">
       <span th:text="${quiz.word}">Title</span>
       <span th:text="${quiz.answer}">Answer</span>
-      <span>퀴즈 폴더생성해서 넣기</span>
-      <form action="/folder-bookmarks/create-folder-bookmark2" method="POST" class="hidden">
+      <span class="btn-green-color" onclick="popup(this)">퀴즈 폴더생성해서 넣기</span>
+      <form action="/folder-bookmarks/create-folder-bookmark2" method="POST" class="popup">
         <input type="text" name="title" pattern=".*\S.*" required>
         <input type="hidden" name="quizId" th:value="${quiz.id}"/>
         <input type="hidden" name="chapterId" th:value="${chapter.id}"/>
         <input type="submit" value="폴더생성" class="btn-green-custom">
       </form>
-      <span>기존 퀴즈 폴더에 넣기</span>
+      <span class="btn-green-color" onclick="popup(this)">기존 퀴즈 폴더에 넣기</span>
       <div th:each="folderBookmark : ${folderBookmarks}">
-        <form action="/folder-bookmarks/add-quiz-to-folder" method="POST" class="hidden">
+        <form action="/folder-bookmarks/add-quiz-to-folder" method="POST" class="popup">
           <span th:text="${folderBookmark.title}" ></span>
           <input type="hidden" name="folderBookmarkId" th:value="${folderBookmark.id}" readonly>
           <input type="hidden" name="quizId" th:value="${quiz.id}"/>
@@ -148,6 +148,25 @@
 
 
   }
+
+  function popup(clickedElement) {
+    let popup = clickedElement.nextElementSibling;
+
+    // 다음 요소가 감싸는 div일 수도 있으니 안에 popup이 있는지 확인
+    if (popup && popup.querySelector) {
+      const nestedPopup = popup.querySelector('.popup');
+      if (nestedPopup) {
+        nestedPopup.classList.toggle('active');
+        return;
+      }
+    }
+
+    // 아니면 바로 popup일 수도 있음 (첫 번째 버튼 케이스)
+    if (popup && popup.classList.contains('popup')) {
+      popup.classList.toggle('active');
+    }
+  }
+
 </script>
 
 
