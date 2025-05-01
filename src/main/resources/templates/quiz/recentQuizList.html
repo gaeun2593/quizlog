@@ -42,8 +42,6 @@
 
 
     <div class="chapter-item" th:each="quiz : ${quizForm}">
-      <span th:text="${quiz.word}">Title</span>
-      <span th:text="${quiz.answer}">Answer</span>
       <span class="btn-green-color" onclick="popup(this)">퀴즈 폴더생성해서 넣기</span>
       <form action="/folder-bookmarks/create-folder-bookmark2" method="POST" class="popup">
         <input type="text" name="title" pattern=".*\S.*" required>
