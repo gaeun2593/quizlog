@@ -22,27 +22,48 @@
 
             <div class="teacher-menu">
                 <ul>
-                    <li>챕터 목록</li>
-                    <li>레슨</li>
-                    <li name="inquiryList">문의 목록</li>
-                    <!--if문 남기기 (역할조회)-->
+                    <li><a th:href="@{/lesson/list/{teacherId}(teacherId=${teacher.userId})}">레슨</a></li>
                     <li><a th:href="@{/support/create/{teacherId}(teacherId=${teacher.userId})}">선생님에게 문의하기</a></li>
                 </ul>
             </div>
-            <div id="inquiryContainer" class="mt-4"></div>
         </div>
     </div>
 </div>
 <div th:replace="fragments/footer :: footer"></div>
 </body>
-<script th:inline="javascript">
-    document.getElementsByName("inquiryList")[0].addEventListener("click", async () => {
-        const teacherId = [[${teacher.userId}]];
-        const response = await fetch(`/support/embed/${teacherId}`);
-        const html = await response.text();
-        document.getElementById("inquiryContainer").innerHTML = html;
-    });
 
-
-</script>
 </html>
+
+
+<!--
+
+
+
+
+
+
+    <div class="teacher-layout">
+        <div class="teacher-layout-container">
+
+            <div class="teacher-header">
+                <h2 th:text="${teacher.nickname}">선생님 닉네임</h2>
+
+                <form th:action="@{/like/teacher}" method="post" class="like-form">
+                    <input type="hidden" name="teacherId" th:value="${teacher.userId}" />
+                    <button type="submit" class="like-button">
+                        <span th:text="${liked} ? '❤️' : '🤍'"></span>
+                    </button>
+                    <span th:text="${likeCount}"></span>
+                </form>
+            </div>
+
+            <div class="teacher-menu">
+                <ul>
+                    <li>챕터 목록</li>
+                    <li>레슨</li>
+                    <li name="inquiryList">문의 목록</li>
+                    <!--if문 남기기 (역할조회)-->
+<li><a th:href="@{/support/create/{teacherId}(teacherId=${teacher.userId})}">선생님에게 문의하기</a></li>
+</ul>
+</div>
+-->

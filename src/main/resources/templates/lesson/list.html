@@ -1,12 +1,70 @@
+
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/head :: commonHead">
-    <meta charset="UTF-8">
-    <title>레슨 목록</title>
-</head>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:href="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/head :: commonHead"></head>
 <body>
 <div th:replace="fragments/header :: header"></div>
+<div class="main-page-container">
+    <div th:replace="fragments/aside :: asideFragment" ></div>
+    <div class="teacher-layout">
+        <div class="teacher-layout-container">
 
+            <div class="teacher-header">
+                <h2 th:text="${teacher.nickname}">선생님 닉네임</h2>
+
+                <form th:action="@{/like/teacher}" method="post" class="like-form">
+                    <input type="hidden" name="teacherId" th:value="${teacher.userId}" />
+                    <button type="submit" class="like-button">
+                        <span th:text="${liked} ? '❤️' : '🤍'"></span>
+                    </button>
+                    <span th:text="${likeCount}"></span>
+                </form>
+            </div>
+
+            <div class="teacher-menu">
+                <ul>
+                    <li style="color: #17CFAA;"><a th:href="@{/lesson/list/{teacherId}(teacherId=${teacher.userId})}">레슨 목록</a></li>
+                    <li style="color: #17CFAA;" ><a th:href="@{/support/create/{teacherId}(teacherId=${teacher.userId})}">선생님에게 문의하기</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>제목</th>
+                <th>설명</th>
+                <th>등록일</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="lesson : ${lessons}">
+                <td th:text="${lesson.title}"></td>
+                <td th:text="${lesson.description}"></td>
+                <td th:text="${#temporals.format(lesson.createdAt, 'yyyy-MM-dd')}"></td>
+                <td>
+                    <a th:href="@{/lesson/{id}(id=${lesson.id})}" class="btn btn-sm btn-outline-primary">상세보기</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <a href="/lesson/create" class="btn btn-quiz rounded-pill">레슨 추가</a>
+    </div>
+
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+
+</html>
+
+
+
+<!--
+
+
+&ndash;&gt;
 <div class="main-page-container">
     <div th:replace="fragments/aside :: asideFragment"></div>
     <div class="main-layout">
@@ -42,3 +100,4 @@
 <div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>
+-->

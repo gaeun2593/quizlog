@@ -15,17 +15,17 @@
         <p><strong>등록일:</strong> <span th:text="${#temporals.format(lesson.createdAt, 'yyyy-MM-dd')}"></span></p>
 
         <div class="mt-4" th:if="${lesson.user.userId==userId}">
-            <a th:href="@{/lesson/edit/{id}(id=${lesson.id})}" class="btn btn-warning">✏️ 수정하기</a>
+            <a th:href="@{/lesson/edit/{id}(id=${lesson.id})}" class="btn btn-quiz rounded-pill">수정하기</a>
 
             <form th:action="@{/lesson/delete/{id}(id=${lesson.id})}" method="post" class="d-inline"
                   onsubmit="return confirm('정말 삭제하시겠습니까?')">
-                <button type="submit" class="btn btn-outline-danger">🗑️ 삭제</button>
+                <button type="submit" class="btn btn-outline-danger">삭제</button>
             </form>
         </div>
-        <a href="/lesson/list" class="btn btn-secondary">목록으로</a>
+        <a th:href="@{/lesson/list/{id}(id=${lesson.user.userId})}" class="btn btn-quiz rounded-pill">목록으로</a>
         <hr class="my-4" />
 
-        <h4>📑 포함된 챕터 목록</h4>
+        <h4>포함된 챕터 목록</h4>
         <table class="table table-bordered">
             <thead>
             <tr>
@@ -39,7 +39,7 @@
                 <td>
                     <form th:action="@{'/lesson/' + ${lesson.id} + '/removeChapter/' + ${chapter.id}}" method="post" class="d-inline"
                           onsubmit="return confirm('정말 이 챕터를 제거하시겠습니까?')">
-                        <button type="submit" class="btn btn-sm btn-outline-danger">➖ 제거</button>
+                        <button type="submit" class="btn btn-sm btn-outline-danger">제거</button>
                     </form>
                 </td>
             </tr>
@@ -58,7 +58,6 @@
                 </div>
                 <button class="add-button" th:onclick="'addSet(' + ${chapter.id} + ')'">+</button>
             </div>
-
             <div class="modal-footer">
                 <button onclick="closeModal()">완료</button>
             </div>
