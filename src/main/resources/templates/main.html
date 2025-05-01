@@ -1,106 +1,147 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/head :: commonHead"></head>
+<head th:replace="fragments/head :: commonHead">
+</head>
 <body>
 <div th:replace="fragments/header :: header"></div>
-<div class="main-page-container">
-    <div th:replace="fragments/aside :: asideFragment" ></div>
-    <div class="main-layout">
-        <div class="main-content">
 
-            <h3><a th:href="@{'/main/recentChapters'}">최신 퀴즈 풀기</a></h3>
-            <div></div>
+<div class="main-page-container d-flex">
+    <!-- 사이드바 -->
+    <div th:replace="fragments/aside :: asideFragment"></div>
+
+    <!-- 메인 콘텐츠 영역 -->
+    <div class="main-layout container-fluid">
+        <!-- 최신 퀴즈 풀기 섹션 -->
+        <div class="section-header d-flex justify-content-between align-items-center my-4">
+            <h3 class="fw-bold section-title">최신 퀴즈 풀기</h3>
         </div>
-        <div class="main-content">
-            <h3>인기 낱말 카드세트</h3>
-            <div></div>
+
+        <div class="row row-cols-1 row-cols-md-3 g-4 mb-5">
+            <div class="col" th:each="quiz : ${latestQuizzes}">
+                <div class="card h-100 shadow quiz-card">
+                    <div class="card-body d-flex flex-column">
+                        <div class="card-tag">최신</div>
+                        <h5 class="card-title mt-2" th:text="${quiz.title}">퀴즈 제목</h5>
+                        <p class="card-text text-muted author-text" th:text="'by ' + ${quiz.nickname}">by 선생님</p>
+                        <div class="mt-auto">
+                            <a th:href="@{/main/chapters/{chapterId}/{title}(chapterId=${quiz.id}, title=${quiz.title})}"
+                               class="btn btn-quiz rounded-pill">
+                                퀴즈 풀러가기
+                                <i class="arrow-icon">→</i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="main-content">
-            <h3>~~님의 챕터목록</h3>
-            <div></div>
+
+        <!-- 챕터 목록 -->
+        <div class="main-content mb-5">
+            <div class="section-header mb-3">
+                <h3 class="fw-bold section-title" th:text="${nickname} + '님의 챕터 목록'">사용자님의 챕터 목록</h3>
+            </div>
+            <div class="row row-cols-1 row-cols-md-2 g-4 mt-2">
+                <div class="col" th:each="chapter : ${chapterList}">
+                    <div class="card chapter-card shadow h-100">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title mb-3" th:text="${chapter.title}">챕터명</h5>
+                            <div class="mt-auto text-end">
+                                <a th:href="@{/main/chapters/{chapterId}/{title}(chapterId=${chapter.id}, title=${chapter.title})}" class="btn btn-chapter rounded-pill">
+                                    퀴즈 보러가기
+                                    <i class="arrow-icon">→</i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="main-content">
-            <h3>인기 선생님</h3>
-            <div class="teacher-ranking-container">
-                <div class="teacher-ranking-slider">
-                    <div class="teachers-wrapper" id="teachersWrapper">
-                        <div class="teacher-card" th:each="teacher : ${topTeachers}">
-                            <a th:href="@{'/like/teacher-detail/' + ${teacher.userId}}" class="teacher-card-link">
-                                <div class="teacher-info">
-                                    <h4 th:text="${teacher.nickname}">선생님 이름</h4>
-                                    <div class="teacher-likes">
-                                        <span class="heart-icon">❤️</span>
-                                        <span th:text="${teacher.likeCount}">0</span>
+
+        <!-- 인기 선생님 섹션 -->
+        <div class="main-content mb-5">
+            <div class="section-header mb-3">
+                <h3 class="fw-bold section-title">인기 선생님</h3>
+            </div>
+            <div class="teacher-ranking-container position-relative">
+                <div class="teacher-ranking-slider overflow-hidden">
+                    <div class="teachers-wrapper d-flex transition" id="teachersWrapper">
+                        <div class="teacher-card me-3" th:each="teacher : ${topTeachers}">
+                            <a th:href="@{'/like/teacher-detail/' + ${teacher.userId}}" class="teacher-card-link text-decoration-none">
+                                <div class="teacher-info p-3 border rounded shadow bg-white">
+                                    <div class="teacher-header d-flex align-items-center mb-2">
+                                        <div class="teacher-avatar">
+                                            <span class="avatar-placeholder">T</span>
+                                        </div>
+                                        <h4 class="fw-bold ms-2 mb-0" th:text="${teacher.nickname}">선생님 이름</h4>
+                                    </div>
+                                    <div class="teacher-likes d-flex align-items-center justify-content-end">
+                                        <span class="heart-icon me-1">❤️</span>
+                                        <span class="like-count" th:text="${teacher.likeCount}">0</span>
                                     </div>
                                 </div>
                             </a>
                         </div>
                     </div>
                 </div>
-                <button class="slide-btn prev-btn" id="prevBtn">&#10094;</button>
-                <button class="slide-btn next-btn" id="nextBtn">&#10095;</button>
+                <button class="slide-btn prev-btn position-absolute top-50 start-0 translate-middle-y" id="prevBtn">&#10094;</button>
+                <button class="slide-btn next-btn position-absolute top-50 end-0 translate-middle-y" id="nextBtn">&#10095;</button>
             </div>
         </div>
     </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const teachersWrapper = document.getElementById('teachersWrapper');
-            const prevBtn = document.getElementById('prevBtn');
-            const nextBtn = document.getElementById('nextBtn');
-
-            let position = 0;
-            const cardWidth = 215; // 카드 너비 + 마진
-            const visibleCards = Math.floor(teachersWrapper.parentElement.offsetWidth / cardWidth);
-            const maxPosition = teachersWrapper.children.length - visibleCards;
-
-            // 초기 상태 확인 (뒤로 가기 버튼 비활성화)
-            updateButtonStates();
-
-            // 다음 버튼 클릭 이벤트
-            nextBtn.addEventListener('click', function() {
-                if (position < maxPosition) {
-                    position++;
-                    updateSliderPosition();
-                }
-            });
-
-            // 이전 버튼 클릭 이벤트
-            prevBtn.addEventListener('click', function() {
-                if (position > 0) {
-                    position--;
-                    updateSliderPosition();
-                }
-            });
-
-            // 슬라이더 위치 업데이트
-            function updateSliderPosition() {
-                teachersWrapper.style.transform = `translateX(-${position * cardWidth}px)`;
-                updateButtonStates();
-            }
-
-            // 버튼 상태 업데이트
-            function updateButtonStates() {
-                prevBtn.style.opacity = position <= 0 ? '0.5' : '1';
-                prevBtn.style.cursor = position <= 0 ? 'default' : 'pointer';
-
-                nextBtn.style.opacity = position >= maxPosition ? '0.5' : '1';
-                nextBtn.style.cursor = position >= maxPosition ? 'default' : 'pointer';
-            }
-
-            // 화면 크기 변경 시 재계산
-            window.addEventListener('resize', function() {
-                const newVisibleCards = Math.floor(teachersWrapper.parentElement.offsetWidth / cardWidth);
-                const newMaxPosition = teachersWrapper.children.length - newVisibleCards;
-
-                // 위치 조정
-                if (position > newMaxPosition) {
-                    position = Math.max(0, newMaxPosition);
-                    updateSliderPosition();
-                }
-            });
-        });
-    </script>
 </div>
+
 <div th:replace="fragments/footer :: footer"></div>
+
+<!-- 슬라이드 스크립트 -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const teachersWrapper = document.getElementById('teachersWrapper');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        let position = 0;
+        const cardWidth = 240; // 카드 너비 + 마진 (업데이트됨)
+        const visibleCards = Math.floor(teachersWrapper.parentElement.offsetWidth / cardWidth);
+        const maxPosition = teachersWrapper.children.length - visibleCards;
+
+        updateButtonStates();
+
+        nextBtn.addEventListener('click', function() {
+            if (position < maxPosition) {
+                position++;
+                updateSliderPosition();
+            }
+        });
+
+        prevBtn.addEventListener('click', function() {
+            if (position > 0) {
+                position--;
+                updateSliderPosition();
+            }
+        });
+
+        function updateSliderPosition() {
+            teachersWrapper.style.transform = `translateX(-${position * cardWidth}px)`;
+            updateButtonStates();
+        }
+
+        function updateButtonStates() {
+            prevBtn.style.opacity = position <= 0 ? '0.5' : '1';
+            prevBtn.style.cursor = position <= 0 ? 'default' : 'pointer';
+
+            nextBtn.style.opacity = position >= maxPosition ? '0.5' : '1';
+            nextBtn.style.cursor = position >= maxPosition ? 'default' : 'pointer';
+        }
+
+        window.addEventListener('resize', function() {
+            const newVisibleCards = Math.floor(teachersWrapper.parentElement.offsetWidth / cardWidth);
+            const newMaxPosition = teachersWrapper.children.length - newVisibleCards;
+            if (position > newMaxPosition) {
+                position = Math.max(0, newMaxPosition);
+                updateSliderPosition();
+            }
+        });
+    });
+</script>
 </body>
 </html>

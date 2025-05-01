@@ -8,6 +8,7 @@
   border-radius: 30px;
   transition: .3s;
 }
+
 .btn-primary:hover{
   background-color: #12a88a;
   transition: .3s;
