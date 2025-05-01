@@ -36,8 +36,9 @@ public class LessonController {
 
     /** 🔍 단일 레슨 */
     @GetMapping("/{lessonId}")
-    public String detail(@PathVariable Long lessonId, Model model) {
+    public String detail(@AuthenticationPrincipal AuthDetails userDetails ,@PathVariable Long lessonId, Model model) {
         Lesson lesson = lessonService.findLessonById(lessonId);
+        model.addAttribute("userId",userDetails.getLogInDTO().getUserId());
         model.addAttribute("lesson", lesson);
         return "lesson/detail";
     }
@@ -96,4 +97,6 @@ public class LessonController {
         lessonService.deleteChapterToLesson(lessonId, chapterId);
         return "redirect:/lesson/" + lessonId;
     }
+
+
 }

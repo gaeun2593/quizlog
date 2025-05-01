@@ -9,22 +9,20 @@
 
 <div class="main-page-container">
     <div th:replace="fragments/aside :: asideFragment"></div>
-    <div class="main-layout container py-4">
+    <div class="main-layout">
         <h2 th:text="${lesson.title}">레슨 제목</h2>
-        <p class="lead" th:text="${lesson.description}">레슨 설명</p>
-        <p><strong>상태:</strong> <span th:text="${lesson.status}"></span></p>
+        <p><span th:text="${lesson.description}"></span></p>
         <p><strong>등록일:</strong> <span th:text="${#temporals.format(lesson.createdAt, 'yyyy-MM-dd')}"></span></p>
 
-        <div class="mt-4">
+        <div class="mt-4" th:if="${lesson.user.userId==userId}">
             <a th:href="@{/lesson/edit/{id}(id=${lesson.id})}" class="btn btn-warning">✏️ 수정하기</a>
 
             <form th:action="@{/lesson/delete/{id}(id=${lesson.id})}" method="post" class="d-inline"
                   onsubmit="return confirm('정말 삭제하시겠습니까?')">
                 <button type="submit" class="btn btn-outline-danger">🗑️ 삭제</button>
             </form>
-            <a href="/lesson/list" class="btn btn-secondary">목록으로</a>
         </div>
-
+        <a href="/lesson/list" class="btn btn-secondary">목록으로</a>
         <hr class="my-4" />
 
         <h4>📑 포함된 챕터 목록</h4>

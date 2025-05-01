@@ -86,13 +86,12 @@ public class LessonService {
 
     /** 🔍 전체 레슨 목록 조회 */
     public List<Lesson> findAllLessons() {
-        return lessonRepository.findAll();
+        return lessonRepository.findAllLessons();
     }
 
     /** 🔍 단일 레슨 조회 */
     public Lesson findLessonById(Long lessonId) {
-        return lessonRepository.findById(lessonId)
-                .orElseThrow(() -> new IllegalArgumentException("레슨을 찾을 수 없습니다: " + lessonId));
+        return lessonRepository.findLessonById(lessonId);
     }
 
     /** ✏️ 레슨 수정 */

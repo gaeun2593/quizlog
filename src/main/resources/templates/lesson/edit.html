@@ -9,7 +9,7 @@
 
 <div class="main-page-container">
     <div th:replace="fragments/aside :: asideFragment"></div>
-    <div class="main-layout container py-4">
+    <div class="main-layout">
         <h2>✏️ 레슨 수정</h2>
 
         <form th:action="@{/lesson/edit/{id}(id=${lesson.id})}" method="post" th:object="${lesson}">
