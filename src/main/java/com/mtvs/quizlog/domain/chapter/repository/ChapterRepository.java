@@ -1,7 +1,8 @@
 package com.mtvs.quizlog.domain.chapter.repository;
 
-import com.mtvs.quizlog.domain.chapter.dto.request.UserChapter;
-import com.mtvs.quizlog.domain.chapter.dto.request.ChapterDto;
+
+import com.mtvs.quizlog.domain.chapter.controller.dto.request.ChapterDto;
+import com.mtvs.quizlog.domain.chapter.controller.dto.request.UserChapter;
 import com.mtvs.quizlog.domain.chapter.entity.Chapter;
 import com.mtvs.quizlog.domain.folder.folderchapter.entity.FolderChapter;
 import com.mtvs.quizlog.domain.user.entity.User;
@@ -36,7 +37,7 @@ public class ChapterRepository {
 
 
     public List<ChapterDto> findByUserUd(User user) {
-        TypedQuery<ChapterDto> query = em.createQuery("select new com.mtvs.quizlog.domain.chapter.dto.request.ChapterDto(c.id , c.title) from Chapter c where c.user = :userId", ChapterDto.class);
+        TypedQuery<ChapterDto> query = em.createQuery("select new com.mtvs.quizlog.domain.chapter.controller.dto.request.ChapterDto(c.id , c.title) from Chapter c where c.user = :userId", ChapterDto.class);
         query.setParameter("userId", user);
         List<ChapterDto> chapterDto = query.getResultList();
         return chapterDto ;
@@ -52,13 +53,13 @@ public class ChapterRepository {
     }
 
     public List<UserChapter> findAll() {
-        TypedQuery<UserChapter> query = em.createQuery("select new com.mtvs.quizlog.domain.chapter.dto.request.UserChapter(c.id , c.title , u.nickname) from Chapter c join c.user u order by c.createdAt DESC", UserChapter.class);
+        TypedQuery<UserChapter> query = em.createQuery("select new com.mtvs.quizlog.domain.chapter.controller.dto.request.UserChapter(c.id , c.title , u.nickname) from Chapter c join c.user u order by c.createdAt DESC", UserChapter.class);
         return query.getResultList();
     }
 
     public List<ChapterDto> findTitle(String search) {
         TypedQuery<ChapterDto> query = em.createQuery(
-                "select new com.mtvs.quizlog.domain.chapter.dto.request.ChapterDto(c.id, c.title, u.nickname) " +
+                "select new com.mtvs.quizlog.domain.chapter.controller.dto.request.ChapterDto(c.id, c.title, u.nickname) " +
                         "from Chapter c " +
                         "join c.user u " +
                         "where c.title like :search",
@@ -93,7 +94,7 @@ public class ChapterRepository {
     }
 
     // 챕터폴더를 만든 유저의 폴더의 챕터를 가져옴
-    public List<Chapter> findChaptersByUserIdAndFolderChapterId(Long userId, int folderChapterId) {
+    public List<Chapter> findChaptersByUserIdAndFolderChapterId(Long userId, long folderChapterId) {
         TypedQuery<Chapter> query = em.createQuery(
                 "select c from Chapter c " +
                         "join fetch c.folderChapter fc " +

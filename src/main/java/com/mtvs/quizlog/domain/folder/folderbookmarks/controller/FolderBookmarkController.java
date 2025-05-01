@@ -2,7 +2,7 @@ package com.mtvs.quizlog.domain.folder.folderbookmarks.controller;
 
 
 import com.mtvs.quizlog.domain.auth.model.AuthDetails;
-import com.mtvs.quizlog.domain.chapter.dto.request.ChapterDto;
+import com.mtvs.quizlog.domain.chapter.controller.dto.request.ChapterDto;
 import com.mtvs.quizlog.domain.folder.folderbookmarks.dto.FolderBookmarkDTO;
 import com.mtvs.quizlog.domain.folder.folderbookmarks.service.FolderBookmarkService;
 import com.mtvs.quizlog.domain.folder.folderchapter.controller.FolderChapterController;

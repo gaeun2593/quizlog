@@ -1,8 +1,10 @@
 package com.mtvs.quizlog.domain.chapter.service;
 
 
-import com.mtvs.quizlog.domain.chapter.dto.request.UserChapter;
-import com.mtvs.quizlog.domain.chapter.dto.request.*;
+import com.mtvs.quizlog.domain.chapter.controller.dto.request.ChapterDto;
+import com.mtvs.quizlog.domain.chapter.controller.dto.request.RequestCreateChapterDTO;
+import com.mtvs.quizlog.domain.chapter.controller.dto.request.UserChapter;
+import com.mtvs.quizlog.domain.chapter.controller.dto.request.*;
 import com.mtvs.quizlog.domain.chapter.repository.ChapterRepository;
 import com.mtvs.quizlog.domain.chapter.entity.Chapter;
 import com.mtvs.quizlog.domain.folder.folderchapter.dto.FolderChapterDTO;
@@ -71,7 +73,7 @@ public class ChapterService{
     }
 
     // 폴더챕터에 속한 챕터 조회
-    public List<ChapterDto> findChapterByFolderChapterId(Long userId, int folderChapterId) {
+    public List<ChapterDto> findChapterByFolderChapterId(Long userId, long folderChapterId) {
         List<Chapter> Chapters = chapterRepository.findChaptersByUserIdAndFolderChapterId(userId,folderChapterId);
 
         // 가져온 챕터들을 챕터 DTO로 바꿈, 리스트로!
