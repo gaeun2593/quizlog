@@ -1,5 +1,8 @@
 package com.mtvs.quizlog.domain.lesson.controller;
 
+import com.mtvs.quizlog.domain.chapter.controller.dto.request.ChapterDto;
+import com.mtvs.quizlog.domain.chapter.controller.dto.request.UserChapter;
+import com.mtvs.quizlog.domain.chapter.service.ChapterService;
 import com.mtvs.quizlog.domain.lesson.dto.LessonDTO;
 import com.mtvs.quizlog.domain.lesson.entity.Lesson;
 import com.mtvs.quizlog.domain.lesson.service.LessonService;
@@ -25,6 +28,7 @@ public class LessonController {
 
     private final LessonService lessonService;
     private final UserService userService;
+    private final ChapterService chapterService;
 
     /** 🔍 레슨 목록 */
     @GetMapping("/list")
@@ -38,8 +42,15 @@ public class LessonController {
     @GetMapping("/{lessonId}")
     public String detail(@AuthenticationPrincipal AuthDetails userDetails ,@PathVariable Long lessonId, Model model) {
         Lesson lesson = lessonService.findLessonById(lessonId);
+        User user = userService.findUser(userDetails.getLogInDTO().getUserId());
         model.addAttribute("userId",userDetails.getLogInDTO().getUserId());
         model.addAttribute("lesson", lesson);
+        List<ChapterDto> chapterLists =chapterService.findChapter(user);
+        for (ChapterDto chapterDto : chapterLists) {
+            log.info("chapterLists: {}", chapterDto);
+        }
+
+        model.addAttribute("chapterLists", chapterLists);
         return "lesson/detail";
     }
 

@@ -45,6 +45,31 @@
             </tr>
             </tbody>
         </table>
+        <button class="open-modal-btn" onclick="openModal()">챕터 추가하기</button>
+            <div id="modal" class="modal-overlay" style="display: none;">
+            <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">✖</button>
+            <div class="title-section">챕터 추가하기</div>
+
+            <div th:each="chapter : ${chapterLists}" class="card-item">
+                <div>
+                    <div th:text="${chapter.title}">세트 제목</div>
+                    <div th:if="${chapter.nickname != null}" th:text="${chapter.nickname}">작성자</div>
+                </div>
+                <button class="add-button" th:onclick="'addSet(' + ${chapter.id} + ')'">+</button>
+            </div>
+
+            <div class="modal-footer">
+                <button onclick="closeModal()">완료</button>
+            </div>
+            </div>
+            </div>
+
+
+
+
+<!--
+
         <h5 class="mt-4">➕ 챕터 추가</h5>
         <form th:action="@{'/lesson/' + ${lesson.id} + '/addChapter/' + ${chapterIdToAdd}}" method="post">
             <div class="input-group">
@@ -52,6 +77,7 @@
                 <button type="submit" class="btn btn-primary">추가</button>
             </div>
         </form>
+-->
 
     </div>
 </div>
@@ -59,3 +85,36 @@
 <div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>
+
+<!-- 자바스크립트 -->
+<script th:inline="javascript">
+    let lessonId = [[${lessonId}]];
+
+    function openModal() {
+        document.getElementById("modal").style.display = "flex";
+    }
+
+    function closeModal() {
+        document.getElementById("modal").style.display = "none";
+    }
+
+    function addSet(setId) {
+        fetch(`http://localhost:8080/lesson/${lessonId}/addChapter/${setId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                lessonId: lessonId,
+                chapterId: setId
+            })
+        }).then(() => {
+            alert('학습 자료가 추가되었습니다.');
+        }).catch(() => {
+            alert('추가 중 오류가 발생했습니다.');
+        });
+    }
+</script>
+
+
+
