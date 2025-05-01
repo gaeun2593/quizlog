@@ -63,6 +63,10 @@ public class Chapter {
     @OneToMany(mappedBy = "chapter")
     private List<UserCheckedQuiz> userCheckedQuizs = new ArrayList<>();
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="lesson_id")
+    private Lesson lesson;
+
     //    User
     @ManyToOne(fetch = FetchType.LAZY , cascade = CascadeType.ALL)
     @JoinColumn(name="user_id")
@@ -72,9 +76,6 @@ public class Chapter {
     @ManyToOne
     @JoinColumn(name = "folder_chapter_id", nullable = true)
     private FolderChapter folderChapter;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Lesson lesson;
 
 
     public static Chapter createChapter(User user , String title, String description, LocalDateTime createdAt, LocalDateTime updatedAt) {
