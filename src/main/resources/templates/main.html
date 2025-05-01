@@ -12,7 +12,7 @@
     <div class="main-layout container-fluid">
 
         <!-- 최신 퀴즈 풀기 섹션 -->
-        <div class="container-fluid mb-5">
+        <div class="container-fluid">
             <div class="section-header d-flex justify-content-between align-items-center my-4">
                 <a href="/main/chapterList" class="fw-bold section-title">
                     최신 퀴즈 풀기
@@ -38,12 +38,12 @@
         </div>
 
         <!-- 챕터 목록 (슬라이더 적용) -->
-        <div class="container-fluid mb-5">
+        <div class="container-fluid">
             <div class="section-header mb-3">
                 <h3 class="fw-bold section-title" th:text="${nickname} + '님의 챕터 목록'">사용자님의 챕터 목록</h3>
             </div>
             <div class="chapter-slider-container position-relative">
-                <div class="chapter-slider overflow-hidden">
+                <div class="chapter-slider">
                     <div class="chapters-wrapper d-flex transition" id="chaptersWrapper">
                         <div class="chapter-card me-3" th:each="chapter : ${chapterList}">
                             <div class="card h-100 shadow chapter-card-inner">
@@ -64,9 +64,9 @@
                 <button class="slide-btn next-btn position-absolute top-50 end-0 translate-middle-y" id="chapterNextBtn">&#10095;</button>
             </div>
         </div>
-
+        <br>
         <!-- 인기 선생님 섹션 -->
-        <div class="container-fluid mb-5">
+        <div class="container-fluid">
             <div class="section-header mb-3">
                 <h3 class="fw-bold section-title">인기 선생님</h3>
             </div>

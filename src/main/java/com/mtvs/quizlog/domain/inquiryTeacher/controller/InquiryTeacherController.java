@@ -62,7 +62,7 @@ public class InquiryTeacherController {
                 log.info("user.getRole() = " + user.getRole());
                 //        선생->자신한테 쓴 문의 조회.
                 inquiry = inquiryTeacherService.findAllByTeacher(userDetails.getLogInDTO().getUserId());
-                log.info("inquiry.title() = " + inquiry.get(0).getTitle());
+//                log.info("inquiry.title() = " + inquiry.get(0).getTitle());
                 model.addAttribute("inquiryList", inquiry);
                 break;
             case STUDENT:
