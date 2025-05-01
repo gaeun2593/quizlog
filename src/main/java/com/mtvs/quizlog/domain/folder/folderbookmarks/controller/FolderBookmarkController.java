@@ -2,11 +2,15 @@ package com.mtvs.quizlog.domain.folder.folderbookmarks.controller;
 
 
 import com.mtvs.quizlog.domain.auth.model.AuthDetails;
+import com.mtvs.quizlog.domain.chapter.controller.dto.request.ChapterDto;
 import com.mtvs.quizlog.domain.folder.folderbookmarks.dto.FolderBookmarkDTO;
 import com.mtvs.quizlog.domain.folder.folderbookmarks.service.FolderBookmarkService;
 import com.mtvs.quizlog.domain.folder.folderchapter.controller.FolderChapterController;
 import com.mtvs.quizlog.domain.folder.folderchapter.dto.FolderChapterDTO;
 import com.mtvs.quizlog.domain.folder.folderchapter.service.FolderChapterService;
+import com.mtvs.quizlog.domain.quiz.dto.QuizDTO;
+import com.mtvs.quizlog.domain.quiz.entity.Quiz;
+import com.mtvs.quizlog.domain.quiz.service.QuizService;
 import com.mtvs.quizlog.domain.user.entity.User;
 import com.mtvs.quizlog.domain.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,10 +32,13 @@ public class FolderBookmarkController {
     //FolderBookmarkService를 Controller에서 사용하기 위한 의존성 주입
     private final FolderBookmarkService folderBookmarkService;
 
+    private final QuizService quizService;
+
     @Autowired
-    public FolderBookmarkController(FolderBookmarkService folderBookmarkService, UserService userService) {
+    public FolderBookmarkController(FolderBookmarkService folderBookmarkService, UserService userService,QuizService quizService) {
         this.folderBookmarkService = folderBookmarkService;
         this.userService = userService;
+        this.quizService = quizService;
     }
 
     // 폴더생성
@@ -126,6 +133,23 @@ public class FolderBookmarkController {
 
         folderBookmarkService.deleteFolderBookmark(folderTitle, user);
         return "redirect:/folder-bookmarks/folder-bookmarks-view";
+    }
+
+    // 폴더 속 챕터 조회
+    @PostMapping("/folder-bookmark-detail")
+    public String folderChapterDetail(@AuthenticationPrincipal AuthDetails userDetails,@RequestParam("folderBookmarkId") int folderBookmarkId,Model model) {
+        // 로그인한 유저객체 가져와서
+        Long userId = userDetails.getLogInDTO().getUserId();
+
+        List<QuizDTO> quizzes = quizService.findQuizByFolderBookmarkId(userId, folderBookmarkId);
+        System.out.println("퀴즈가아아앖" + quizzes);
+
+
+        model.addAttribute("quizzes", quizzes);
+
+
+
+        return "folder/folder-bookmark-detail";
     }
 
 

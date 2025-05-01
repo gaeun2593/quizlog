@@ -4,8 +4,11 @@ package com.mtvs.quizlog.domain.chapter.service;
 import com.mtvs.quizlog.domain.chapter.controller.dto.request.ChapterDto;
 import com.mtvs.quizlog.domain.chapter.controller.dto.request.RequestCreateChapterDTO;
 import com.mtvs.quizlog.domain.chapter.controller.dto.request.UserChapter;
+import com.mtvs.quizlog.domain.chapter.controller.dto.request.*;
 import com.mtvs.quizlog.domain.chapter.repository.ChapterRepository;
 import com.mtvs.quizlog.domain.chapter.entity.Chapter;
+import com.mtvs.quizlog.domain.folder.folderchapter.dto.FolderChapterDTO;
+import com.mtvs.quizlog.domain.folder.folderchapter.entity.FolderChapter;
 import com.mtvs.quizlog.domain.user.entity.User;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -68,7 +72,17 @@ public class ChapterService{
         return chapterRepository.findChapterById(chapterId);
     }
 
-    public List<Chapter> findChapterByFolderChapterId(Long userId, long folderChapterId) {
-        return chapterRepository.findChapterByFolderChapterId(userId,folderChapterId);
+    // 폴더챕터에 속한 챕터 조회
+    public List<ChapterDto> findChapterByFolderChapterId(Long userId, long folderChapterId) {
+        List<Chapter> Chapters = chapterRepository.findChaptersByUserIdAndFolderChapterId(userId,folderChapterId);
+
+        // 가져온 챕터들을 챕터 DTO로 바꿈, 리스트로!
+        List<ChapterDto> chapterDTOList = new ArrayList<>();
+        for (Chapter chapter : Chapters) {
+            ChapterDto dto = new ChapterDto(chapter.getId(),chapter.getTitle(),chapter.getDescription());
+            chapterDTOList.add(dto);
+        }
+
+        return chapterDTOList;
     }
 }

@@ -28,7 +28,6 @@
                     <li th:each="name : ${folderBookmarks}">
                         <div>
                             <form id="bookmark-folder" th:action="@{/folder-bookmarks/folder-bookmark-detail}" method="post">
-                                <input type="hidden" name="folderChapterId" th:value="${name.id}"/>
                                 <input type="hidden" name="folderBookmarkId" th:value="${name.id}"/>
                             </form>
                             <button type="submit" form="bookmark-folder"><img th:src="@{/images/folder-icon-2.svg}" alt="folder-icon"><span
