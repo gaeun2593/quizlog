@@ -85,7 +85,6 @@ public class Chapter {
 
     }
 
-
     /*
     @ManyToOne()
     @JoinColumn(name="folder_quizset_id",referencedColumnName = "folder_quizset_id")

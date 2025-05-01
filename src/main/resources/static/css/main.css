@@ -1,47 +1,51 @@
-*{
+* {
     box-sizing: border-box;
 }
 
-html{
+html {
     height: 100%;
 }
 
-body{
+body {
     margin: 0;
     color: #333;
-    font-family: 'Noto Sans KR' , sans-serif;
+    font-family: 'Noto Sans KR', sans-serif;
     font-size: 15px;
     height: 100%;
     display: flex;
     flex-direction: column;
+    background-color: #f8f9fa;
 }
 
 a {
     text-decoration: none;
     color: #333;
 }
-li{
+
+li {
     list-style: none;
 }
 
-ul{
+ul {
     margin: 0;
     padding: 0;
 }
 
-h1,h2,h3,h4,h5,h6{
+h1, h2, h3, h4, h5, h6 {
     font-weight: 500;
     margin: 0;
 }
-button{
+
+button {
     border: none;
-    background:none;
+    background: none;
 }
 
-
+/* Main Layout Styles */
 .main-page-container {
     display: flex;
     flex: 1;
+    background-color: #f8f9fa;
 }
 
 .main-layout {
@@ -51,17 +55,36 @@ button{
     flex-direction: column;
     gap: 20px;
     height: 100%;
-
-
     margin: 0 auto;
 }
 
-.main-content {
-
+.section-header {
+    border-bottom: 2px solid #e9ecef;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
 }
 
+.section-title {
+    font-size: 1.5rem;
+    color: #212529;
+    position: relative;
+    padding-left: 12px;
+}
 
-.btn-primary{
+.section-title::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 20px;
+    background-color: #17CFAA;
+    border-radius: 2px;
+}
+
+/* Button Styles */
+.btn-primary {
     padding: 8px 25px;
     background-color: #17CFAA;
     color: #fff;
@@ -69,197 +92,108 @@ button{
     font-weight: bold;
     border-radius: 30px;
     transition: .3s;
-
+    border: none;
 }
-.btn-primary:hover{
+
+.btn-primary:hover {
     background-color: #12a88a;
     transition: .3s;
 }
 
-section.intro{
-    background-color: #17cfaa10;
-    padding: 70px 55px;
-    height: 745px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-section.intro h1{
-    font-size: 40px;
-    font-weight: 600;
-    margin-bottom: 18px;
-}
-section.intro h2{
-    font-size: 20px;
-    font-weight: normal;
-    margin-bottom: 22px;
-}
-section.intro span{
+.btn-quiz {
+    background-color: transparent;
     color: #17CFAA;
-}
-section.intro a{
-    margin-bottom: 40px;
-    font-size: 16px;
-    padding: 12px 25px;
-}
-
-section.intro .cards{
-    display: flex;
-    gap: 30px;
-}
-section.intro .cards .card{
-    background-color: #fff;
-    display: flex;
-    flex-direction: column;
-    border-radius: 25px;
-    padding-top: 40px;
+    border: 1px solid #17CFAA;
+    padding: 8px 16px;
+    font-weight: 500;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    display: inline-flex;
     align-items: center;
-    width: 310px;
-    height: 390px;
-    gap: 60px;
 }
 
-
-section.intro .cards .card:first-child:hover{
-    background-color: #07F2CB;
-    color: #fff;
-    transition: .2s;
-}
-section.intro .cards .card:nth-child(2):hover{
-    background-color: #e94a99;
-    color: #fff;
-    transition: .2s;
-}
-section.intro .cards .card:nth-child(3):hover{
-    background-color:#3889F2;
-    color: #fff;
-    transition: .2s;
-}
-section.intro .cards .card:nth-child(4):hover{
-    background-color:#8333ec;
-    color: #fff;
-    transition: .2s;
+.btn-quiz:hover {
+    background-color: #17CFAA;
+    color: white;
 }
 
-section.intro .cards .card h3{
-    font-weight: bold;
-    font-size: 24px;
-}
-
-
-section.about{
-    display: flex;
-    justify-content: center;
-    padding: 50px 0px;
-
-}
-section.about .about-container{
-    width: 1024px;
-    display: flex;
-    flex-direction: column;
-    gap: 50px;
-}
-section.about .about-container .about{
-    display: flex;
-    gap: 80px;
-    height: 300px;
-}
-section.about .about-container .about .content-text{
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    flex: 1;
-}
-section.about .about-container .about .content-text a{
-    font-size: 16px;
-    padding: 12px 25px;
-    width: 150px;
-    text-align: center;
-
-}
-section.about .about-container .about .content-text span{
-    font-size: 32px;
-    font-weight: bold;
-}
-section.about .about-container .about .content-text p{
-    font-size: 20px;
-}
-section.about .about-container .about .content-img{
-    display: flex;
-    justify-content: center;
+.btn-chapter {
+    background-color: transparent;
+    color: #6c5ce7;
+    border: 1px solid #6c5ce7;
+    padding: 8px 16px;
+    font-weight: 500;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    display: inline-flex;
     align-items: center;
-    flex: 1.1;
-    background: linear-gradient(to top,#17cfaa21 0%,#17CFAA 100%);
-    border-radius: 20px;
 }
 
-section.about .about-container .about:nth-child(2) .content-img{
-    background: linear-gradient(to top,#FFF4FC 0%,#F9B5E8 100%);
-    border-radius: 20px;
-}
-section.about .about-container .about:nth-child(3) .content-img{
-    background: linear-gradient(to top,#d782ff21 0%,#D882FF 100%);
-    border-radius: 20px;
-}
-section.about .about-container .about .content-img img{
-    height: 100%;
-}
-section.about .about-container .about:nth-child(3) .content-img img{
-    height: 90%;
-    padding-top: 10px;
-    padding-left: 20px;
+.btn-chapter:hover {
+    background-color: #6c5ce7;
+    color: white;
 }
 
-
-section.for-teachers{
-    height: 520px;
-    background-color: #eee;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-section.for-teachers .for-teachers-container{
-    width: 1024px;
-    padding: 55px 0px;
-}
-section.for-teachers .for-teachers-container .content{
-    display: flex;
-    gap: 80px;
-
-}
-section.for-teachers .for-teachers-container .content .content-text{
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    flex: 1;
-}
-section.for-teachers .for-teachers-container .content .content-text a{
-    font-size: 16px;
-    padding: 12px 25px;
-    width: 200px;
-    text-align: center;
-
-}
-section.for-teachers .for-teachers-container .content .content-text span{
-    font-size: 32px;
-    font-weight: bold;
-}
-section.for-teachers .for-teachers-container .content .content-text p{
-    font-size: 20px;
-}
-section.for-teachers .for-teachers-container .content .content-img{
-    flex: 1.1;
-}
-section.for-teachers .for-teachers-container .content .content-img img{
-    border-radius: 20px;
+.arrow-icon {
+    font-style: normal;
+    margin-left: 8px;
+    transition: transform 0.3s ease;
 }
 
+.btn-quiz:hover .arrow-icon,
+.btn-chapter:hover .arrow-icon {
+    transform: translateX(4px);
+}
+
+/* Card Styles */
+.quiz-card {
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    border: none;
+}
+
+.quiz-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+.card-tag {
+    display: inline-block;
+    background-color: #17CFAA;
+    color: white;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 8px;
+    border-radius: 4px;
+    margin-bottom: 4px;
+}
+
+.author-text {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.chapter-card {
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    border: none;
+    background: linear-gradient(135deg, #ffffff 0%, #f5f7fa 100%);
+}
+
+.chapter-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(108, 92, 231, 0.1) !important;
+    border-bottom: 3px solid #6c5ce7;
+}
+
+/* Teacher Cards */
 .teacher-ranking-container {
     position: relative;
     width: 100%;
     overflow: hidden;
     margin-top: 15px;
+    padding: 0 20px;
 }
 
 .teacher-ranking-slider {
@@ -274,130 +208,210 @@ section.for-teachers .for-teachers-container .content .content-img img{
     gap: 15px;
 }
 
-.teacher-card .teacher-card-link {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    width: 100%;
-    height: 100%;
-
-    text-decoration: none;
-    color: inherit;
-
-    padding: 15px;
-    box-sizing: border-box;
-}
-
 .teacher-card {
+    width: 240px;
     cursor: pointer;
+    transition: transform 0.3s ease;
 }
 
 .teacher-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
-
-.teacher-card .teacher-card-link h4 {
-    margin-top: 0;
-}
-
-.teacher-profile {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    overflow: hidden;
-    margin-bottom: 10px;
-}
-
-.teacher-profile img {
+.teacher-card .teacher-card-link {
+    display: block;
     width: 100%;
     height: 100%;
-    object-fit: cover;
-}
-
-.default-profile {
-    width: 100%;
-    height: 100%;
-    background-color: #f5f5f5;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: bold;
-    color: #666;
-    font-size: 24px;
+    text-decoration: none;
+    color: inherit;
 }
 
 .teacher-info {
-    text-align: center;
-    width: 100%;
+    border-radius: 12px !important;
+    transition: all 0.3s ease;
 }
 
-.teacher-info h4 {
-    margin: 5px 0;
-    color: #333;
+.teacher-card:hover .teacher-info {
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1) !important;
+}
+
+.teacher-header {
+    margin-bottom: 10px;
+}
+
+.teacher-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: #6c5ce7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+}
+
+.avatar-placeholder {
     font-size: 16px;
 }
 
-.teacher-subjects {
-    color: #666;
-    font-size: 14px;
-    margin: 5px 0;
+.teacher-info h4 {
+    font-size: 16px;
+    color: #333;
+    margin: 0;
 }
 
 .teacher-likes {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 10px;
+    font-size: 14px;
+    margin-top: 5px;
 }
 
 .heart-icon {
     color: #ff5757;
-    margin-right: 5px;
+    font-size: 18px;
 }
 
+.like-count {
+    font-weight: 500;
+}
+
+/* Slider buttons */
 .slide-btn {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background-color: rgba(255, 255, 255, 0.7);
-    border: 1px solid #ddd;
+    background-color: white;
+    border: 1px solid #eee;
     border-radius: 50%;
-    width: 30px;
-    height: 30px;
+    width: 36px;
+    height: 36px;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
     font-size: 18px;
     z-index: 10;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
 }
 
 .prev-btn {
-    left: 0px;
+    left: 5px;
 }
 
 .next-btn {
-    right: 0px;
+    right: 5px;
 }
 
 .slide-btn:hover {
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: #17CFAA;
+    color: white;
+    border-color: #17CFAA;
 }
 
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .main-layout {
+        padding: 15px;
+    }
+    
+    .teacher-card {
+        width: 200px;
+    }
+}
 
-footer{
+/* Footer */
+footer {
     display: flex;
     align-items: center;
     justify-content: center;
     height: 60px;
     flex-shrink: 0;
+    background-color: #fff;
+    border-top: 1px solid #eee;
 }
-footer .container{
-    width: 1024px;
+
+footer .container {
+    width: 100%;
+    max-width: 1024px;
     display: flex;
     gap: 20px;
+}
+
+/* Other sections from original CSS that might be needed */
+section.intro {
+    background-color: #17cfaa10;
+    padding: 70px 55px;
+    height: 745px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+section.intro h1 {
+    font-size: 40px;
+    font-weight: 600;
+    margin-bottom: 18px;
+}
+
+section.intro h2 {
+    font-size: 20px;
+    font-weight: normal;
+    margin-bottom: 22px;
+}
+
+section.intro span {
+    color: #17CFAA;
+}
+
+section.intro a {
+    margin-bottom: 40px;
+    font-size: 16px;
+    padding: 12px 25px;
+}
+
+section.intro .cards {
+    display: flex;
+    gap: 30px;
+}
+
+section.intro .cards .card {
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    border-radius: 25px;
+    padding-top: 40px;
+    align-items: center;
+    width: 310px;
+    height: 390px;
+    gap: 60px;
+}
+
+section.intro .cards .card:first-child:hover {
+    background-color: #07F2CB;
+    color: #fff;
+    transition: .2s;
+}
+
+section.intro .cards .card:nth-child(2):hover {
+    background-color: #e94a99;
+    color: #fff;
+    transition: .2s;
+}
+
+section.intro .cards .card:nth-child(3):hover {
+    background-color: #3889F2;
+    color: #fff;
+    transition: .2s;
+}
+
+section.intro .cards .card:nth-child(4):hover {
+    background-color: #8333ec;
+    color: #fff;
+    transition: .2s;
+}
+
+section.intro .cards .card h3 {
+    font-weight: bold;
+    font-size: 24px;
 }

@@ -1,7 +1,6 @@
 package com.mtvs.quizlog.domain.chapter.controller.dto.request;
 
 import lombok.Data;
-import lombok.Getter;
 
 
 @Data

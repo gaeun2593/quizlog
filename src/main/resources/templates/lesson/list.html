@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: commonHead">
+    <meta charset="UTF-8">
+    <title>레슨 목록</title>
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+<div class="main-page-container">
+    <div th:replace="fragments/aside :: asideFragment"></div>
+    <div class="main-layout">
+        <h2>📚 레슨 목록</h2>
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>제목</th>
+                <th>설명</th>
+                <th>등록일</th>
+                <th>작성자</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="lesson : ${lessons}">
+                <td th:text="${lesson.title}"></td>
+                <td th:text="${lesson.description}"></td>
+                <td th:text="${#temporals.format(lesson.createdAt, 'yyyy-MM-dd')}"></td>
+                <td th:text="${lesson.user.nickname}"></td>
+                <td>
+                    <a th:href="@{/lesson/{id}(id=${lesson.id})}" class="btn btn-sm btn-outline-primary">상세보기</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <a href="/lesson/create" class="btn btn-success mt-3">➕ 레슨 추가</a>
+    </div>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

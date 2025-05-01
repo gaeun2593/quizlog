@@ -48,46 +48,66 @@
     padding: 16px 0;
 }
 
-/* 닉네임, 이메일, 역할 보기 영역 - 텍스트 + 수정버튼 정렬 */
 #nickname-view,
 #email-view,
 #role-view,
 #password-view {
     display: flex;
-    justify-content: space-between;  /* 텍스트 좌측, 버튼 우측 정렬 */
+    justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
 }
 
-/* 수정 폼 */
-#nickname-form,
-#email-form {
+/* 버튼 스타일 */
+.btn-hover-text-green {
+    background-color: #17CFAA;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 999px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-hover-text-green:hover {
+    background-color: #14b89f;
+}
+
+/* 역할/비밀번호 변경 버튼 우측 정렬 */
+#role-view .role-form,
+#password-view {
     display: flex;
-    gap: 8px;
-    align-items: center;
-    margin-top: 8px;
-}
-
-.page-menu form {
-    display: flex;
-    gap: 8px;
+    justify-content: space-between;
     align-items: center;
 }
 
-/* 입력 필드 우측 여백 */
-#nickname-form input,
-#email-form input {
-    margin-right: 8px;
+#role-view .role-form button,
+#password-view button {
+    background-color: #17CFAA;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 999px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
+#role-view .role-form button:hover,
+#password-view button:hover {
+    background-color: #14b89f;
+}
+
+/* 탈퇴 관련 */
 .withdrawal-wrapper {
     display: flex;
-    justify-content: space-between; /* 병렬 배치 및 양쪽 정렬 */
+    justify-content: space-between;
 }
 
 .withdrawal-form {
     display: flex;
-    justify-content: flex-end; /* 버튼을 오른쪽 정렬 */
+    justify-content: flex-end;
 }
 
 .withdraw-button {
@@ -109,4 +129,34 @@
     font-size: 13px;
     color: #888;
     text-align: left;
+}
+
+/* 권한 선택 박스 */
+.form-group2 select {
+    width: 15%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f8f8f8;
+    font-size: 16px;
+    color: #333;
+    transition: all 0.3s ease;
+}
+
+.form-group2 select:hover {
+    border-color: #17CFAA;
+    background-color: #f1f1f1;
+}
+
+.form-group2 select:focus {
+    border-color: #17CFAA;
+    outline: none;
+    box-shadow: 0 0 5px #129c80;
+}
+
+.form-group2 select option {
+    padding: 10px;
+    font-size: 16px;
+    background-color: #fff;
 }

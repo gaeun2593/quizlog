@@ -12,4 +12,15 @@ public class ChapterDto {
 
 
     // getters/setters
+
+
+    public ChapterDto(Long id, String title) {
+        this.id = id;
+        this.title = title;
+    }
+
+    @Override
+    public String toString() {
+        return title;
+    }
 }
