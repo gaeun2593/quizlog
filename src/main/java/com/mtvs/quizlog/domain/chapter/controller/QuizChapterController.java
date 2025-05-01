@@ -164,7 +164,7 @@ public class QuizChapterController {
                     newQuizSet = Arrays.asList(quizSet.subList(i+1, quizSet.size()).toArray(new QuizForm[0]));
                     break;
                 }
-            }
+            } //
             log.info("newQuizSet = {}", newQuizSet);
             model.addAttribute("checkdQuizs" , checkdQuizs) ;
             model.addAttribute("quizSet" ,newQuizSet) ;
