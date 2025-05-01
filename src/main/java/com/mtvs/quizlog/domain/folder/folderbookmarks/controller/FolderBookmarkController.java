@@ -2,9 +2,12 @@ package com.mtvs.quizlog.domain.folder.folderbookmarks.controller;
 
 
 import com.mtvs.quizlog.domain.auth.model.AuthDetails;
+import com.mtvs.quizlog.domain.chapter.entity.Chapter;
+import com.mtvs.quizlog.domain.chapter.service.ChapterService;
 import com.mtvs.quizlog.domain.folder.folderbookmarks.dto.FolderBookmarkDTO;
 import com.mtvs.quizlog.domain.folder.folderbookmarks.service.FolderBookmarkService;
 import com.mtvs.quizlog.domain.quiz.dto.QuizDTO;
+import com.mtvs.quizlog.domain.quiz.entity.Quiz;
 import com.mtvs.quizlog.domain.quiz.service.QuizService;
 import com.mtvs.quizlog.domain.user.entity.User;
 import com.mtvs.quizlog.domain.user.service.UserService;
@@ -13,7 +16,9 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriUtils;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -28,12 +33,14 @@ public class FolderBookmarkController {
     private final FolderBookmarkService folderBookmarkService;
 
     private final QuizService quizService;
+    private final ChapterService chapterService;
 
     @Autowired
-    public FolderBookmarkController(FolderBookmarkService folderBookmarkService, UserService userService,QuizService quizService) {
+    public FolderBookmarkController(FolderBookmarkService folderBookmarkService, UserService userService,QuizService quizService,ChapterService chapterService) {
         this.folderBookmarkService = folderBookmarkService;
         this.userService = userService;
         this.quizService = quizService;
+        this.chapterService = chapterService;
     }
 
     // 폴더생성
@@ -53,9 +60,9 @@ public class FolderBookmarkController {
     }
 
     // 폴더생성2
+    // 폴더를 생성하면서 폴더에 퀴즈를 담음
     @PostMapping("/create-folder-bookmark2")
-    // ResponseEntity -> 클라이언트(브라우저, Postman 등)에 응답을 보낼 때, 직접 설정해서 보내고 싶을 때 사용하는 클래스
-    public String createFolderBookmark(@ModelAttribute FolderBookmarkDTO folderBookmarkDTO, @AuthenticationPrincipal AuthDetails userDetails, @RequestParam("quizId") Long quizId) {
+    public String createFolderBookmark(@ModelAttribute FolderBookmarkDTO folderBookmarkDTO, @AuthenticationPrincipal AuthDetails userDetails, @RequestParam("quizId") Long quizId,@RequestParam("chapterId") Long chapterId) {
         logger.info("post : /folderChapter " + folderBookmarkDTO.getTitle());
 
         // 로그인한 유저의 userId로 User 객체를 가져옴
@@ -64,7 +71,12 @@ public class FolderBookmarkController {
         // FolderChapterService에 폴더를 생성하는 메서드에 DTO를 전달한뒤 saveFolderChapter로 받음
         folderBookmarkService.createfolderBookmark2(folderBookmarkDTO,user,quizId);
 
-        return "redirect:/folder-bookmarks/folder-bookmarks-view";
+        Chapter chapter = chapterService.findId(chapterId);
+        String chapterTitle = chapter.getTitle();
+
+        String title = UriUtils.encodePathSegment(chapterTitle, StandardCharsets.UTF_8);
+
+        return String.format("redirect:/main/chapters/%d/%s", chapterId, title);
 
     }
 
@@ -78,13 +90,17 @@ public class FolderBookmarkController {
 
         folderBookmarkService.addQuizToFolder(folderBookmarkId,quizId,user);
 
+        Chapter chapter = chapterService.findId(chapterId);
+        String chapterTitle = chapter.getTitle();
+
+        String title = UriUtils.encodePathSegment(chapterTitle, StandardCharsets.UTF_8);
+
+
         System.out.println("📌 폴더 제목(title): " + folderBookmarkId);
         System.out.println("📌 퀴즈 ID(chapterId): " + quizId);
         System.out.println("📌 유저 ID(user): " + user);
 
-
-
-        return String.format("redirect:/main/recentChapters/%d", chapterId);
+        return String.format("redirect:/main/chapters/%d/%s", chapterId, title);
     }
 
     // 폴더명 수정
@@ -137,7 +153,7 @@ public class FolderBookmarkController {
         Long userId = userDetails.getLogInDTO().getUserId();
 
         List<QuizDTO> quizzes = quizService.findQuizByFolderBookmarkId(userId, folderBookmarkId);
-        System.out.println("퀴즈가아아앖" + quizzes);
+        System.out.println("퀴즈값" + quizzes);
 
 
         model.addAttribute("quizzes", quizzes);

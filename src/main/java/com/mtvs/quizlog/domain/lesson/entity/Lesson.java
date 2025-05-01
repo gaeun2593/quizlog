@@ -40,9 +40,9 @@ public class Lesson {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "chapter_id")
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "lesson")
     private List<Chapter> chapterList;
+
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

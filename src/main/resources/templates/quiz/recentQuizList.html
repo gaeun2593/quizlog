@@ -4,6 +4,15 @@
   <meta charset="UTF-8">
   <title>Chapter List</title>
   <style>
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background-color: #f4f4f9;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
     .chapter-list {
       display: flex;
       flex-direction: column;
@@ -30,6 +39,85 @@
     }
     .chapter-item a:hover {
       text-decoration: underline;
+    }
+
+    .card {
+      width: 90%;
+      max-width: 400px;
+      height: 250px;
+      background-color: #2d2d4d;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      margin-top: 60px;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      cursor: pointer;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+
+    .card:hover {
+      transform: scale(1.03);
+      background-color: #38386b;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      margin-top: 30px;
+      gap: 20px;
+    }
+
+    .buttons button {
+      width: 60px;
+      height: 60px;
+      font-size: 1.5rem;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      color: white;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .buttons button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+
+    #correct {
+      background-color: #4caf50;
+    }
+
+    #incorrect {
+      background-color: #ff4d4d;
+    }
+
+    .chapter-item {
+      width: 90%;
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 15px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .in-progress {
+      color: #ff9800;
+      font-weight: bold;
+    }
+
+    .completed {
+      color: #2196f3;
+      font-weight: bold;
+    }
+
+    .chapter-item span {
+      display: inline-block;
+      margin: 5px 10px 0 0;
+      font-size: 1.1rem;
     }
   </style>
 </head>
@@ -71,6 +159,7 @@
     <form action="/folder-bookmarks/create-folder-bookmark2" method="POST">
       <input type="text" name="title" pattern=".*\S.*" required>
       <input type="hidden" name="quizId" th:value="${quiz.id}"/>
+      <input type="hidden" name="chapterId" th:value="${chapter.id}"/>
       <input type="submit" value="폴더생성" class="btn-green-custom">
     </form>
     <span><a>기존 퀴즈 폴더에 넣기</a></span>
@@ -85,6 +174,70 @@
     </div>
   </div>
 </div>
+
+<div class="card" id="card" onclick="flipCard()">
+  <span id="card-text" th:text="${quizSet[0].word}">동조하다</span>
+</div>
+
+<div class="buttons">
+  <button onclick="correctClick()" type="button" id="correct">✓</button>
+  <button onclick="incorrectClick()" type="button" id="incorrect">✕</button>
+</div>
+
+<div class="chapter-item" th:each="quiz : ${quizSet}">
+  <span class="in-progress">현재 학습중인 단어</span>
+  <span th:text="${quiz.word}">단어</span>
+  <span th:text="${quiz.answer}">뜻</span>
+</div>
+
+<div class="chapter-item" th:each="checkquiz : ${checkdQuizs}">
+  <span class="completed">학습완료 단어</span>
+  <span th:text="${checkquiz.word}">단어</span>
+  <span th:text="${checkquiz.answer}">뜻</span>
+</div>
+
+<script th:inline="javascript">
+  let flipped = false;
+  let quizSet = /*[[${quizSet}]]*/ [];
+  let chapterId = [[${chapterId}]];
+  let count = 0;
+  const cardText = document.getElementById('card-text');
+
+  function checkRedirect() {
+    if (count === quizSet.length) {
+      window.location.href = "http://localhost:8080/main/" + chapterId + "/check";
+    }
+  }
+
+  function incorrectClick() {
+    checkRedirect();
+    const {id, word, answer} = quizSet[count++];
+    cardText.textContent = word;
+    fetch('http://localhost:8080/solvedQuiz', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({chapterId, id, word, answer, status: "incorrect"})
+    });
+  }
+
+  function correctClick() {
+    checkRedirect();
+    const {id, word, answer} = quizSet[count++];
+    cardText.textContent = word;
+    fetch('http://localhost:8080/solvedQuiz', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({chapterId, id, word, answer, status: "correct"})
+    });
+  }
+
+  function flipCard() {
+    const {word, answer} = quizSet[count];
+    cardText.textContent = flipped ? word : answer;
+    flipped = !flipped;
+  }
+</script>
+
 <div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>
