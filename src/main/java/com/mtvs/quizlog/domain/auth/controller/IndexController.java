@@ -1,8 +1,8 @@
 package com.mtvs.quizlog.domain.auth.controller;
 
 import com.mtvs.quizlog.domain.auth.model.AuthDetails;
-import com.mtvs.quizlog.domain.chapter.dto.request.ChapterDto;
-import com.mtvs.quizlog.domain.chapter.dto.request.UserChapter;
+import com.mtvs.quizlog.domain.chapter.controller.dto.request.ChapterDto;
+import com.mtvs.quizlog.domain.chapter.controller.dto.request.UserChapter;
 import com.mtvs.quizlog.domain.chapter.service.ChapterService;
 import com.mtvs.quizlog.domain.like.dto.TeacherLikeRankingDto;
 import com.mtvs.quizlog.domain.like.service.LikeService;
