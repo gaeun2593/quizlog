@@ -3,160 +3,49 @@
 <head>
   <meta charset="UTF-8">
   <title>Chapter List</title>
-  <style>
-    body {
-      font-family: 'Noto Sans KR', sans-serif;
-      background-color: #f4f4f9;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .chapter-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin: 0 auto;
-    }
-    .chapter-header, .chapter-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px;
-      border: 1px solid #aaa;
-      border-radius: 6px;
-      background-color: #f9f9f9;
-    }
-    .chapter-header {
-      font-weight: bold;
-      background-color: #e0e0e0;
-    }
-    .chapter-item a {
-      text-decoration: none;
-      color: #007bff;
-      margin-left: 10px;
-    }
-    .chapter-item a:hover {
-      text-decoration: underline;
-    }
-
-    .card {
-      width: 90%;
-      max-width: 400px;
-      height: 250px;
-      background-color: #2d2d4d;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2rem;
-      margin-top: 60px;
-      border-radius: 15px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-      cursor: pointer;
-      transition: transform 0.3s ease, background-color 0.3s ease;
-    }
-
-    .card:hover {
-      transform: scale(1.03);
-      background-color: #38386b;
-    }
-
-    .buttons {
-      display: flex;
-      justify-content: center;
-      margin-top: 30px;
-      gap: 20px;
-    }
-
-    .buttons button {
-      width: 60px;
-      height: 60px;
-      font-size: 1.5rem;
-      border: none;
-      border-radius: 50%;
-      cursor: pointer;
-      color: white;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .buttons button:hover {
-      transform: scale(1.1);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-    }
-
-    #correct {
-      background-color: #4caf50;
-    }
-
-    #incorrect {
-      background-color: #ff4d4d;
-    }
-
-    .chapter-item {
-      width: 90%;
-      max-width: 600px;
-      margin: 20px auto;
-      padding: 15px;
-      background-color: white;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-
-    .in-progress {
-      color: #ff9800;
-      font-weight: bold;
-    }
-
-    .completed {
-      color: #2196f3;
-      font-weight: bold;
-    }
-
-    .chapter-item span {
-      display: inline-block;
-      margin: 5px 10px 0 0;
-      font-size: 1.1rem;
-    }
-  </style>
+  <link rel="stylesheet" th:href="@{/css/footer.css}" />
+  <link rel="stylesheet" th:href="@{/css/common.css}" />
+  <link rel="stylesheet" th:href="@{/css/header.css}" />
+  <link rel="stylesheet" th:href="@{/css/aside.css}" />
+  <link rel="stylesheet" href="/css/recentQuizList.css">
 </head>
 <body>
-<h1>퀴즈 목록</h1>
+<div th:replace="fragments/header :: header"></div>
 
 <!-- 새 챕터 등록 링크 -->
+<div class="main-page-container">
+  <div th:replace="fragments/aside :: asideFragment"></div>
 
 <!-- 퀴즈 리스트 -->
-<div class="chapter-list">
-  <div>
-    챕터
-    <span>폴더생성해서 넣기</span>
-    <form action="/folder-chapters/create-folder-chapter" method="POST">
-      <input type="text" name="title" pattern=".*\S.*" required>
-      <input type="hidden" name="chapterId" th:value="${chapter.id}"/>
-      <input type="submit" value="폴더생성" class="btn-green-custom">
-    </form>
-    <span><a>기존 폴더에 넣기</a></span>
-    <div th:each="folderChapter : ${folderChapters}">
-      <form action="/folder-chapters/add-chapter-to-folder" method="POST">
-        <span th:text="${folderChapter.title}" ></span>
-        <input type="hidden" name="folderChapterId" th:value="${folderChapter.id}" readonly>
+<div class="main-layout">
+  <div class="chapter-title">
+    <h1>퀴즈 풀기</h1>
+    <div class="folder-chapter-buttons">
+      <span class="btn-green-color">폴더생성해서 넣기</span>
+      <form action="/folder-chapters/create-folder-chapter" method="POST" class="hidden">
+        <input type="text" name="title" pattern=".*\S.*" required>
         <input type="hidden" name="chapterId" th:value="${chapter.id}"/>
-        <input type="submit" value="챕터담기" class="btn-green-custom">
+        <input type="submit" value="폴더생성" class="btn-green-custom">
       </form>
+      <span class="btn-green-color">기존 폴더에 넣기</span>
+      <div th:each="folderChapter : ${folderChapters}">
+        <form action="/folder-chapters/add-chapter-to-folder" method="POST" class="hidden">
+          <span th:text="${folderChapter.title}" ></span>
+          <input type="hidden" name="folderChapterId" th:value="${folderChapter.id}" readonly>
+          <input type="hidden" name="chapterId" th:value="${chapter.id}"/>
+          <input type="submit" value="챕터담기" class="btn-green-custom">
+        </form>
+      </div>
     </div>
-  </div>
-  <div class="chapter-header">
-    <span>단어</span>
-    <span>정답</span>
 
   </div>
+
 
   <div class="chapter-item" th:each="quiz : ${quizForm}">
     <span th:text="${quiz.word}">Title</span>
     <span th:text="${quiz.answer}">Answer</span>
     <span>퀴즈 폴더생성해서 넣기</span>
-    <form action="/folder-bookmarks/create-folder-bookmark2" method="POST">
+    <form action="/folder-bookmarks/create-folder-bookmark2" method="POST" class="hidden">
       <input type="text" name="title" pattern=".*\S.*" required>
       <input type="hidden" name="quizId" th:value="${quiz.id}"/>
       <input type="hidden" name="chapterId" th:value="${chapter.id}"/>
@@ -164,7 +53,7 @@
     </form>
     <span><a>기존 퀴즈 폴더에 넣기</a></span>
     <div th:each="folderBookmark : ${folderBookmarks}">
-      <form action="/folder-bookmarks/add-quiz-to-folder" method="POST">
+      <form action="/folder-bookmarks/add-quiz-to-folder" method="POST" class="hidden">
         <span th:text="${folderBookmark.title}" ></span>
         <input type="hidden" name="folderBookmarkId" th:value="${folderBookmark.id}" readonly>
         <input type="hidden" name="quizId" th:value="${quiz.id}"/>
@@ -172,29 +61,35 @@
         <input type="submit" value="퀴즈담기" class="btn-green-custom">
       </form>
     </div>
+
+    <div class="card-box">
+      <div class="card" id="card" onclick="flipCard(this)">
+        <span id="card-text" th:text="${quizSet[0].word}">동조하다</span>
+      </div>
+    </div>
+
+
+  <div class="buttons">
+    <button onclick="correctClick()" type="button" id="correct">✓</button>
+    <button onclick="incorrectClick()" type="button" id="incorrect">✕</button>
+  </div>
+
+  <div class="chapter-item" th:each="quiz : ${quizSet}">
+    <span class="in-progress">현재 학습중인 단어</span>
+    <span th:text="${quiz.word}">단어</span>
+    <span th:text="${quiz.answer}">뜻</span>
+  </div>
+
+  <div class="chapter-item" th:each="checkquiz : ${checkdQuizs}">
+    <span class="completed">학습완료 단어</span>
+    <span th:text="${checkquiz.word}">단어</span>
+    <span th:text="${checkquiz.answer}">뜻</span>
   </div>
 </div>
 
-<div class="card" id="card" onclick="flipCard()">
-  <span id="card-text" th:text="${quizSet[0].word}">동조하다</span>
 </div>
-
-<div class="buttons">
-  <button onclick="correctClick()" type="button" id="correct">✓</button>
-  <button onclick="incorrectClick()" type="button" id="incorrect">✕</button>
 </div>
-
-<div class="chapter-item" th:each="quiz : ${quizSet}">
-  <span class="in-progress">현재 학습중인 단어</span>
-  <span th:text="${quiz.word}">단어</span>
-  <span th:text="${quiz.answer}">뜻</span>
-</div>
-
-<div class="chapter-item" th:each="checkquiz : ${checkdQuizs}">
-  <span class="completed">학습완료 단어</span>
-  <span th:text="${checkquiz.word}">단어</span>
-  <span th:text="${checkquiz.answer}">뜻</span>
-</div>
+<div th:replace="fragments/footer :: footer"></div>
 
 <script th:inline="javascript">
   let flipped = false;
@@ -231,13 +126,16 @@
     });
   }
 
-  function flipCard() {
+  function flipCard(cardElement) {
+    cardElement.classList.toggle('flipped');
     const {word, answer} = quizSet[count];
     cardText.textContent = flipped ? word : answer;
     flipped = !flipped;
+
+
   }
 </script>
 
-<div th:replace="fragments/footer :: footer"></div>
+
 </body>
 </html>
