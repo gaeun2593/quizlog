@@ -1,7 +1,7 @@
 package com.mtvs.quizlog.domain.quiz.service;
 
-import com.mtvs.quizlog.domain.chapter.dto.request.QuizDto;
-import com.mtvs.quizlog.domain.chapter.dto.request.QuizForm;
+import com.mtvs.quizlog.domain.chapter.controller.dto.request.QuizDto;
+import com.mtvs.quizlog.domain.chapter.controller.dto.request.QuizForm;
 
 import com.mtvs.quizlog.domain.chapter.entity.Chapter;
 import com.mtvs.quizlog.domain.chapter.repository.ChapterRepository;

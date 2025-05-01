@@ -1,7 +1,7 @@
 package com.mtvs.quizlog.domain.chapter.repository;
 
-import com.mtvs.quizlog.domain.chapter.dto.request.UserChapter;
-import com.mtvs.quizlog.domain.chapter.dto.request.ChapterDto;
+import com.mtvs.quizlog.domain.chapter.controller.dto.request.UserChapter;
+import com.mtvs.quizlog.domain.chapter.controller.dto.request.ChapterDto;
 import com.mtvs.quizlog.domain.chapter.entity.Chapter;
 import com.mtvs.quizlog.domain.folder.folderchapter.entity.FolderChapter;
 import com.mtvs.quizlog.domain.user.entity.User;
@@ -52,13 +52,13 @@ public class ChapterRepository {
     }
 
     public List<UserChapter> findAll() {
-        TypedQuery<UserChapter> query = em.createQuery("select new com.mtvs.quizlog.domain.chapter.dto.request.UserChapter(c.id , c.title , u.nickname) from Chapter c join c.user u order by c.createdAt DESC", UserChapter.class);
+        TypedQuery<UserChapter> query = em.createQuery("select new com.mtvs.quizlog.domain.chapter.controller.dto.request.UserChapter(c.id , c.title , u.nickname) from Chapter c join c.user u order by c.createdAt DESC", UserChapter.class);
         return query.getResultList();
     }
 
     public List<ChapterDto> findTitle(String search) {
         TypedQuery<ChapterDto> query = em.createQuery(
-                "select new com.mtvs.quizlog.domain.chapter.dto.request.ChapterDto(c.id, c.title, u.nickname) " +
+                "select new com.mtvs.quizlog.domain.chapter.controller.dto.request.ChapterDto(c.id, c.title, u.nickname) " +
                         "from Chapter c " +
                         "join c.user u " +
                         "where c.title like :search",
@@ -92,7 +92,7 @@ public class ChapterRepository {
         }
     }
 
-    public List<Chapter> findChapterByFolderChapterId(Long userId, int folderChapterId) {
+    public List<Chapter> findChapterByFolderChapterId(Long userId, long folderChapterId) {
         TypedQuery<Chapter> query = em.createQuery(
                 "select c from Chapter c where c.folderChapter.id = :folderChapterId and c.user.id = :userId", Chapter.class
         );

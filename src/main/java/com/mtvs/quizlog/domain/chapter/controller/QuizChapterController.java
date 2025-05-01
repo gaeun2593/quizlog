@@ -3,37 +3,30 @@ package com.mtvs.quizlog.domain.chapter.controller;
 
 
 import com.mtvs.quizlog.domain.auth.model.AuthDetails;
-import com.mtvs.quizlog.domain.auth.service.AuthService;
-import com.mtvs.quizlog.domain.chapter.dto.request.*;
-import com.mtvs.quizlog.domain.chapter.dto.response.ResponseCreateChapterDTO;
+import com.mtvs.quizlog.domain.chapter.controller.dto.request.*;
 import com.mtvs.quizlog.domain.chapter.entity.Chapter;
 import com.mtvs.quizlog.domain.chapter.service.ChapterService;
 import com.mtvs.quizlog.domain.folder.folderbookmarks.dto.FolderBookmarkDTO;
-import com.mtvs.quizlog.domain.folder.folderbookmarks.entity.FolderBookmark;
 import com.mtvs.quizlog.domain.folder.folderbookmarks.service.FolderBookmarkService;
 import com.mtvs.quizlog.domain.folder.folderchapter.dto.FolderChapterDTO;
 import com.mtvs.quizlog.domain.folder.folderchapter.service.FolderChapterService;
-import com.mtvs.quizlog.domain.quiz.dto.CreateQuizDTO;
 import com.mtvs.quizlog.domain.quiz.entity.Quiz;
 import com.mtvs.quizlog.domain.quiz.service.QuizService;
-import com.mtvs.quizlog.domain.user.dto.LogInDTO;
 import com.mtvs.quizlog.domain.user.entity.User;
 import com.mtvs.quizlog.domain.user.service.UserService;
 import com.mtvs.quizlog.solvedQuiz.dto.UserCheckedQuizDTO;
 import com.mtvs.quizlog.solvedQuiz.service.CheckedQuizService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.logging.Logger;
+
+
 
 @Controller
 @RequestMapping("/main")
@@ -145,29 +138,45 @@ public class QuizChapterController {
     /* 챕터의 상세페이지 */
     @GetMapping("/recentChapters/{chapterId}")
     public String recentChapter(@PathVariable Long chapterId , Model model, @AuthenticationPrincipal AuthDetails userDetails) {
-        log.info("chapterId = {}", chapterId);
-        List<QuizForm> quizForm  = quizService.findAll(chapterId);
-        model.addAttribute("quizForm", quizForm);
-
-        /* 챕터 Id로 객체찾아서 퀴즈 페이지로 전달 */
-        Chapter chapter = chapterService.findId(chapterId);
-        model.addAttribute("chapter", chapter);
-
-        // 로그인한 유저객체 가져와서
         Long userId = userDetails.getLogInDTO().getUserId();
-        User user = userService.findUser(userId);
+        List<QuizForm> checkdQuizs = checkedQuizService.findCheckdQuizs(chapterId, userId);
 
-        // 유저의 챕터폴더 가져옴
-        List<FolderChapterDTO> folderChapters = folderChapterService.getAllFolderChapters(user);
-        model.addAttribute("folderChapters", folderChapters);
+        List<QuizForm> quizSet = quizService.findQuiz(chapterId);
 
-        // 유저의 퀴즈폴더 가져옴
-        List<FolderBookmarkDTO> folderBookmarks = folderBookmarkService.getAllfolderBookmarks(user);
-        model.addAttribute("folderBookmarks", folderBookmarks);
+        if(checkdQuizs.size() == quizSet.size()) {
+            UserCheckedQuizDTO checkdQuiz = checkedQuizService.findCheckdQuiz(chapterId, userId);
+            model.addAttribute("checkdQuiz", checkdQuiz);
+            return "quiz/QuizCompletionRate" ;
+        }
+
+        else if(checkdQuizs.size() > 0) {
+            QuizForm quiz = checkdQuizs.get(checkdQuizs.size() - 1);
+            log.info("quiz = {}", quiz);
+            List<QuizForm> newQuizSet = new ArrayList<>();
+            for(int i = 0 ; i < quizSet.size() ; i++) {
+                if(quizSet.get(i).equals(quiz)) {
+                    newQuizSet = Arrays.asList(quizSet.subList(i+1, quizSet.size()).toArray(new QuizForm[0]));
+                    break;
+                }
+            }
+            log.info("newQuizSet = {}", newQuizSet);
+            model.addAttribute("checkdQuizs" , checkdQuizs) ;
+            model.addAttribute("quizSet" ,newQuizSet) ;
+        }
+
+        else {
+            model.addAttribute("quizSet" ,quizSet) ;
+
+        }
+
+        model.addAttribute("chapterId" , chapterId) ;
+       // model.addAttribute("title", title);
+
+        log.info("quizSet = {}", quizSet);
 
 
 
-        return "quiz/recentQuizList" ;
+        return "quiz/solvedForm" ;
     }
 
     @GetMapping("/search") // 검색 요청
@@ -212,11 +221,6 @@ public class QuizChapterController {
         }
 
         model.addAttribute("chapterId" , chapterId) ;
-        model.addAttribute("title", title);
-        model.addAttribute("quizSet" ,quizSet) ;
-
-        log.info("quizSet = {}", quizSet);
-
         return "quiz/solvedForm" ;
     }
 
@@ -227,7 +231,6 @@ public class QuizChapterController {
         model.addAttribute("checkdQuiz", checkdQuiz);
         return "quiz/QuizCompletionRate" ;
     }
-
 
 
 }

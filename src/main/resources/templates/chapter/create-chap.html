@@ -1,22 +1,93 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>Quiz log</title>
-    <link rel="stylesheet" type="text/css" th:href="@{ /css/common.css }" />
+    <title>Quiz Log - 챕터 생성</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/common.css}" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f2f4f6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #343a40;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 30px 25px;
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px 15px;
+            margin: 10px 0;
+            border: 1px solid #ced4da;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .quiz-entry {
+            background-color: #f8f9fa;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+        }
+
+        #quiz-container {
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+            margin-right: 10px;
+        }
+
+        button[type="submit"] {
+            background-color: #38b000;
+            color: white;
+        }
+
+        button[type="button"] {
+            background-color: #1e90ff;
+            color: white;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+    </style>
 </head>
 <body>
+
 <h1>Chapter Test</h1>
-<h2>챕터 제목</h2>
+<h2>새로운 챕터 만들기</h2>
+
 <form th:action="@{/main/create-chap}" th:object="${requestCreateChapterDTO}" method="post">
-    <input type="text" th:field="*{title}" placeholder="제목"/>
-    <input type="text" th:field="*{description}" placeholder="설명"/>
+
+    <input type="text" th:field="*{title}" placeholder="챕터 제목" />
+    <input type="text" th:field="*{description}" placeholder="챕터 설명" />
 
     <h2>퀴즈 목록</h2>
     <div id="quiz-container">
-        <div th:each="quiz, stat : *{quizForm}">
+        <div class="quiz-entry" th:each="quiz, stat : *{quizForm}">
             <input type="text" th:field="*{quizForm[__${stat.index}__].word}" placeholder="단어" />
-            <input type="text" th:field="*{quizForm[__${stat.index}__].answer}" placeholder="답변" />
+            <input type="text" th:field="*{quizForm[__${stat.index}__].answer}" placeholder="정답" />
         </div>
     </div>
 
@@ -26,7 +97,7 @@
 
 <script th:inline="javascript">
     let quizIndex = [[${#lists.size(requestCreateChapterDTO.quizForm)}]];
-    console.log(quizIndex);
+
     function addQuiz() {
         const container = document.getElementById("quiz-container");
 
@@ -43,11 +114,6 @@
     }
 </script>
 
-
-
 <div th:replace="fragments/footer :: footer"></div>
 </body>
-
 </html>
-
-

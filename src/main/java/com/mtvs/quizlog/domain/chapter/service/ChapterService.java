@@ -1,8 +1,9 @@
 package com.mtvs.quizlog.domain.chapter.service;
 
 
-import com.mtvs.quizlog.domain.chapter.dto.request.UserChapter;
-import com.mtvs.quizlog.domain.chapter.dto.request.*;
+import com.mtvs.quizlog.domain.chapter.controller.dto.request.ChapterDto;
+import com.mtvs.quizlog.domain.chapter.controller.dto.request.RequestCreateChapterDTO;
+import com.mtvs.quizlog.domain.chapter.controller.dto.request.UserChapter;
 import com.mtvs.quizlog.domain.chapter.repository.ChapterRepository;
 import com.mtvs.quizlog.domain.chapter.entity.Chapter;
 import com.mtvs.quizlog.domain.user.entity.User;
@@ -67,7 +68,7 @@ public class ChapterService{
         return chapterRepository.findChapterById(chapterId);
     }
 
-    public List<Chapter> findChapterByFolderChapterId(Long userId, int folderChapterId) {
+    public List<Chapter> findChapterByFolderChapterId(Long userId, long folderChapterId) {
         return chapterRepository.findChapterByFolderChapterId(userId,folderChapterId);
     }
 }

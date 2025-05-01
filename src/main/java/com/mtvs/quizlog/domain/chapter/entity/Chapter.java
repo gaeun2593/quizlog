@@ -5,6 +5,7 @@ import com.mtvs.quizlog.domain.folder.folderchapter.entity.FolderChapter;
 import com.mtvs.quizlog.domain.lesson.entity.Lesson;
 import com.mtvs.quizlog.domain.quiz.entity.Quiz;
 import com.mtvs.quizlog.domain.user.entity.User;
+import com.mtvs.quizlog.solvedQuiz.entity.UserCheckedQuiz;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -59,7 +60,10 @@ public class Chapter {
     @OneToMany(mappedBy = "chapter")
     private List<Quiz> quizzes = new ArrayList<>();
 
-//    User
+    @OneToMany(mappedBy = "chapter")
+    private List<UserCheckedQuiz> userCheckedQuizs = new ArrayList<>();
+
+    //    User
     @ManyToOne(fetch = FetchType.LAZY , cascade = CascadeType.ALL)
     @JoinColumn(name="user_id")
     private User user;
