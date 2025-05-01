@@ -6,6 +6,7 @@ import com.mtvs.quizlog.domain.user.entity.User;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Entity
@@ -25,7 +26,7 @@ public class FolderChapter {
     @JoinColumn(name = "user_id") // 외래키 이름
     private User user;
 
-    @OneToMany(mappedBy = "folderChapter")
+    @OneToMany(mappedBy = "folderChapter" , cascade = CascadeType.ALL)
     private List<Chapter> chapters = new ArrayList<>();
 
     public User getUser() {
@@ -66,11 +67,6 @@ public class FolderChapter {
         this.folderChapterTitle = folderChapterTitle;
     }
 
-    @Override
-    public String toString() {
-        return "FolderChapter{" +
-                "folderChapterId=" + folderChapterId +
-                ", folderChapterTitle='" + folderChapterTitle + '\'' +
-                '}';
-    }
+
+
 }

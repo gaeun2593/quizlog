@@ -2,64 +2,93 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Chapter List</title>
+  <title>퀴즈 통계</title>
   <style>
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background-color: #f0f2f5;
+      margin: 0;
+      padding: 40px;
+      color: #333;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #444;
+    }
+
     .chapter-list {
+      max-width: 600px;
+      margin: 0 auto;
       display: flex;
       flex-direction: column;
       gap: 10px;
-      width: 400px;
-      margin: 0 auto;
     }
-    .chapter-header, .chapter-item {
+
+    .chapter-header,
+    .chapter-item {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 12px;
-      border: 1px solid #aaa;
-      border-radius: 6px;
-      background-color: #f9f9f9;
+      padding: 14px 20px;
+      border-radius: 8px;
     }
+
     .chapter-header {
+      background-color: #dde3ec;
       font-weight: bold;
-      background-color: #e0e0e0;
+      color: #333;
     }
-    .chapter-item a {
+
+    .chapter-item {
+      background-color: #ffffff;
+      border: 1px solid #dcdcdc;
+      transition: box-shadow 0.2s ease;
+    }
+
+    .chapter-item:hover {
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .chapter-item span {
+      width: 33%;
+      text-align: center;
+    }
+
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 30px;
+      font-size: 1rem;
       text-decoration: none;
       color: #007bff;
-      margin-left: 10px;
     }
-    .chapter-item a:hover {
+
+    .back-link:hover {
       text-decoration: underline;
     }
   </style>
 </head>
 <body>
-<h1>퀴즈 목록</h1>
 
-<!-- 새 챕터 등록 링크 -->
+<h1>퀴즈 통계</h1>
 
-
-<!-- 퀴즈 리스트 -->
 <div class="chapter-list">
   <div class="chapter-header">
     <span>아는 단어</span>
     <span>총 단어</span>
     <span>모르는 단어</span>
-
   </div>
 
   <div class="chapter-item" th:each="quiz : ${checkdQuiz}">
-    <span th:text="${quiz.checkedQuiz}">Title</span>
-    <span th:text="${quiz.total }">Answer</span>
-    <span th:text="${quiz.uncheckedQuiz}">Title</span>
-
+    <span th:text="${quiz.checkedQuiz}">10</span>
+    <span th:text="${quiz.total}">20</span>
+    <span th:text="${quiz.uncheckedQuiz}">10</span>
   </div>
 </div>
 
-<a th:href="@{/main}">메인으로</a>
-
-
+<a class="back-link" th:href="@{/main}">← 메인으로 돌아가기</a>
 
 </body>
 </html>

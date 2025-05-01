@@ -1,16 +1,199 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>학습 자료 추가하기</title>
+    <style>
+        body {
+            background-color: #121220;
+            color: #ffffff;
+            font-family: 'Noto Sans KR', sans-serif;
+            padding: 30px;
+        }
+
+        button {
+            font-family: inherit;
+        }
+
+        .open-modal-btn {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .open-modal-btn:hover {
+            background-color: #45a049;
+        }
+
+        /* 챕터 정보 */
+        .chapter-info {
+            background-color: #1e1e2e;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-top: 20px;
+        }
+
+        .chapter-info > div {
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        /* 모달 스타일 */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+        }
+
+        .modal-content {
+            background-color: #23233b;
+            width: 600px;
+            padding: 30px;
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 12px; right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #ccc;
+            cursor: pointer;
+        }
+
+        .modal-close:hover {
+            color: #fff;
+        }
+
+        .title-section {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #c9c2ff;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .card-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #2e2e47;
+            padding: 12px 18px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .card-item div {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .add-button {
+            background-color: #00b894;
+            border: none;
+            color: white;
+            padding: 8px 14px;
+            font-size: 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .add-button:hover {
+            background-color: #00a383;
+        }
+
+        .modal-footer {
+            text-align: right;
+            margin-top: 20px;
+        }
+
+        .modal-footer button {
+            background-color: #555;
+            padding: 8px 16px;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .modal-footer button:hover {
+            background-color: #444;
+        }
+    </style>
 </head>
 <body>
 
-<h1>즐겨찾기 한 챕터 리스트 보는 페이지</h1>
-<ul th:each="chpater : ${chapters}">
-    <li th:text="${chpater}"></li>
-    엥?
-</ul>
+<!-- 열기 버튼 -->
+<button class="open-modal-btn" onclick="openModal()">학습 자료 추가하기</button>
+
+<!-- 기존에 선택된 챕터 표시 -->
+<div th:if="${chekedFolder != null and chekedFolder.size() > 0}" class="chapter-info">
+    <div th:each="chapter : ${chekedFolder}">
+        <div>📘 챕터 제목: <span th:text="${chapter.chapterName}"></span></div>
+        <div th:if="${chapter.username != null}">👤 크리에이터: <span th:text="${chapter.username}"></span></div>
+    </div>
+</div>
+
+<!-- 모달 창 -->
+<div id="modal" class="modal-overlay" style="display: none;">
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeModal()">✖</button>
+        <div class="title-section">학습 자료 추가하기</div>
+
+        <div th:each="chapter : ${checkedChapters}" class="card-item">
+            <div>
+                <div th:text="${chapter.chapterName}">세트 제목</div>
+                <div th:if="${chapter.username != null}" th:text="${chapter.username}">작성자</div>
+            </div>
+            <button class="add-button" th:onclick="'addSet(' + ${chapter.chapterId} + ')'">+</button>
+        </div>
+
+        <div class="modal-footer">
+            <button onclick="closeModal()">완료</button>
+        </div>
+    </div>
+</div>
+
+<!-- 자바스크립트 -->
+<script th:inline="javascript">
+    let folderChapterId = [[${folderChapterId}]];
+
+    function openModal() {
+        document.getElementById("modal").style.display = "flex";
+    }
+
+    function closeModal() {
+        document.getElementById("modal").style.display = "none";
+    }
+
+    function addSet(setId) {
+        fetch('http://localhost:8080/createFolderChapter', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                folderChapterId: folderChapterId,
+                chapterId: setId
+            })
+        }).then(() => {
+            alert('학습 자료가 추가되었습니다.');
+        }).catch(() => {
+            alert('추가 중 오류가 발생했습니다.');
+        });
+    }
+</script>
 
 </body>
 </html>

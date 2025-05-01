@@ -1,19 +1,15 @@
 package com.mtvs.quizlog.domain.folder.folderchapter.service;
 
-import com.mtvs.quizlog.domain.auth.model.AuthDetails;
 import com.mtvs.quizlog.domain.chapter.entity.Chapter;
 import com.mtvs.quizlog.domain.chapter.repository.ChapterRepository;
+import com.mtvs.quizlog.domain.folder.folderbookmarks.dto.CreateFolderDTO;
 import com.mtvs.quizlog.domain.folder.folderchapter.dto.FolderChapterDTO;
 import com.mtvs.quizlog.domain.folder.folderchapter.entity.FolderChapter;
 import com.mtvs.quizlog.domain.folder.folderchapter.repository.FolderChapterRepository;
-import com.mtvs.quizlog.domain.user.dto.LogInDTO;
 import com.mtvs.quizlog.domain.user.entity.User;
 import jakarta.transaction.Transactional;
-import org.antlr.v4.runtime.misc.LogManager;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,6 +18,7 @@ import java.util.Optional;
 import java.util.logging.Logger;
 
 @Service
+@Transactional
 public class FolderChapterService {
     //로그정보
     private static final Logger logger = Logger.getLogger(FolderChapterService.class.getName());
@@ -40,10 +37,10 @@ public class FolderChapterService {
 
     //이 메서드 전체가 하나의 트랜잭션으로 실행된다는 뜻
     //중간에 예외가 나면 전체 롤백됨
-    @Transactional
+    //@Transactional
     //  컨트롤러에서 받은 게시글 입력값이 담긴 DTO
-
     // 폴더 생성 (챕터를 담으면서 폴더 생성)
+
     public FolderChapterDTO createFolderChapter(FolderChapterDTO folderChapterDTO, User user, Long chapterId) {
         logger.info("폴더 추가하기 제목 : "+ folderChapterDTO.getTitle());
 
@@ -73,6 +70,17 @@ public class FolderChapterService {
         return new FolderChapterDTO(savedFolderChapter.getFolderChapterId(), savedFolderChapter.getFolderChapterTitle());
     }
 
+
+    public void save(CreateFolderDTO createFolderDTO){
+        Chapter chapter = chapterRepository.findChapterById(createFolderDTO.getChapterId());
+        Optional<FolderChapter> folder = folderChapterRepository.findById(createFolderDTO.getFolderChapterId());
+        //folder.ifPresent(f -> f.getChapters().add(chapter));
+
+       chapter.setFolderChapter(folder.get());
+
+
+    }
+
     // 폴더 생성2 (빈 폴더 생성)
     public FolderChapterDTO createFolderChapter2(FolderChapterDTO folderChapterDTO, User user) {
         logger.info("폴더 추가하기 제목 : "+ folderChapterDTO.getTitle());
@@ -97,7 +105,7 @@ public class FolderChapterService {
     }
 
     // 해당챕터 폴더에 추가
-    @Transactional
+   // @Transactional
     public void addChapterToFolder(int folderChapterId,Long chapterId,User user) {
 
         FolderChapter folderChapter = folderChapterRepository.findByUserAndFolderChapterId(user, folderChapterId)

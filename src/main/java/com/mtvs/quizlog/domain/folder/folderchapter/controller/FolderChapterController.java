@@ -9,6 +9,10 @@ import com.mtvs.quizlog.domain.folder.folderchapter.service.FolderChapterService
 import com.mtvs.quizlog.domain.quiz.service.QuizService;
 import com.mtvs.quizlog.domain.user.entity.User;
 import com.mtvs.quizlog.domain.user.service.UserService;
+import com.mtvs.quizlog.solvedQuiz.dto.UserCheckedChapterDTO;
+import com.mtvs.quizlog.solvedQuiz.service.CheckedQuizService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -23,34 +27,32 @@ import java.util.logging.Logger;
 @Controller
 @RequestMapping("/folder-chapters")
 @Validated
+@Slf4j
+@RequiredArgsConstructor
 public class FolderChapterController {
 
-    private static final Logger logger = Logger.getLogger(FolderChapterController.class.getName());
+
     private final UserService userService;
 
     //FolderChapterService를 Controller에서 사용하기 위한 의존성 주입
     private final FolderChapterService folderChapterService;
 
     private final ChapterService chapterService;
+    private final CheckedQuizService checkedQuizService;
 
-    @Autowired
-    public FolderChapterController(FolderChapterService folderChapterService, UserService userService,ChapterService chapterService) {
-        this.folderChapterService = folderChapterService;
-        this.userService = userService;
-        this.chapterService = chapterService;
-    }
+
 
     // 폴더생성(챕터 페이지에서 챕터를 담은 폴더 생성)
     @PostMapping("/create-folder-chapter")
     // ResponseEntity -> 클라이언트(브라우저, Postman 등)에 응답을 보낼 때, 직접 설정해서 보내고 싶을 때 사용하는 클래스
     public String createFolderChapter(@ModelAttribute FolderChapterDTO folderChapterDTO, @AuthenticationPrincipal AuthDetails userDetails, @RequestParam("chapterId") Long chapterId) {
-        logger.info("post : /folderChapter " + folderChapterDTO.getTitle());
+
 
         // 로그인한 유저의 userId로 User 객체를 가져옴
         Long userId = userDetails.getLogInDTO().getUserId();
         User user = userService.findUser(userId);
         // FolderChapterService에 폴더를 생성하는 메서드에 DTO를 전달한뒤 saveFolderChapter로 받음
-       folderChapterService.createFolderChapter(folderChapterDTO,user,chapterId);
+        folderChapterService.createFolderChapter(folderChapterDTO,user,chapterId);
 
         return "redirect:/folder-chapters/folder-chapters-view";
     }
@@ -59,11 +61,11 @@ public class FolderChapterController {
     @PostMapping("/create-folder-chapter2")
     // ResponseEntity -> 클라이언트(브라우저, Postman 등)에 응답을 보낼 때, 직접 설정해서 보내고 싶을 때 사용하는 클래스
     public String createFolderChapter(@ModelAttribute FolderChapterDTO folderChapterDTO,@AuthenticationPrincipal AuthDetails userDetails) {
-        logger.info("post : /folderChapter " + folderChapterDTO.getTitle());
 
         // 로그인한 유저의 userId로 User 객체를 가져옴
         Long userId = userDetails.getLogInDTO().getUserId();
         User user = userService.findUser(userId);
+        log.info("user : " + folderChapterDTO.getTitle());
         // FolderChapterService에 폴더를 생성하는 메서드에 DTO를 전달한뒤 saveFolderChapter로 받음
         folderChapterService.createFolderChapter2(folderChapterDTO,user);
 
@@ -89,18 +91,18 @@ public class FolderChapterController {
         return String.format("redirect:/main/recentChapters/%d", chapterId);
     }
 
-
+    // fsf
     // 폴더명 수정
     @PostMapping("/update-folder-chapter")
     public String updateFolderChapter(@RequestParam("folderUpdateTitle") String folderUpdateTitle, @RequestParam("folderTitle") String folderTitle,@AuthenticationPrincipal AuthDetails userDetails) {
-        logger.info("patch : /folderUpdateTitle " +folderUpdateTitle);
+
 
         // 로그인한 유저객체 가져와서
         Long userId = userDetails.getLogInDTO().getUserId();
         User user = userService.findUser(userId);
 
         // updateFolderChapte로 넘김
-       folderChapterService.updateFolderChapter(folderUpdateTitle, folderTitle, user);
+        folderChapterService.updateFolderChapter(folderUpdateTitle, folderTitle, user);
 
         return "redirect:/folder-chapters/folder-chapters-view";
     }
@@ -116,13 +118,31 @@ public class FolderChapterController {
 
         List<FolderChapterDTO> folderChapters = folderChapterService.getAllFolderChapters(user);
         model.addAttribute("folderChapters", folderChapters);
+
         return "folder/folder-chapters";
+    }
+
+
+    // 폴더 속 챕터 조회
+    @PostMapping("/folder-chapter-detail")
+    public String folderChapterDetail(@AuthenticationPrincipal AuthDetails userDetails, @RequestParam("folderChapterId") long folderChapterId , Model model) {
+        // 로그인한 유저객체 가져와서
+        Long userId = userDetails.getLogInDTO().getUserId();
+        // log.info("folderChapterId ={} " , folderChapterId);
+        //List<Chapter> chapters = chapterService.findChapterByFolderChapterId(userId, folderChapterId);
+        List<UserCheckedChapterDTO> checkedChapters = checkedQuizService.findCheckedChapters(userId);
+        List<UserCheckedChapterDTO> chekedFolder = checkedQuizService.findChekedFolder(folderChapterId);
+        model.addAttribute("folderChapterId", folderChapterId);
+        model.addAttribute("chekedFolder", chekedFolder);
+        model.addAttribute("checkedChapters", checkedChapters);
+
+        return "folder/folder-chapter-detail";
     }
 
     // 삭제
     @PostMapping("/delete-folder-chapter")
     public String deleteFolderChapter(@RequestParam("folderTitle") String folderTitle, @AuthenticationPrincipal AuthDetails userDetails) {
-        logger.info("DELETE /api/folderChapter/{}"+ folderTitle);
+
 
         // 로그인한 유저객체 가져와서
         Long userId = userDetails.getLogInDTO().getUserId();
@@ -134,25 +154,11 @@ public class FolderChapterController {
 
 
 
-    // 폴더 속 챕터 조회
-    @PostMapping("/folder-chapter-detail")
-    public String folderChapterDetail(@AuthenticationPrincipal AuthDetails userDetails,@RequestParam("folderChapterId") int folderId,Model model) {
-        // 로그인한 유저객체 가져와서
-        Long userId = userDetails.getLogInDTO().getUserId();
-
-        List<Chapter> chapters = chapterService.findChapterByFolderChapterId(userId, folderId);
-        model.addAttribute("chapters", chapters);
-
-        System.out.println(chapters);
-
-        return "folder/folder-chapter-detail";
-    }
-
 
     // 예외 처리
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
-        logger.warning("Validation error: {}"+ ex.getMessage());
+
         return ResponseEntity.badRequest().body(ex.getMessage());
         // badRequest: HTTP 상태 코드 400, body(ex.getMessage()): 예외(ex)의 메시지를 응답 본문(body)으로 설정
     }
