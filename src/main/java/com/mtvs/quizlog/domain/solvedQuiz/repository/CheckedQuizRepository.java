@@ -1,12 +1,12 @@
-package com.mtvs.quizlog.solvedQuiz.repository;
+package com.mtvs.quizlog.domain.solvedQuiz.repository;
 
 import com.mtvs.quizlog.domain.chapter.controller.dto.request.QuizForm;
 import com.mtvs.quizlog.domain.chapter.entity.Chapter;
 import com.mtvs.quizlog.domain.quiz.entity.Quiz;
 import com.mtvs.quizlog.domain.user.entity.User;
-import com.mtvs.quizlog.solvedQuiz.dto.UserCheckedChapterDTO;
-import com.mtvs.quizlog.solvedQuiz.dto.UserCheckedQuizDTO;
-import com.mtvs.quizlog.solvedQuiz.entity.UserCheckedQuiz;
+import com.mtvs.quizlog.domain.solvedQuiz.dto.UserCheckedChapterDTO;
+import com.mtvs.quizlog.domain.solvedQuiz.dto.UserCheckedQuizDTO;
+import com.mtvs.quizlog.domain.solvedQuiz.entity.UserCheckedQuiz;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
@@ -15,8 +15,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
-import static com.mtvs.quizlog.solvedQuiz.entity.Status.COMPLETED;
 
 @Repository
 @RequiredArgsConstructor

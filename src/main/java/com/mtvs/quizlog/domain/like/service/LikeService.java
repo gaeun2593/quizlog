@@ -6,6 +6,7 @@ import com.mtvs.quizlog.domain.like.repository.LikeRepository;
 import com.mtvs.quizlog.domain.user.entity.User;
 import com.mtvs.quizlog.domain.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,7 @@ public class LikeService {
     private final LikeRepository likeRepository;
     private final UserRepository userRepository;
 
+    @Autowired
     public LikeService(LikeRepository likeRepository, UserRepository userRepository) {
         this.likeRepository = likeRepository;
         this.userRepository = userRepository;

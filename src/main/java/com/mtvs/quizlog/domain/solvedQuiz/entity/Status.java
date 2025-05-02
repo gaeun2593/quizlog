@@ -1,4 +1,4 @@
-package com.mtvs.quizlog.solvedQuiz.entity;
+package com.mtvs.quizlog.domain.solvedQuiz.entity;
 
 public enum Status {
 
