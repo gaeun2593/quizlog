@@ -28,6 +28,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 
@@ -269,7 +271,9 @@ public class QuizChapterController {
         Chapter chapter = chapterService.findId(chapterId);
 
         String title = chapter.getTitle();
-        return "redirect:/main/chapters/" + chapterId + "/" + title;
+        log.info("title = {}", title);
+        return "redirect:/main/chapters/" + chapterId + "/" + URLEncoder.encode(title, StandardCharsets.UTF_8);
+
     }
 
 

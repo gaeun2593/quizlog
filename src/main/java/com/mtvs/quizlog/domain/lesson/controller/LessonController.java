@@ -51,12 +51,13 @@ public class LessonController {
     }
 
     /** 🔍 단일 레슨 */
-    @GetMapping("/{lessonId}")
-    public String detail(@AuthenticationPrincipal AuthDetails userDetails ,@PathVariable Long lessonId, Model model) {
+    @GetMapping("/{teacherId}/{lessonId}")
+    public String detail(@AuthenticationPrincipal AuthDetails userDetails ,@PathVariable Long lessonId, @PathVariable Long teacherId,Model model) {
         Lesson lesson = lessonService.findLessonById(lessonId);
         User user = userService.findUser(userDetails.getLogInDTO().getUserId());
         model.addAttribute("userId",userDetails.getLogInDTO().getUserId());
         model.addAttribute("lesson", lesson);
+        model.addAttribute("teacherId", teacherId);
         log.info("Lesson: {} ", lesson.getId());
         lesson.getChapterList().forEach(chapter -> {log.info("chapter: {}", chapter);});
         List<ChapterDto> chapterLists =chapterService.findChapter(user);
@@ -103,10 +104,11 @@ public class LessonController {
     }
 
     /** 🗑️ 레슨 삭제 */
-    @PostMapping("/delete/{lessonId}")
-    public String delete(@PathVariable Long lessonId) {
+    @GetMapping("/delete/{lessonId}/{teacherId}")
+    public String delete(@PathVariable Long lessonId,@PathVariable Long teacherId) {
+
         lessonService.deleteLesson(lessonId);
-        return "redirect:/lesson/list";
+        return "redirect:/lesson/list/" +teacherId;
     }
 
     /** ➕ 챕터 추가 */
