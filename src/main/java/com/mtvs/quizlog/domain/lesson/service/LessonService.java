@@ -114,7 +114,7 @@ public class LessonService {
     @Transactional
     public void deleteLesson(Long lessonId) {
         Lesson lesson = findLessonById(lessonId);
-        lesson.setDeletedAt(java.time.LocalDateTime.now());
+        lesson.setDeletedAt(LocalDateTime.now());
         lesson.setStatus(Status.DELETED);
     }
 }

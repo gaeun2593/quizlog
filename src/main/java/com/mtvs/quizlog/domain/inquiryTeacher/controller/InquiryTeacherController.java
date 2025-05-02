@@ -62,10 +62,7 @@ public class InquiryTeacherController {
                 log.info("user.getRole() = " + user.getRole());
                 //        선생->자신한테 쓴 문의 조회.
                 inquiry = inquiryTeacherService.findAllByTeacher(userDetails.getLogInDTO().getUserId());
-<<<<<<< HEAD
               //  log.info("inquiry.title() = " + inquiry.get(0).getTitle());
-=======
->>>>>>> f15d0021297915f6315e30f61cbe225005337138
                 model.addAttribute("inquiryList", inquiry);
                 break;
             case STUDENT:
@@ -173,8 +170,8 @@ public class InquiryTeacherController {
     //  답변 수정
     @PatchMapping ("/support/updateAnswer/{inquiryId}")
     public String updateAnswer(@AuthenticationPrincipal AuthDetails userDetails,@PathVariable Long inquiryId, @Validated @ModelAttribute("answerDTO") AnswerDTO answerDTO) {
-        User user = userService.findUser(userDetails.getLogInDTO().getUserId());
-        inquiryTeacherService.updateAnswer(answerDTO,inquiryId);
+        InquiryTeacherDTO inquiry = inquiryTeacherService.findById(inquiryId);
+        inquiryTeacherService.updateAnswer(answerDTO,inquiryTeacherService.findAnswerById(inquiry).getId());
         return "redirect:/support/"+inquiryId;
     }
 

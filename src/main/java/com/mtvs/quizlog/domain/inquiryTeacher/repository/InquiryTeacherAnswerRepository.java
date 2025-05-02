@@ -22,4 +22,13 @@ public interface InquiryTeacherAnswerRepository extends JpaRepository<InquiryTea
             "AND a.status = 'ACTIVE'")
     AnswerDTO findAnswerDTOByInquiryTeacherId(long inquiryTeacherId);
 
+    Optional<Object> findInquiryTeacherAnswerByInquiryTeacher_Id(Long inquiryTeacherId);
+
+
+    @Query("SELECT a " +
+            "FROM InquiryTeacherAnswer a " +
+            "JOIN a.inquiryTeacher t " +
+            "WHERE t.id = :inquiryTeacherId " +
+            "AND a.status = 'ACTIVE'")
+    InquiryTeacherAnswer findAnswerByInquiryTeacher(Long inquiryTeacher);
 }

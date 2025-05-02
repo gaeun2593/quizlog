@@ -17,7 +17,7 @@
         <div class="mt-4" th:if="${lesson.user.userId==userId}">
             <a th:href="@{/lesson/edit/{id}(id=${lesson.id})}" class="btn btn-quiz rounded-pill">수정하기</a>
 
-            <form th:action="@{/lesson/delete/{id}(id=${lesson.id})}" method="post" class="d-inline"
+            <form th:action="@{/lesson/delete/{id}/{tid}(tid=${teacherId}, id=${lesson.id})}" method="get" class="d-inline"
                   onsubmit="return confirm('정말 삭제하시겠습니까?')">
                 <button type="submit" class="btn btn-outline-danger">삭제</button>
             </form>

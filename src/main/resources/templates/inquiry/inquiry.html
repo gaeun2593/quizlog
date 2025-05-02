@@ -59,7 +59,7 @@
                 </div>
             </div>
         </form>
-        <form th:action="@{/support/{inquiryId}/delete(inquiryId=${inquiry.id})}" method="post"
+        <form th:action="@{/support/{inquiryId}/answerDelete(inquiryId=${inquiry.id})}" method="post"
               onsubmit="return confirm('정말로 이 답변을 삭제하시겠습니까?')">
             <input type="hidden" name="_method" value="patch" />
             <button type="submit" th:if="${answer != null && inquiry.teacher.userId==userId}" class="btn btn-sm btn-outline-danger">🗑️ 답변 삭제</button>
