@@ -7,6 +7,7 @@ import com.mtvs.quizlog.domain.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -20,6 +21,7 @@ public class AdminService {
     private static final Logger log = LoggerFactory.getLogger(AdminService.class);
     private final UserRepository userRepository;
 
+    @Autowired
     public AdminService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
