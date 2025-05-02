@@ -167,6 +167,15 @@ public class FolderBookmarkService {
             throw new SecurityException("이 폴더를 삭제할 권한이 없습니다.");
         }
 
+        // 연결된 챕터들의 외래 키 끊기
+        List<Quiz> quizzes = quizRepository.findByFolderBookmark(folderBookmark);
+        for (Quiz quiz : quizzes) {
+            quiz.setFolderBookmark(null); // 외래 키를 null로
+        }
+
+        quizRepository.saveAll(quizzes);
+        quizRepository.flush(); //  DB에 즉시 반영
+
         // 폴더 삭제
         folderBookmarkRepository.delete(folderBookmark);
         logger.info("folder deleted : " + folderTitle);

@@ -1,0 +1,215 @@
+*{
+    box-sizing: border-box;
+}
+body{
+    margin: 0;
+    color: #333;
+    font-family: 'Noto Sans KR' , sans-serif;
+    font-size: 15px;
+    height: 100vh;
+}
+/* reset css */
+a {
+    text-decoration: none;
+    color: #333;
+}
+li{
+    list-style: none;
+}
+
+ul{
+    margin: 0;
+    padding: 0;
+}
+
+h1,h2,h3,h4,h5,h6{
+    font-weight: 500;
+    margin: 0;
+}
+button{
+    border: none;
+    background:none;
+}
+
+
+/* 섹션 */
+section.intro{
+    background-color: #17cfaa10;
+    padding: 70px 55px;
+    height: 745px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+section.intro h1{
+    font-size: 40px;
+    font-weight: 600;
+    margin-bottom: 18px;
+}
+section.intro h2{
+    font-size: 20px;
+    font-weight: normal;
+    margin-bottom: 22px;
+}
+section.intro span{
+    color: #17CFAA;
+}
+section.intro a{
+    margin-bottom: 40px;
+    font-size: 16px;
+    padding: 12px 25px;
+}
+
+section.intro .cards{
+    display: flex;
+    gap: 30px;
+}
+section.intro .cards .card{
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    border-radius: 25px;
+    padding-top: 40px;
+    align-items: center;
+    width: 310px;
+    height: 390px;
+    gap: 60px;
+}
+
+
+section.intro .cards .card:first-child:hover{
+    background-color: #07F2CB;
+    color: #fff;
+    transition: .2s;
+}
+section.intro .cards .card:nth-child(2):hover{
+    background-color: #e94a99;
+    color: #fff;
+    transition: .2s;
+}
+section.intro .cards .card:nth-child(3):hover{
+    background-color:#3889F2;
+    color: #fff;
+    transition: .2s;
+}
+section.intro .cards .card:nth-child(4):hover{
+    background-color:#8333ec;
+    color: #fff;
+    transition: .2s;
+}
+
+section.intro .cards .card h3{
+    font-weight: bold;
+    font-size: 24px;
+}
+
+
+/* 어바웃섹션 */
+section.about{
+    display: flex;
+    justify-content: center;
+    padding: 50px 0px;
+
+}
+section.about .about-container{
+    width: 1024px;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+section.about .about-container .about{
+    display: flex;
+    gap: 80px;
+    height: 300px;
+}
+section.about .about-container .about .content-text{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex: 1;
+}
+section.about .about-container .about .content-text a{
+    font-size: 16px;
+    padding: 12px 25px;
+    width: 150px;
+    text-align: center;
+
+}
+section.about .about-container .about .content-text span{
+    font-size: 32px;
+    font-weight: bold;
+}
+section.about .about-container .about .content-text p{
+    font-size: 20px;
+}
+section.about .about-container .about .content-img{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1.1;
+    background: linear-gradient(to top,#17cfaa21 0%,#17CFAA 100%);
+    border-radius: 20px;
+}
+
+section.about .about-container .about:nth-child(2) .content-img{
+    background: linear-gradient(to top,#FFF4FC 0%,#F9B5E8 100%);
+    border-radius: 20px;
+}
+section.about .about-container .about:nth-child(3) .content-img{
+    background: linear-gradient(to top,#d782ff21 0%,#D882FF 100%);
+    border-radius: 20px;
+}
+section.about .about-container .about .content-img img{
+    height: 100%;
+}
+section.about .about-container .about:nth-child(3) .content-img img{
+    height: 90%;
+    padding-top: 10px;
+    padding-left: 20px;
+}
+
+
+/* teacher */
+section.for-teachers{
+    height: 520px;
+    background-color: #eee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+section.for-teachers .for-teachers-container{
+    width: 1024px;
+    padding: 55px 0px;
+}
+section.for-teachers .for-teachers-container .content{
+    display: flex;
+    gap: 80px;
+
+}
+section.for-teachers .for-teachers-container .content .content-text{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex: 1;
+}
+section.for-teachers .for-teachers-container .content .content-text a{
+    font-size: 16px;
+    padding: 12px 25px;
+    width: 200px;
+    text-align: center;
+
+}
+section.for-teachers .for-teachers-container .content .content-text span{
+    font-size: 32px;
+    font-weight: bold;
+}
+section.for-teachers .for-teachers-container .content .content-text p{
+    font-size: 20px;
+}
+section.for-teachers .for-teachers-container .content .content-img{
+    flex: 1.1;
+}
+section.for-teachers .for-teachers-container .content .content-img img{
+    border-radius: 20px;
+}
