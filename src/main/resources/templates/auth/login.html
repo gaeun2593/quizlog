@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/head :: commonHead">
+</head>
+<body>
+<div class="login-wrapper">
+    <div class="login-box">
+        <div class="login-box2">
+        <a href="/"><img th:src="@{/images/chevron-left.svg}" class="back-to-home-img" alt="홈으로 돌아가기"></a>
+            <h2>로그인</h2>
+            <form th:action="@{/auth/login}" method="post" onsubmit="return validateEmail()">
+                <div class="form-group">
+                    <label for="email">이메일</label>
+                    <input type="text" id="email" name="email" placeholder="이메일을 입력하세요" required />
+                    <div id="email-error" class="error-message" style="display: none;">유효한 이메일 형식을 입력하세요.</div>
+                </div>
+                <div class="form-group">
+                    <label for="password">비밀번호</label>
+                    <input type="password" id="password" name="password" placeholder="비밀번호를 입력하세요" required />
+                </div>
+                <div th:if="${param.error}" class="error-message" style="color: red; margin-bottom: 10px;">
+                    이메일과 비밀번호가 맞지 않습니다.
+                </div>
+                <button type="submit" class="submit3">로그인</button>
+                <a href="/user/sign-up">
+                    <button type="button" class="submit2">처음이신가요? 회원가입</button>
+                </a>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    function validateEmail() {
+        const email = document.getElementById("email").value;
+        const emailError = document.getElementById("email-error");
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!regex.test(email)) {
+            emailError.style.display = "block";
+            return false; // form 제출 막음
+        } else {
+            emailError.style.display = "none";
+            return true;
+        }
+    }
+</script>
+</body>
+</html>

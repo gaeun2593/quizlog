@@ -1,0 +1,206 @@
+/*버튼*/
+.btn-green-color{
+    color: #848484;
+    background-color: #f0f0f0;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+
+}
+.btn-green-color:hover{
+    color: #fff;
+    background-color: #17CFAA;
+    transition: .2s;
+}
+
+.check-btn{
+    padding: 5px 7px;
+    background-color: #f0f0f0;
+    border-radius: 50%;
+    color: #848484;
+}
+
+.check-btn:hover{
+    color: #fff;
+    background-color: #17CFAA;
+    transition: .2s;
+}
+
+.main-layout {
+   align-items: center;
+    display: block;
+    padding-top: 40px;
+}
+
+.chapter-title{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 50px;
+}
+
+.folder-chapter-buttons{
+    display: flex;
+    gap: 20px;
+}
+
+.folder-chapter-buttons>div{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    transition: .2s;
+}
+
+.popup{
+    display: none;
+}
+.popup.active{
+    display: block;
+}
+
+
+.chapter-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0 auto;
+}
+.chapter-header, .chapter-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    border: 1px solid #aaa;
+    border-radius: 6px;
+    background-color: #f9f9f9;
+    flex-direction: column;
+}
+.chapter-header {
+    font-weight: bold;
+    background-color: #e0e0e0;
+}
+.chapter-item a {
+    text-decoration: none;
+    color: #007bff;
+    margin-left: 10px;
+}
+.quiz-bookmark-btns{
+    display: flex;
+    gap: 10px;
+}
+.quiz-bookmark-btns>div{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.chapter-item a:hover {
+    text-decoration: underline;
+}
+.card-box{
+    width: 400px ;
+}
+.card {
+    width: 100%;
+    height: 250px;
+    color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.card-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+}
+
+.card.flipped .card-inner {
+    transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    border-radius: 12px;
+    box-shadow: 0 0 2rem 0 #282e3e1a;
+}
+
+.card-back {
+    transform: rotateY(180deg);
+}
+
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    gap: 20px;
+}
+
+.buttons button {
+    width: 60px;
+    height: 60px;
+    font-size: 1.5rem;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    color: white;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.buttons button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+#correct {
+    background-color: #4caf50;
+}
+
+#incorrect {
+    background-color: #ff4d4d;
+}
+
+.chapter-item-box {
+    width: 90%;
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 15px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.chapter-item{
+    width: 90%;
+    margin-bottom: 50px;
+    margin-top: 20px;
+    padding: 15px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    gap: 10px;
+}
+
+.in-progress {
+    color: #17CFAA;
+    font-weight: bold;
+}
+
+.completed {
+    color: #2196f3;
+    font-weight: bold;
+}
+

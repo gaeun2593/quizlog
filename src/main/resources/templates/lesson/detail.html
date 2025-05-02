@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: commonHead">
+    <meta charset="UTF-8">
+    <title>레슨 상세</title>
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+<div class="main-page-container">
+    <div th:replace="fragments/aside :: asideFragment"></div>
+    <div class="main-layout">
+        <h2 th:text="${lesson.title}">레슨 제목</h2>
+        <p><span th:text="${lesson.description}"></span></p>
+        <p><strong>등록일:</strong> <span th:text="${#temporals.format(lesson.createdAt, 'yyyy-MM-dd')}"></span></p>
+
+        <div class="mt-4" th:if="${lesson.user.userId==userId}">
+            <a th:href="@{/lesson/edit/{id}(id=${lesson.id})}" class="btn btn-quiz rounded-pill">수정하기</a>
+
+            <form th:action="@{/lesson/delete/{id}/{tid}(tid=${teacherId}, id=${lesson.id})}" method="get" class="d-inline"
+                  onsubmit="return confirm('정말 삭제하시겠습니까?')">
+                <button type="submit" class="btn btn-outline-danger">삭제</button>
+            </form>
+        </div>
+        <a th:href="@{/lesson/list/{id}(id=${lesson.user.userId})}" class="btn btn-quiz rounded-pill d-flex justify-content-center align-items-center text-center">목록으로</a>
+        <hr class="my-4" />
+
+        <h4>포함된 챕터 목록</h4>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>챕터 제목</th>
+                <th>액션</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="chapter : ${lesson.chapterList}">
+                <td th:text="${chapter.title}">챕터 제목</td>
+                <td>
+                    <form th:action="@{'/lesson/' + ${lesson.id} + '/removeChapter/' + ${chapter.id}}" method="post" class="d-inline"
+                          onsubmit="return confirm('정말 이 챕터를 제거하시겠습니까?')">
+                        <button type="submit" class="btn btn-sm btn-outline-danger">제거</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <button class="btn btn-quiz rounded-pill d-flex justify-content-center align-items-center text-center" onclick="openModal()">챕터 추가하기</button>
+            <div id="modal" class="modal-overlay" style="display: none;">
+            <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">✖</button>
+            <div class="title-section">챕터 추가하기</div>
+
+            <div th:each="chapter : ${chapterLists}" class="card-item">
+                <div>
+                    <div th:text="${chapter.title}">세트 제목</div>
+                    <div th:if="${chapter.nickname != null}" th:text="${chapter.nickname}">작성자</div>
+                </div>
+                <button class="add-button" th:onclick="'addSet(' + ${chapter.id} + ')'">+</button>
+            </div>
+            <div class="modal-footer">
+                <button onclick="closeModal()">완료</button>
+            </div>
+            </div>
+            </div>
+
+
+
+
+<!--
+
+        <h5 class="mt-4">➕ 챕터 추가</h5>
+        <form th:action="@{'/lesson/' + ${lesson.id} + '/addChapter/' + ${chapterIdToAdd}}" method="post">
+            <div class="input-group">
+                <input type="number" name="chapterIdToAdd" class="form-control" placeholder="챕터 ID 입력" required />
+                <button type="submit" class="btn btn-primary">추가</button>
+            </div>
+        </form>
+-->
+
+    </div>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>
+
+<!-- 자바스크립트 -->
+<script th:inline="javascript">
+    let lessonId = [[${lessonId}]];
+
+    function openModal() {
+        document.getElementById("modal").style.display = "flex";
+    }
+
+    function closeModal() {
+        document.getElementById("modal").style.display = "none";
+    }
+
+    function addSet(setId) {
+        fetch(`http://localhost:8080/lesson/${lessonId}/addChapter/${setId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                lessonId: lessonId,
+                chapterId: setId
+            })
+        }).then(() => {
+            alert('학습 자료가 추가되었습니다.');
+        }).catch(() => {
+            alert('추가 중 오류가 발생했습니다.');
+        });
+    }
+</script>
+
+
+

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<body>
+<aside th:fragment="asideFragment" class="side-nav">
+  <div>
+    <a href="/main"><img th:src="@{/images/home.svg}" alt="home">홈</a>
+    <a th:href="@{/folder-chapters/folder-chapters-view}"><img th:src="@{/images/folder-plus.svg}" alt="folder-plus">폴더</a>
+    <a href="/user/my-page"><img th:src="@{/images/settings.svg}" alt="settings">마이페이지</a>
+
+    <!-- 본인 문의 목록 페이지 -->
+    <a href="/support">
+      <img th:src="@{/images/help-circle.svg}" alt="admin">문의 목록
+    </a>
+
+    <!-- 관리자일때 관리자 페이지 -->
+    <a href="/admin/list-users" sec:authorize="hasAuthority('ADMIN')">
+      <img th:src="@{/images/Vector.svg}" alt="admin">관리자 페이지
+    </a>
+
+    <!-- 학생, 선생님일 때 관리자 채팅 문의 페이지 -->
+    <form th:action="@{/chat/room}" method="post" sec:authorize="hasAnyAuthority('STUDENT', 'TEACHER')">
+      <button type="submit">
+        <img th:src="@{/images/Vector-2.svg}" alt="chat">채팅 문의
+      </button>
+    </form>
+  </div>
+</aside>
+</body>
+</html>

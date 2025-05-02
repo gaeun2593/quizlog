@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>quizlog</title>
+    <link rel="stylesheet" href="./css/footer.css">
+    <link rel="stylesheet" href="./css/header.css">
+    <link rel="stylesheet" href="./css/index.css">
+
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<section class="intro">
+    <h1>퀴즈가 공부가 되는 순간, <span>Quizlog!</span></h1>
+    <h2>챕터 수강과 대결로 학습 몰입도를 높이세요!</h2>
+    <a class="btn-primary" href="/user/sign-up">무료 회원가입</a>
+    <div class="cards">
+        <div class="card">
+            <h3>학습하기</h3>
+            <img src="./images/intro-img1.png" alt="intro-img1">
+        </div>
+        <div class="card">
+            <h3>낱말카드</h3>
+            <img src="./images/intro-img2.png" alt="intro-img2">
+        </div>
+        <div class="card">
+            <h3>퀴즈 대결하기</h3>
+            <img src="./images/intro-img3.png" alt="intro-img3">
+        </div>
+        <div class="card">
+            <h3>진도율 체크</h3>
+            <img src="./images/intro-img4.png" alt="intro-img4">
+        </div>
+    </div>
+</section>
+<section class="about">
+    <div class="about-container">
+        <div class="about">
+            <div class="content-text">
+                <span>모든 퀴즈, 모든 배틀, 하나의 웹사이트로 학습 완성</span>
+                <p>직접 낱말카드를 만들거나, 선생님과 전문가들이 만든 세트를 찾아보세요. 언제 어디서든, 무료로 편하게 학습할 수 있어요.</p>
+            </div>
+            <div class="content-img"><img src="./images/about-img1.png" alt="about-img1"></div>
+        </div>
+        <div class="about">
+            <div class="content-img"><img src="./images/about-img2.png" alt="about-img2"></div>
+            <div class="content-text">
+                <span>당신만의 학습 방식을 선택하세요.</span>
+                <p>낱말카드를 카드 맞추기 게임 등으로 변환해보세요. 다양한 학습 모드를 통해 재미있고 효과적으로 지식을 쌓을 수 있습니다.</p>
+                <a href="/user/sign-up" class="btn-primary">시작하기</a>
+            </div>
+        </div>
+        <div class="about">
+            <div class="content-text">
+                <span>지루할 틈 없는 몰입형 학습 플랫폼</span>
+                <p>실시간 퀴즈 대결로 다른 학습자들과 경쟁하며 자연스럽게 실력을 키워보세요. </p>
+                <a href="/user/sign-up" class="btn-primary">시작하기</a>
+            </div>
+            <div class="content-img"><img src="./images/about-img3.png" alt="about-img3"></div>
+        </div>
+    </div>
+</section>
+<section class="for-teachers">
+    <div class="for-teachers-container">
+        <div class="content">
+            <div class="content-text">
+                <span>선생님으로 가입하여 학생들을 서포트 해보세요</span>
+                <p>직접 만든 퀴즈로 학생들의 학습 동기를 높이고, 실시간 피드백으로 성장을 지원하세요. 퀴즈로그는 선생님과 학생이 함께 성장하는 공간입니다.</p>
+                <a href="/user/sign-up" class="btn-primary">선생님으로 가입하기</a>
+            </div>
+            <div class="content-img"><img src="./images/for-teachers-img.png" alt="for-teachers"></div>
+        </div>
+    </div>
+
+</section>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

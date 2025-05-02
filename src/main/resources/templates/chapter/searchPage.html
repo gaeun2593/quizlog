@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: commonHead"></head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div class="main-page-container">
+  <div th:replace="fragments/aside :: asideFragment"></div>
+  <div class="page-layout">
+    <div class="page-layout-container">
+      <h1>챕터 목록</h1>
+
+      <div th:if="${#lists.isEmpty(chapterDto)}">
+        결과가 없습니다.<br>
+        * 맞춤법을 확인하거나 다른 맞춤법을 시도해 보세요<br>
+        * 다른 키워드로 검색하세요<br>
+        * 필터를 지우세요
+      </div>
+
+      <div class="chapter-list2">
+        <div th:each="chapter : ${chapterDto}">
+          <a th:href="@{'/main/chapters/' + ${chapter.id} + '/' + ${chapter.title}}" class="card-link">
+            <div class="card-title" th:text="${chapter.title}">챕터 제목</div>
+            <div class="card-desc" th:text="${chapter.nickname}">작성자 닉네임</div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

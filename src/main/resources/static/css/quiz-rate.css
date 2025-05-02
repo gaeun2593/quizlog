@@ -1,0 +1,130 @@
+.main-page-container {
+    display: flex;
+    height: 100%;
+}
+
+/* 사이드바 */
+.main-page-container .side-nav {
+    flex: 1;
+    padding: 20px 10px;
+}
+
+.main-page-container .side-nav > div {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.main-page-container .side-nav > div a {
+    padding: 10px 10px;
+    display: flex;
+    gap: 15px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.main-page-container .side-nav > div a:hover {
+    background-color: rgb(238, 249, 249);
+    transition: 0.3s;
+}
+
+/* 메인페이지 */
+.page-layout {
+    flex: 5;
+    padding: 40px;
+    height: 100%;
+}
+
+.page-layout-container {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+.chapter-list {
+    flex: 5;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    border-radius: 12px;
+}
+
+.chapter-header,
+.chapter-item {
+    display: flex;
+    justify-content: flex-start; /* 왼쪽 정렬 */
+    align-items: center;
+    padding: 18px 30px; /* 패딩을 늘려서 크기 키움 */
+    border-radius: 10px;
+    font-size: 1.2rem; /* 폰트 크기 키움 */
+    width: 100%; /* 가로 너비를 100%로 설정 */
+}
+
+.chapter-header {
+    background-color: #17CFAA;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.chapter-item {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    padding: 18px 30px; /* 패딩을 늘려서 크기 키움 */
+    font-size: 1.2rem; /* 폰트 크기 키움 */
+    width: 100%;
+}
+
+.chapter-item:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px);
+}
+
+.chapter-item span {
+    width: 33%;
+    text-align: left; /* 왼쪽 정렬 */
+    font-weight: 600;
+    padding-left: 20px; /* 왼쪽 여백을 추가 */
+}
+
+.chapter-header span {
+    width: 33%;
+    text-align: left; /* 왼쪽 정렬 */
+    font-weight: bold;
+    color: white;
+    padding-left: 20px; /* 왼쪽 여백을 추가 */
+}
+
+.chapter-header span:first-child {
+    color: #ffffff;
+}
+
+.chapter-header span:nth-child(2) {
+    color: #ffffff;
+}
+
+.chapter-header span:last-child {
+    color: #ffffff;
+}
+
+.back-link {
+    display: block;
+    text-align: center;
+    margin-top: 30px;
+    font-size: 1rem;
+    text-decoration: none;
+    color: #17CFAA;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+
+

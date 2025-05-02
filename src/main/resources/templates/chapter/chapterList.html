@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: commonHead"></head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div class="main-page-container">
+    <div th:replace="fragments/aside :: asideFragment"></div>
+    <div class="page-layout">
+        <div class="page-layout-container">
+            <h1>최신 퀴즈 목록</h1>
+            <div class="chapter-list2">
+                <div th:each="chapter : ${chapterList}">
+                    <a th:href="@{'/main/chapters/' + ${chapter.id} + '/' + ${chapter.title}}" class="card-link">
+                        <div class="card-title" th:text="${chapter.title}">Chapter Title</div>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

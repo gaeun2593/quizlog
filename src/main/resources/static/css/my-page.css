@@ -1,0 +1,162 @@
+.main-page-container {
+    display: flex;
+    height: 100%;
+}
+
+/* 사이드바 */
+.main-page-container .side-nav {
+    flex: 1;
+    padding: 20px 10px;
+}
+
+.main-page-container .side-nav > div {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.main-page-container .side-nav > div a {
+    padding: 10px 10px;
+    display: flex;
+    gap: 15px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.main-page-container .side-nav > div a:hover {
+    background-color: rgb(238, 249, 249);
+    transition: 0.3s;
+}
+
+/* 메인페이지 */
+.page-layout {
+    flex: 5;
+    padding: 40px;
+    height: 100%;
+}
+
+.page-layout-container {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+/* 수정 영역 스타일 */
+.page-menu > div {
+    border-bottom: 1px solid #ddd;
+    padding: 16px 0;
+}
+
+#nickname-view,
+#email-view,
+#role-view,
+#password-view {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+/* 버튼 스타일 */
+.btn-hover-text-green {
+    background-color: #17CFAA;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 999px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-hover-text-green:hover {
+    background-color: #14b89f;
+}
+
+/* 역할/비밀번호 변경 버튼 우측 정렬 */
+#role-view .role-form,
+#password-view {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#role-view .role-form button,
+#password-view button {
+    background-color: #17CFAA;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 999px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#role-view .role-form button:hover,
+#password-view button:hover {
+    background-color: #14b89f;
+}
+
+/* 탈퇴 관련 */
+.withdrawal-wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+.withdrawal-form {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.withdraw-button {
+    background-color: #ff4d4f;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 999px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.withdraw-button:hover {
+    background-color: #e04344;
+}
+
+.withdraw-info {
+    font-size: 13px;
+    color: #888;
+    text-align: left;
+}
+
+/* 권한 선택 박스 */
+.form-group2 select {
+    width: 15%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f8f8f8;
+    font-size: 16px;
+    color: #333;
+    transition: all 0.3s ease;
+}
+
+.form-group2 select:hover {
+    border-color: #17CFAA;
+    background-color: #f1f1f1;
+}
+
+.form-group2 select:focus {
+    border-color: #17CFAA;
+    outline: none;
+    box-shadow: 0 0 5px #129c80;
+}
+
+.form-group2 select option {
+    padding: 10px;
+    font-size: 16px;
+    background-color: #fff;
+}

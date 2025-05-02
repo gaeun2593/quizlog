@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: commonHead">
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+
+<div class="manage-page-container">
+    <div th:replace="fragments/aside :: asideFragment"></div>
+
+    <div class="manage-layout">
+        <div class="manage-layout-container">
+            <h1>회원 조회</h1>
+
+            <div class="manage-menu">
+                <ul>
+                    <li><a href="/admin/list-users">전체 회원 조회</a></li>
+                    <li><a href="/admin/list-deleted-users">탈퇴 회원 조회</a></li>
+                    <li><a href="/admin/chat/rooms">사용자 문의 관리</a></li>
+                </ul>
+            </div>
+
+            <!-- 🔍 검색창 추가 -->
+            <div class="datatable-top">
+                <form th:action="@{/admin/list-deleted-users}" method="get" style="display: flex; gap: 10px; justify-content: flex-end;">
+                    <input type="text" name="keyword" th:value="${keyword}" class="form-control datatable-input" placeholder="닉네임 검색">
+                    <button type="submit" class="btn btn-success btn-sm">검색</button>
+                </form>
+            </div>
+
+            <div class="datatable-wrapper">
+                <div class="datatable-container">
+                    <table class="datatable-table table table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>닉네임</th>
+                            <th>이메일</th>
+                            <th>권한</th>
+                            <th>상태</th>
+                            <th>가입일</th>
+                            <th>계정 복구</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="deletedUser : ${deletedUsers}">
+                            <td th:text="${deletedUser.userId}"></td>
+                            <td th:text="${deletedUser.nickname}"></td>
+                            <td th:text="${deletedUser.email}"></td>
+                            <td th:text="${deletedUser.role}"></td>
+                            <td th:text="${deletedUser.status}"></td>
+                            <td th:text="${#temporals.format(deletedUser.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
+                            <td>
+                                <form th:action="@{/admin/restore-user}" method="post">
+                                    <input type="hidden" name="userId" th:value="${deletedUser.userId}"/>
+                                    <button type="submit" class="custom-btn">복구</button>
+                                </form>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 📄 페이지네이션 -->
+                <div class="datatable-bottom">
+                    <div class="datatable-pagination">
+                        <ul>
+                            <li th:if="${currentPage > 0}">
+                                <a th:href="@{/admin/list-deleted-users(page=${currentPage - 1}, keyword=${keyword})}">이전</a>
+                            </li>
+
+                            <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                                th:classappend="${i == currentPage} ? 'active' : ''">
+                                <a th:href="@{/admin/list-deleted-users(page=${i}, keyword=${keyword})}" th:text="${i + 1}"></a>
+                            </li>
+
+                            <li th:if="${currentPage < totalPages - 1}">
+                                <a th:href="@{/admin/list-deleted-users(page=${currentPage + 1}, keyword=${keyword})}">다음</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- 부트스트랩 JS -->
+<script>
+    window.addEventListener('DOMContentLoaded', event => {
+        // Simple-DataTables 기본 스크립트 (추가 필요 시)
+    });
+</script>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

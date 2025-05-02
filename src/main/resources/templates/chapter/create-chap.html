@@ -1,0 +1,64 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head th:replace="fragments/head :: commonHead">
+    <meta charset="UTF-8">
+    <title>Quiz Log - 챕터 생성</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/common.css}" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div class="main-page-container">
+    <div th:replace="fragments/aside :: asideFragment"></div>
+    <div class="page-layout">
+        <div class="page-layout-container">
+            <div class="page-form">
+            <form th:action="@{/main/create-chap}" th:object="${requestCreateChapterDTO}" method="post" id="chapter-create-form">
+            <h2>새로운 챕터 생성</h2>
+                <div class="chapter-input-group">
+                    <input type="text" th:field="*{title}" placeholder="챕터 제목" />
+                    <input type="text" th:field="*{description}" placeholder="챕터 설명" />
+                </div>
+                <br>
+
+                <h2>퀴즈 목록</h2>
+                <div id="quiz-container">
+                    <div class="quiz-entry" th:each="quiz, stat : *{quizForm}">
+                        <input type="text" th:field="*{quizForm[__${stat.index}__].word}" placeholder="단어" />
+                        <input type="text" th:field="*{quizForm[__${stat.index}__].answer}" placeholder="정답" />
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button type="button" onclick="addQuiz()">퀴즈 추가</button>
+                    <button type="submit">저장</button>
+                </div>
+
+            </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    let quizIndex = [[${#lists.size(requestCreateChapterDTO.quizForm)}]];
+
+    function addQuiz() {
+        const container = document.getElementById("quiz-container");
+
+        const newDiv = document.createElement("div");
+        newDiv.classList.add("quiz-entry");
+
+        newDiv.innerHTML = `
+            <input type="text" name="quizForm[${quizIndex}].word" placeholder="단어"/>
+            <input type="text" name="quizForm[${quizIndex}].answer" placeholder="정답"/>
+        `;
+
+        container.appendChild(newDiv);
+        quizIndex++;
+    }
+</script>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

@@ -1,0 +1,446 @@
+* {
+    box-sizing: border-box;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    color: #333;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 15px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+a {
+    text-decoration: none;
+    color: #333;
+}
+
+li {
+    list-style: none;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 500;
+    margin: 0;
+}
+
+button {
+    border: none;
+    background: none;
+}
+
+/* Main Layout Styles */
+.main-page-container {
+    display: flex;
+    flex: 1;
+}
+
+.main-layout {
+    flex: 5;
+    width: 1200px;
+    padding: 20px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    height: 100%;
+    /*margin: 0 auto;*/
+}
+
+/* 사이드바 */
+.main-page-container .side-nav{
+    flex: 1;
+    padding: 20px 10px;
+
+}
+.main-page-container .side-nav>div{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+}
+.main-page-container .side-nav>div a{
+    padding: 10px 10px;
+    display: flex;
+    gap: 15px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+.main-page-container .side-nav>div a:hover{
+    background-color: rgb(238, 249, 249);
+    transition: 0.3s;
+}
+
+.section-header {
+    border-bottom: 2px solid #e9ecef;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.section-title {
+    font-size: 1.5rem;
+    color: #212529;
+    position: relative;
+    padding-left: 12px;
+}
+
+.section-title::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 20px;
+    background-color: #17CFAA;
+    border-radius: 2px;
+}
+
+/* Button Styles */
+.btn-primary {
+    padding: 8px 25px;
+    background-color: #17CFAA;
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 30px;
+    transition: .3s;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #12a88a;
+    transition: .3s;
+}
+
+.btn-quiz {
+    background-color: transparent;
+    color: #17CFAA;
+    border: 1px solid #17CFAA;
+    padding: 8px 16px;
+    font-weight: 500;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+}
+
+.btn-quiz:hover {
+    background-color: #17CFAA;
+    color: white;
+}
+
+.btn-chapter {
+    background-color: transparent;
+    color: #6c5ce7;
+    border: 1px solid #6c5ce7;
+    padding: 8px 16px;
+    font-weight: 500;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+}
+
+.btn-chapter:hover {
+    background-color: #6c5ce7;
+    color: white;
+}
+
+.arrow-icon {
+    font-style: normal;
+    margin-left: 8px;
+    transition: transform 0.3s ease;
+}
+
+.btn-quiz:hover .arrow-icon,
+.btn-chapter:hover .arrow-icon {
+    transform: translateX(4px);
+}
+
+/* Card Styles */
+.quiz-card {
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    border: none;
+}
+
+.quiz-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+.card-tag {
+    display: inline-block;
+    background-color: #17CFAA;
+    color: white;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 8px;
+    border-radius: 4px;
+    margin-bottom: 4px;
+}
+
+.author-text {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.chapter-card {
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    border: none;
+    background: linear-gradient(135deg, #ffffff 0%, #f5f7fa 100%);
+}
+
+.chapter-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(108, 92, 231, 0.1) !important;
+    border-bottom: 3px solid #6c5ce7;
+}
+
+/* Teacher Cards */
+.teacher-ranking-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    margin-top: 15px;
+    padding: 0 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.teacher-ranking-slider {
+    width: 100%;
+    overflow: hidden;
+    padding: 10px 0;
+}
+
+.teachers-wrapper {
+    display: flex;
+    transition: transform 0.5s ease;
+    gap: 15px;
+    flex-wrap: nowrap;
+}
+
+.teacher-card {
+    width: 240px;
+    flex: 0 0 auto;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.teacher-card:hover {
+    transform: translateY(-5px);
+}
+
+.teacher-card .teacher-card-link {
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    color: inherit;
+}
+
+.teacher-info {
+    border-radius: 12px !important;
+    transition: all 0.3s ease;
+}
+
+.teacher-card:hover .teacher-info {
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1) !important;
+}
+
+.teacher-header {
+    margin-bottom: 10px;
+}
+
+.teacher-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: #6c5ce7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+}
+
+.avatar-placeholder {
+    font-size: 16px;
+}
+
+.teacher-info h4 {
+    font-size: 16px;
+    color: #333;
+    margin: 0;
+}
+
+.teacher-likes {
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.heart-icon {
+    color: #ff5757;
+    font-size: 18px;
+}
+
+.like-count {
+    font-weight: 500;
+}
+
+/* Slider buttons */
+.slide-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: white;
+    border: 1px solid #eee;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 18px;
+    z-index: 10;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.prev-btn {
+    left: 5px;
+}
+
+.next-btn {
+    right: 5px;
+}
+
+.slide-btn:hover {
+    background-color: #17CFAA;
+    color: white;
+    border-color: #17CFAA;
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .main-layout {
+        padding: 15px;
+    }
+    
+    .teacher-card {
+        width: 200px;
+    }
+}
+
+/* Footer */
+footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60px;
+    flex-shrink: 0;
+    background-color: #fff;
+    border-top: 1px solid #eee;
+}
+
+footer .container {
+    width: 100%;
+    max-width: 1024px;
+    display: flex;
+    gap: 20px;
+}
+
+/* Other sections from original CSS that might be needed */
+section.intro {
+    background-color: #17cfaa10;
+    padding: 70px 55px;
+    height: 745px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+section.intro h1 {
+    font-size: 40px;
+    font-weight: 600;
+    margin-bottom: 18px;
+}
+
+section.intro h2 {
+    font-size: 20px;
+    font-weight: normal;
+    margin-bottom: 22px;
+}
+
+section.intro span {
+    color: #17CFAA;
+}
+
+section.intro a {
+    margin-bottom: 40px;
+    font-size: 16px;
+    padding: 12px 25px;
+}
+
+section.intro .cards {
+    display: flex;
+    gap: 30px;
+}
+
+section.intro .cards .card {
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    border-radius: 25px;
+    padding-top: 40px;
+    align-items: center;
+    width: 310px;
+    height: 390px;
+    gap: 60px;
+}
+
+section.intro .cards .card:first-child:hover {
+    background-color: #07F2CB;
+    color: #fff;
+    transition: .2s;
+}
+
+section.intro .cards .card:nth-child(2):hover {
+    background-color: #e94a99;
+    color: #fff;
+    transition: .2s;
+}
+
+section.intro .cards .card:nth-child(3):hover {
+    background-color: #3889F2;
+    color: #fff;
+    transition: .2s;
+}
+
+section.intro .cards .card:nth-child(4):hover {
+    background-color: #8333ec;
+    color: #fff;
+    transition: .2s;
+}
+
+section.intro .cards .card h3 {
+    font-weight: bold;
+    font-size: 24px;
+}
