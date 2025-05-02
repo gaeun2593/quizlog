@@ -22,8 +22,6 @@ public class QuizDTO {
 
     @Override
     public String toString() {
-        return "QuizDTO{" +
-                "title='" + title + '\'' +
-                '}';
+        return title;
     }
 }

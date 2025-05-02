@@ -3,6 +3,9 @@ package com.mtvs.quizlog.domain.quiz.repository;
 import com.mtvs.quizlog.domain.chapter.controller.dto.request.QuizDto;
 
 import com.mtvs.quizlog.domain.chapter.controller.dto.request.QuizForm;
+import com.mtvs.quizlog.domain.chapter.entity.Chapter;
+import com.mtvs.quizlog.domain.folder.folderbookmarks.entity.FolderBookmark;
+import com.mtvs.quizlog.domain.folder.folderchapter.entity.FolderChapter;
 import com.mtvs.quizlog.domain.quiz.entity.Quiz;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -74,4 +77,25 @@ public class QuizRepository  {
 
         return query.getResultList();
     }
+
+    public void flush() {
+        em.flush();
+    }
+
+    // 수정된 챕터들 저장 (폴더와의 연결을 끊은것을 저장)
+    public void saveAll(List<Quiz> quizzes) {
+        for (Quiz quiz : quizzes) {
+            em.merge(quiz ); // 수정된 엔티티 반영
+        }
+    }
+
+    // 챕터에서 폴더챕터 찾아서 리스트로 반환
+    public List<Quiz> findByFolderBookmark(FolderBookmark folderBookmark) {
+        TypedQuery<Quiz> query = em.createQuery(
+                "select q from Quiz q where q.folderBookmark = :folderBookmark", Quiz.class
+        );
+        query.setParameter("folderBookmark", folderBookmark);
+        return query.getResultList();
+    }
+
 }

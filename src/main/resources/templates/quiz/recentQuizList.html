@@ -8,6 +8,7 @@
   <link rel="stylesheet" th:href="@{/css/header.css}" />
   <link rel="stylesheet" th:href="@{/css/aside.css}" />
   <link rel="stylesheet" href="/css/recentQuizList.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
 <div th:replace="fragments/header :: header"></div>
@@ -21,44 +22,58 @@
     <div class="chapter-title">
       <h1>퀴즈 풀기</h1>
       <div class="folder-chapter-buttons">
-        <span class="btn-green-color" onclick="popup(this)">폴더생성해서 넣기</span>
+        <div>
+          <span class="btn-green-color" onclick="popup(this)">폴더생성해서 넣기</span>
         <form action="/folder-chapters/create-folder-chapter" method="POST" class="popup">
           <input type="text" name="title" pattern=".*\S.*" required>
           <input type="hidden" name="chapterId" th:value="${chapter.id}"/>
-          <input type="submit" value="폴더생성" class="btn-green-custom">
+          <button type="submit" class="btn-green-custom check-btn" ><i class="fa-solid fa-check"></i></button>
         </form>
-        <span class="btn-green-color" onclick="popup(this)">기존 폴더에 넣기</span>
-        <div th:each="folderChapter : ${folderChapters}">
+        </div>
+
+        <div>
+          <span class="btn-green-color" onclick="popup(this)">기존 폴더에 넣기 </span>
+         <div th:each="folderChapter : ${folderChapters}">
           <form action="/folder-chapters/add-chapter-to-folder" method="POST" class="popup">
             <span th:text="${folderChapter.title}" ></span>
             <input type="hidden" name="folderChapterId" th:value="${folderChapter.id}" readonly>
             <input type="hidden" name="chapterId" th:value="${chapter.id}"/>
-            <input type="submit" value="챕터담기" class="btn-green-custom">
+            <button type="submit" class="btn-green-custom check-btn" ><i class="fa-solid fa-check"></i></button>
           </form>
+         </div>
         </div>
       </div>
-
     </div>
 
 
     <div class="chapter-item" th:each="quiz : ${quizForm}">
-      <span class="btn-green-color" onclick="popup(this)">퀴즈 폴더생성해서 넣기</span>
-      <form action="/folder-bookmarks/create-folder-bookmark2" method="POST" class="popup">
-        <input type="text" name="title" pattern=".*\S.*" required>
-        <input type="hidden" name="quizId" th:value="${quiz.id}"/>
-        <input type="hidden" name="chapterId" th:value="${chapter.id}"/>
-        <input type="submit" value="폴더생성" class="btn-green-custom">
-      </form>
-      <span class="btn-green-color" onclick="popup(this)">기존 퀴즈 폴더에 넣기</span>
-      <div th:each="folderBookmark : ${folderBookmarks}">
-        <form action="/folder-bookmarks/add-quiz-to-folder" method="POST" class="popup">
-          <span th:text="${folderBookmark.title}" ></span>
-          <input type="hidden" name="folderBookmarkId" th:value="${folderBookmark.id}" readonly>
-          <input type="hidden" name="quizId" th:value="${quiz.id}"/>
-          <input type="hidden" name="chapterId" th:value="${chapter.id}"/>
-          <input type="submit" value="퀴즈담기" class="btn-green-custom">
-        </form>
+      <div class="quiz-bookmark-btns">
+
+        <div><span class="btn-green-color" onclick="popup(this)">퀴즈 폴더생성해서 넣기</span>
+          <form action="/folder-bookmarks/create-folder-bookmark2" method="POST" class="popup">
+            <input type="text" name="title" pattern=".*\S.*" required>
+            <input type="hidden" name="quizId" th:value="${quiz.id}"/>
+            <input type="hidden" name="chapterId" th:value="${chapter.id}"/>
+            <button type="submit" class="btn-green-custom check-btn" ><i class="fa-solid fa-check"></i></button>
+          </form>
+        </div>
+
+        <div>
+          <span class="btn-green-color" onclick="popup(this)">기존 퀴즈 폴더에 넣기</span>
+          <div th:each="folderBookmark : ${folderBookmarks}">
+            <form action="/folder-bookmarks/add-quiz-to-folder" method="POST" class="popup">
+              <span th:text="${folderBookmark.title}" ></span>
+              <input type="hidden" name="folderBookmarkId" th:value="${folderBookmark.id}" readonly>
+              <input type="hidden" name="quizId" th:value="${quiz.id}"/>
+              <input type="hidden" name="chapterId" th:value="${chapter.id}"/>
+              <button type="submit" class="btn-green-custom check-btn" ><i class="fa-solid fa-check"></i></button>
+            </form>
+          </div>
+        </div>
       </div>
+
+
+
 
       <div class="card-box">
         <div class="card" id="card" onclick="flipCard(this)">
@@ -148,22 +163,15 @@
   }
 
   function popup(clickedElement) {
-    let popup = clickedElement.nextElementSibling;
+    // 클릭한 요소의 부모 요소 안에 있는 모든 .popup 클래스를 가진 요소들 찾기
+    const popups = clickedElement.closest('div').querySelectorAll('.popup');
 
-    // 다음 요소가 감싸는 div일 수도 있으니 안에 popup이 있는지 확인
-    if (popup && popup.querySelector) {
-      const nestedPopup = popup.querySelector('.popup');
-      if (nestedPopup) {
-        nestedPopup.classList.toggle('active');
-        return;
-      }
-    }
-
-    // 아니면 바로 popup일 수도 있음 (첫 번째 버튼 케이스)
-    if (popup && popup.classList.contains('popup')) {
+    // 각 popup에 대해 active 클래스 토글
+    popups.forEach(popup => {
       popup.classList.toggle('active');
-    }
+    });
   }
+
 
 </script>
 

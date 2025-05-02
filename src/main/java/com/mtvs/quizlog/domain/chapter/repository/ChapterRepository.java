@@ -107,6 +107,10 @@ public class ChapterRepository {
         return query.getResultList();
     }
 
+    public void flush() {
+        em.flush();
+    }
+
 
 
 }

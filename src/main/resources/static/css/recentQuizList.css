@@ -13,6 +13,19 @@
     transition: .2s;
 }
 
+.check-btn{
+    padding: 5px 7px;
+    background-color: #f0f0f0;
+    border-radius: 50%;
+    color: #848484;
+}
+
+.check-btn:hover{
+    color: #fff;
+    background-color: #17CFAA;
+    transition: .2s;
+}
+
 .main-layout {
    align-items: center;
     display: block;
@@ -28,6 +41,12 @@
 .folder-chapter-buttons{
     display: flex;
     gap: 20px;
+}
+
+.folder-chapter-buttons>div{
+    display: flex;
+    gap: 10px;
+    align-items: center;
 }
 
 .popup{
@@ -63,6 +82,16 @@
     color: #007bff;
     margin-left: 10px;
 }
+.quiz-bookmark-btns{
+    display: flex;
+    gap: 10px;
+}
+.quiz-bookmark-btns>div{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
 .chapter-item a:hover {
     text-decoration: underline;
 }
