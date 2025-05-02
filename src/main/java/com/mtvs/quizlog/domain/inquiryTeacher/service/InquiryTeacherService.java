@@ -152,17 +152,20 @@ public class InquiryTeacherService {
         InquiryTeacherAnswer inquiryTeacherAnswer = findAnswerById(answerId);
         inquiryTeacherAnswer.setStatus(Status.DELETED);
         inquiryTeacherAnswer.setDeletedAt(LocalDateTime.now());
+        log.info("STATUS:",inquiryTeacherAnswer.getStatus());
+        inquiryTeacherAnswerRepository.save(inquiryTeacherAnswer);
     }
 
     public List<InquiryTeacherAllDTO> findAllByAdmin() {
         return inquiryTeacherRepository.findAllListByAdmin();
     }
 
-    public void updateAnswer(AnswerDTO answerDTO, Long inquiryId) {
-        InquiryTeacherAnswer answer  = inquiryTeacherAnswerRepository.findById(inquiryId).orElseThrow(()->new IllegalArgumentException("존재하지 않음"+inquiryId));
+    public void updateAnswer(AnswerDTO answerDTO, Long answerId) {
+        InquiryTeacherAnswer answer  =findAnswerById(answerId);
             answer.setTitle(answerDTO.getTitle());
             answer.setContent(answerDTO.getContent());
             answer.setUpdatedAt(LocalDateTime.now());
+        inquiryTeacherAnswerRepository.save(answer);
     }
 
     /*

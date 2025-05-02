@@ -44,7 +44,7 @@
                 <td th:text="${lesson.description}"></td>
                 <td th:text="${#temporals.format(lesson.createdAt, 'yyyy-MM-dd')}"></td>
                 <td>
-                    <a th:href="@{/lesson/{id}(id=${lesson.id})}" class="btn btn-sm btn-outline-primary">상세보기</a>
+                    <a th:href="@{/lesson/{tid}/{id}(tid=${teacherId}, id=${lesson.id})}" class="btn btn-sm btn-outline-primary">상세보기</a>
                 </td>
             </tr>
             </tbody>
