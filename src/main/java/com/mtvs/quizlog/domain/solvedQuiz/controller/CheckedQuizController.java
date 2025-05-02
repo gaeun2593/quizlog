@@ -1,8 +1,8 @@
-package com.mtvs.quizlog.solvedQuiz.controller;
+package com.mtvs.quizlog.domain.solvedQuiz.controller;
 
 import com.mtvs.quizlog.domain.auth.model.AuthDetails;
 import com.mtvs.quizlog.domain.chapter.controller.dto.request.QuizForm;
-import com.mtvs.quizlog.solvedQuiz.service.CheckedQuizService;
+import com.mtvs.quizlog.domain.solvedQuiz.service.CheckedQuizService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

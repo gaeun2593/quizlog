@@ -1,20 +1,20 @@
-package com.mtvs.quizlog.solvedQuiz.service;
+package com.mtvs.quizlog.domain.solvedQuiz.service;
 import java.util.List;
 import com.mtvs.quizlog.domain.chapter.controller.dto.request.QuizForm;
 import com.mtvs.quizlog.domain.chapter.entity.Chapter;
 import com.mtvs.quizlog.domain.quiz.entity.Quiz;
 import com.mtvs.quizlog.domain.user.entity.User;
-import com.mtvs.quizlog.solvedQuiz.dto.UserCheckedChapterDTO;
-import com.mtvs.quizlog.solvedQuiz.dto.UserCheckedQuizDTO;
-import com.mtvs.quizlog.solvedQuiz.entity.UserCheckedQuiz;
-import com.mtvs.quizlog.solvedQuiz.repository.CheckedQuizRepository;
+import com.mtvs.quizlog.domain.solvedQuiz.dto.UserCheckedChapterDTO;
+import com.mtvs.quizlog.domain.solvedQuiz.dto.UserCheckedQuizDTO;
+import com.mtvs.quizlog.domain.solvedQuiz.entity.UserCheckedQuiz;
+import com.mtvs.quizlog.domain.solvedQuiz.repository.CheckedQuizRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import static com.mtvs.quizlog.solvedQuiz.entity.Status.COMPLETED;
-import static com.mtvs.quizlog.solvedQuiz.entity.Status.INCOMPLETE;
+import static com.mtvs.quizlog.domain.solvedQuiz.entity.Status.COMPLETED;
+import static com.mtvs.quizlog.domain.solvedQuiz.entity.Status.INCOMPLETE;
 
 @Service
 @RequiredArgsConstructor

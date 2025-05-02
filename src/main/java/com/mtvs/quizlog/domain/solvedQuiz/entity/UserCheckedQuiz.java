@@ -1,4 +1,4 @@
-package com.mtvs.quizlog.solvedQuiz.entity;
+package com.mtvs.quizlog.domain.solvedQuiz.entity;
 
 
 import com.mtvs.quizlog.domain.chapter.entity.Chapter;

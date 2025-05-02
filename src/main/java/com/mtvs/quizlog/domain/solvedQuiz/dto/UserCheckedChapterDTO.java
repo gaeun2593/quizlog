@@ -1,4 +1,4 @@
-package com.mtvs.quizlog.solvedQuiz.dto;
+package com.mtvs.quizlog.domain.solvedQuiz.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
