@@ -24,11 +24,11 @@
       <div class="folder-chapter-buttons">
         <div>
           <span class="btn-green-color" onclick="popup(this)">폴더생성해서 넣기</span>
-        <form action="/folder-chapters/create-folder-chapter" method="POST" class="popup">
+          <form action="/folder-chapters/create-folder-chapter" method="POST" class="popup">
           <input type="text" name="title" pattern=".*\S.*" required>
           <input type="hidden" name="chapterId" th:value="${chapter.id}"/>
           <button type="submit" class="btn-green-custom check-btn" ><i class="fa-solid fa-check"></i></button>
-        </form>
+           </form>
         </div>
 
         <div>
