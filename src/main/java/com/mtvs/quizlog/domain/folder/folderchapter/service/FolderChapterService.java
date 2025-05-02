@@ -178,13 +178,14 @@ public class FolderChapterService {
             throw new SecurityException("이 폴더를 삭제할 권한이 없습니다.");
         }
 
-        // 🔥 연결된 챕터들의 외래 키 끊기
+        // 연결된 챕터들의 외래 키 끊기
         List<Chapter> chapters = chapterRepository.findByFolderChapter(folderChapter);
         for (Chapter chapter : chapters) {
             chapter.setFolderChapter(null); // 외래 키를 null로
         }
 
-        chapterRepository.saveAll(chapters); // DB 반영
+        chapterRepository.saveAll(chapters);
+        chapterRepository.flush(); //  DB에 즉시 반영
 
         // 폴더 삭제
         folderChapterRepository.delete(folderChapter);
